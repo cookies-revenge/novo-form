@@ -1,0 +1,10 @@
+
+implement XML definition maps in format:
+<field type="input" placeholder="..." ... validation-max-length="30" ... />
+make missing props default to null
+
+set a standard for definition maps
+
+write docs for definition maps
+
+comment php code

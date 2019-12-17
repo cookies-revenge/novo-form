@@ -1,0 +1,1 @@
+{* with read only inputs *}
