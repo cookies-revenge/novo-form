@@ -23,7 +23,7 @@
 
 
     <form id="{$entity}_form" 
-        action="{if isset($action_uri)}{$action_uri}{else}/api/{$entity|strtolower}{if isset($record)}/{$record.Id}{/if}" 
+        action="{if isset($action_uri)}{$action_uri}{else}/api/{$entity|strtolower}{if isset($record)}/{$record.Id}{/if}{/if}" 
         method="POST" 
         data-http-method="{if !empty($record)}PUT{else}POST{/if}" 
         data-form-type="{$form_type}" 
@@ -34,10 +34,11 @@
         {if $show_double_controls === true}
             <div class="form-group novo-form-controls-wrapper">
                 {foreach $control_definitions as $control_definition}
-                    {if $control_definition.availability === "*" || 
+                    {if !isset($control_definition.availability) ||
+                        $control_definition.availability === "*" || 
                         (!empty($record) && $control_definition.availability === "edit") || 
                         (empty($record) && $control_definition.availability === "new")}
-                        {include file="atoms_controls/control.tpl"}
+                        {include file="controls/control.tpl"}
                     {/if}
                 {/foreach}
             </div>
@@ -47,18 +48,21 @@
         {* First, list all hidden inputs on the top of the Form *}
         {foreach $field_definitions as $field_definition}
             {if $field_definition.type === "hidden"}
-                {if $field_definition.availability === "*" || 
+                {if !isset($field_definition.availability) ||
+                    $field_definition.availability === "*" || 
                     (!empty($record) && $field_definition.availability === "edit") || 
                     (empty($record) && $field_definition.availability === "new")}
-                    {include file="atoms_fields/hidden.tpl"}
+                    {include file="fields/hidden.tpl"}
                 {/if}
             {/if}
         {/foreach}
         
 
+        {assign var=field_index value=0}
         {foreach $field_definitions as $field_definition}
 
-            {if $field_definition.availability === "*" || 
+            {if !isset($field_definition.availability) ||
+                $field_definition.availability === "*" || 
                 (!empty($record) && $field_definition.availability === "edit") || 
                 (empty($record) && $field_definition.availability === "new")}
 
@@ -84,13 +88,19 @@
 
                     {if !empty($field_definition.label)}
                         <label class="form-label">
-                            {if !empty($field_definition.label)}{$field_definition.label}{else}&nbsp;{/if}
-                            {if isset($field_definition.validation.mandatory) && $field_definition.validation.mandatory}<i>*</i>{/if}
+                            {if !empty($field_definition.label)}
+                                {$field_definition.label}
+                            {else}
+                                &nbsp;
+                            {/if}
+                            {if isset($field_definition.validation.mandatory) && $field_definition.validation.mandatory}
+                                <i>*</i>
+                            {/if}
                         </label>
                     {/if}
 
                     {if !empty($field_definition.description)}
-                        <small class="label-description w-100">{$field_definition.description}</small>
+                        <small class="label-description w-100 mt-1 mb-1">{$field_definition.description}</small>
                     {/if}
 
                     {assign var="input_variable" value=$field_definition}
@@ -99,7 +109,7 @@
                     {elseif $field_definition.type === "custom"}
                         {*include file="{$field_definition.custom_partial}"*}
                     {else}
-                        {include file="atoms_fields/{$field_definition.type}.tpl"}
+                        {include file="fields/{$field_definition.type}.tpl"}
                     {/if}
                 </div>
 
@@ -117,15 +127,18 @@
 
             {/if}
         
+            {* Increment field index; it is important as it is used to make validation identifiers unique *}
+            {$field_index = $field_index + 1}
         {/foreach}
 
 
         <div class="form-group novo-form-controls-wrapper">
             {foreach $control_definitions as $control_definition}
-                {if $control_definition.availability === "*" || 
+                {if !isset($control_definition.availability) ||
+                    $control_definition.availability === "*" || 
                     (!empty($record) && $control_definition.availability === "edit") || 
                     (empty($record) && $control_definition.availability === "new")}
-                    {include file="atoms_controls/control.tpl"}
+                    {include file="controls/control.tpl"}
                 {/if}
             {/foreach}
         </div>

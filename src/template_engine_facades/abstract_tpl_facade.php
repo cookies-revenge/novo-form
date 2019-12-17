@@ -1,12 +1,12 @@
 <?php
 
-namespace CookiesRevenge\Novo\Utilities\NovoTableBuilder\Template_Engine_Facades;
+namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Template_Engine_Facades;
 
 abstract class Abstract_Tpl_Facade implements Tpl_Facade_Interface
 {
 
     abstract public function ConstructEngineObject();
-    abstract public function BuildTableHTML($resultsOnly);
+    abstract public function BuildFormHTML();
     abstract public function AssignVariable($varName, $varValue);
     abstract public function AssignVariables($variables);
 

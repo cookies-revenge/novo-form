@@ -11,7 +11,7 @@ abstract class Abstract_Builder
     {
         switch ($templatingEngine) {
             case "smarty":
-                $this->templatingEngine_ = new \CookiesRevenge\Novo\Utilities\NovoTableBuilder\Template_Engine_Facades\Smarty_Tpl_Facade();
+                $this->templatingEngine_ = new \CookiesRevenge\Novo\Utilities\NovoFormBuilder\Template_Engine_Facades\Smarty_Tpl_Facade();
                 break;
             default:
                 throw new \Exception("Template engine is either invalid or unsupported.");
@@ -21,9 +21,9 @@ abstract class Abstract_Builder
 
     /**
      * Inject a definitions map.
-     * Map stores meta data about Table (dynamic search properties, filters, buttons & actions, fields, pagination...)
+     * Map stores meta data about Form (field types, actions, validations...)
      *
-     * @param mixed $definitionsMap Map with definitions for table wrapper, filters, buttons, actions, fields.
+     * @param mixed $definitionsMap Map with definitions for form wrapper, controls, validations, fields.
      * @return $this The current object (for fluent API support)
      */
     public function SetDefinitionsMap($definitionsMap)
@@ -33,7 +33,7 @@ abstract class Abstract_Builder
     }
 
     /**
-     * Define a data collection (table rows) for the table.
+     * Define a data collection for the form.
      * Implicitly calculates $resultsTotal by counting the data collection.
      *
      * @param array<mixed> $dataCollection new value
