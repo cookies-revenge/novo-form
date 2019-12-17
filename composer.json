@@ -15,7 +15,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "CookiesRevenge\\Novo\\Utilities\\NovoTableBuilder\\": "src/"
+      "CookiesRevenge\\Novo\\Utilities\\NovoFormBuilder\\": "src/"
     }
   }
 }
