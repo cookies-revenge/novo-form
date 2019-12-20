@@ -11,7 +11,7 @@
          </span>
       {/if}
 
-		<input class="form-control" type="text" 
+		<input class="form-control" type="email" 
          name="{$input_variable.name}" 
          placeholder="{if isset($input_variable.placeholder) && $input_variable.placeholder}{$input_variable.placeholder}{/if}"
          vito-name="{$input_variable.name}-{$field_index}"

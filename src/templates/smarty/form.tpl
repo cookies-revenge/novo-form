@@ -12,13 +12,9 @@
 
     {* Inject form-level preceding partial(s) *}
     {if isset($preceding_partial) && null !== $preceding_partial}
-        {if is_array($preceding_partial)}
-            {foreach $preceding_partial as $pre_partial}
-                {include file="{$pre_partial}"}
-            {/foreach}
-        {else}
-            {include file="{$preceding_partial}"}
-        {/if}
+        {foreach $preceding_partial as $pre_partial}
+            {include file="{$pre_partial.source}"}
+        {/foreach}
     {/if}
 
 
@@ -31,7 +27,7 @@
 
 
         {* Check if needed to show controls also on top of the Form; May be useful for tall forms *}
-        {if $show_double_controls === true}
+        {if $show_double_controls}
             <div class="form-group novo-form-controls-wrapper">
                 {foreach $control_definitions as $control_definition}
                     {if !isset($control_definition.availability) ||
@@ -74,22 +70,21 @@
 
                 {* Inject field-level preceding partial(s) *}
                 {if isset($field_definition.preceding_partial) && null !== $field_definition.preceding_partial}
-                    {if is_array($field_definition.preceding_partial)}
-                        {foreach $field_definition.preceding_partial as $pre_partial}
-                            {include file="{$pre_partial}"}
-                        {/foreach}
-                    {else}
-                        {include file="{$field_definition.preceding_partial}"}
-                    {/if}
+                    {foreach $field_definition.preceding_partial as $pre_partial}
+                        {include file="{$pre_partial}"}
+                    {/foreach}
                 {/if}
 
 
                 <div class="form-group novo-form-field-wrapper">
 
                     {if !empty($field_definition.label)}
-                        <label class="form-label">
-                            {if !empty($field_definition.label)}
-                                {$field_definition.label}
+                        <label class="form-label 
+                            {if isset($field_definition.label.html_class) && !empty($field_definition.label.html_class)}
+                                {$field_definition.label.html_class}
+                            {/if}">
+                            {if !empty($field_definition.label.text)}
+                                {$field_definition.label.text}
                             {else}
                                 &nbsp;
                             {/if}
@@ -103,12 +98,16 @@
                         <small class="label-description w-100 mt-1 mb-1">{$field_definition.description}</small>
                     {/if}
 
-                    {assign var="input_variable" value=$field_definition}
+                    
                     {if $field_definition.type === "complex"}
                         {include file="util/complex_type.tpl"}
+                    {elseif $field_definition.type === "field_group"}
+                        {assign var="field_group" value=$field_definition}
+                        {include file="util/field_group.tpl"}
                     {elseif $field_definition.type === "custom"}
                         {*include file="{$field_definition.custom_partial}"*}
                     {else}
+                        {assign var="input_variable" value=$field_definition}
                         {include file="fields/{$field_definition.type}.tpl"}
                     {/if}
                 </div>
@@ -116,13 +115,9 @@
 
                 {* Inject field-level suceeding partial(s) *}
                 {if isset($field_definition.suceeding_partial) && null !== $field_definition.suceeding_partial}
-                    {if is_array($field_definition.suceeding_partial)}
-                        {foreach $field_definition.suceeding_partial as $suc_partial}
-                            {include file="{$suc_partial}"}
-                        {/foreach}
-                    {else}
-                        {include file="{$field_definition.suceeding_partial}"}
-                    {/if}
+                    {foreach $field_definition.suceeding_partial as $suc_partial}
+                        {include file="{$suc_partial}"}
+                    {/foreach}
                 {/if}
 
             {/if}
@@ -148,13 +143,9 @@
 
     {* Inject form-level suceeding partial(s) *}
     {if isset($suceeding_partial) && null !== $suceeding_partial}
-        {if is_array($suceeding_partial)}
-            {foreach $suceeding_partial as $suc_partial}
-                {include file="{$suc_partial}"}
-            {/foreach}
-        {else}
-            {include file="{$suceeding_partial}"}
-        {/if}
+        {foreach $suceeding_partial as $suc_partial}
+            {include file="{$suc_partial}"}
+        {/foreach}
     {/if}
 
 </section>

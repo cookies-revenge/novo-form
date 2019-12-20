@@ -1,10 +1,72 @@
 
 implement XML definition maps in format:
-<field type="input" placeholder="..." ... validation-max-length="30" ... />
-make missing props default to null
 
-set a standard for definition maps
+<field type="input" html_class="..." size="..." resizable="..." ...>
+    <placeholder>
+        <text>
+            <![CDATA[
+                placeholder text goes here...
+            ]]
+        </text>
+    </placeholder>
+    <label html_class="..." ... >
+        <text>
+            <![CDATA[
+                label text goes here...
+            ]]
+        </text>
+    </label>
+    <description html_class="..." ... >
+        <text>
+            <![CDATA[
+                description text goes here...
+            ]]
+        </text>
+    </description>
+    <validation max-length="30" mandatory="true" ... />
+    <preceeding_partial source="..." ... />
+    <preceeding_partial source="..." ... />
+    <suceeding_partial source="..." ... />
+    <suceeding_partial source="..." ... />
+    <icon position="L" html_class="...">
+        <description>
+            <![CDATA[
+                icon text goes here...
+            ]]
+        </description>
+    </icon>
+</field>
+
+<field_group html_class="..." ...>
+    <label html_class="..." ... >
+        <text>
+            <![CDATA[
+                label text goes here...
+            ]]
+        </text>
+    </label>
+    <description html_class="..." ...>
+        <text>
+            <![CDATA[
+                description text goes here...
+            ]]
+        </text>
+    </description>
+    <field ... />
+    <field ... />
+    <preceeding_partial source="..." ... />
+    <suceeding_partial source="..." ... />
+</field_group>
+
+make missing props default to null (xml -> php)
+
+set a standard for definition maps ^
 
 write docs for definition maps
 
 comment php code
+
+napravi preprocesor za save_service... koji ce na bazi iste mape iz koje je izgradjena forma
+da uradi sanitizaciju/formatiranje vrednosti... na primer da odradi checkbox-eve, da vrati datum u timestamp...
+da izlaz bude preradjen array, koji moze direktno da se upuca u model kao
+->setByName($colName, $value)

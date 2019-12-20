@@ -1,64 +1,73 @@
 <div {if $input_variable.html_class}class="{$input_variable.html_class}"{/if}>
-    <div class="dropdown js__dropdown w-100" id="js__field-{$input_variable.name}">
 
-	    <button class="form-control btn btn-dropdown dropdown-toggle"{if $input_variable.read_only} disabled {/if}type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-		    <span class="dropdown-selection">
-                {if isset($record)}
-                    {if isset($field_datasets[$input_variable.name])}
-                        {foreach $field_datasets[$input_variable.name] as $dataset_record}
-                            {if $dataset_record.Id == $record[$input_variable.name]}
-                                {$dataset_record.Title}
-                            {/if}
-		                {/foreach}
-                    {else}
-			            {$record[$input_variable.name]}
-                    {/if}
-                {elseif isset($defaults) && isset($defaults[$input_variable.name])}
-                    {if isset($field_datasets[$input_variable.name])}
-                        {foreach $field_datasets[$input_variable.name] as $dataset_record}
-                            {if $dataset_record.Id == $defaults[$input_variable.name]}
-                                {$dataset_record.Title}
-                            {/if}
-		                {/foreach}
-                    {else}
-			            {$record[$input_variable.name]}
-                    {/if}
-			    {else}
-			        {if $input_variable.placeholder}
-                        {$input_variable.placeholder}
-                    {else}
-                        Select option
-                    {/if}
-			    {/if}
-		    </span>
-		    <span class="caret"></span>
-	    </button>
+   <div class="input-group {if isset($input_variable.size) && null !== $input_variable.size}input-group-{$input_variable.size}{/if}">
 
-	    <ul class="dropdown-menu" aria-labelledby="js__field-label-{$input_variable.name}">
-            {if isset($field_datasets[$input_variable.name])}
-		        <li>
-			        <a href="javascript:;" class="reset-dropdown js__reset-dropdown">Clear selection</a>
-		        </li>
-                <li>
-                    <input type="text" class="js__dropdown-searchkey search-dropdown" placeholder="Search options...">
-                </li>
-		        {foreach $field_datasets[$input_variable.name] as $dataset_record}
-		            <li>
-                        <a href="javascript:;" data-id="{$dataset_record.Id}">{$dataset_record.Title}</a>
-                    </li>
-		        {/foreach}
+        {if isset($input_variable.icon) && null !== $input_variable.icon && isset($input_variable.icon.position) && $input_variable.icon.position === "L"}
+            <span class="input-group-prepend">
+                <i class="input-group-text bg-primary text-white border-primary 
+                    {if isset($input_variable.icon.html_class) && !empty($input_variable.icon.html_class)}{$input_variable.icon.html_class}{/if}">
+                    {if isset($input_variable.icon.description) && !empty($input_variable.icon.description)}{$input_variable.icon.description}{/if}
+                </i>
+            </span>
+        {/if}
+
+        {* defaults *}
+        {assign var="option_value_column" value="Id"}
+        {assign var="option_label_column" value="Title"}
+        {if isset($input_variable.option_value_column) && null !== $input_variable.option_value_column}
+            {* override, if defined *}
+            {$option_value_column = $input_variable.option_value_column}
+        {/if}
+        {if isset($input_variable.option_label_column) && null !== $input_variable.option_label_column}
+            {* override, if defined *}
+            {$option_label_column = $input_variable.option_label_column}
+        {/if}
+
+		<select class="form-control custom-select"  
+            name="{$input_variable.name}" 
+            vito-name="{$input_variable.name}-{$field_index}"
+            data-preloaded="{if isset($input_variable.preloaded) && $input_variable.preloaded}true{else}false{/if}" 
+            {if isset($input_variable.source_url) && null !== $input_variable.source_url}
+                data-source-url="{$input_variable.source_url}"
             {/if}
-	    </ul>
 
-	    <input type="hidden" name="{$input_variable.name}{if isset($array)}[]{/if}" vito-name="{$input_variable.name}-{$field_index}"
-		    {foreach $input_variable.validation as $validation => $value}
-                vito-{$validation}="{$value}"
-            {/foreach}
-            {if isset($record)}
-                value="{$record[$input_variable.name]}"
-            {elseif isset($defaults) && isset($defaults[$input_variable.name])}
-                value="{$defaults[$input_variable.name]}"
+            {foreach $input_variable.validation as $validation_type => $value}vito-{$validation_type}="{$value}"{/foreach} 
+            {if isset($input_variable.read_only) && $input_variable.read_only}readonly{/if}>
+            {if isset($input_variable.multiple_choice) && $input_variable.multiple_choice}multiple{/if}
+
+            {if isset($input_variable.placeholder) && $input_variable.placeholder}
+                <option selected value disabled>{$input_variable.placeholder}</option>
             {/if}
-        />
-    </div>
+
+            {if isset($input_variable.preloaded) && $input_variable.preloaded}
+                {if isset($field_datasets[$input_variable.name])}
+                    {foreach $field_datasets[$input_variable.name] as $dataset_record}
+                        <option value="{$dataset_record[$option_value_column]}"
+                            {if isset($record)}
+                                {if $record[$input_variable.name] === $dataset_record[$option_value_column]}
+                                    selected
+                                {/if}
+                            {elseif isset($presets) && isset($presets[$input_variable.name])}
+                                {if $presets[$input_variable.name] === $dataset_record[$option_value_column]}
+                                    selected
+                                {/if}
+                            {/if}>
+                            {$dataset_record[$option_label_column]}
+                        </option>
+                    {/foreach}
+                {/if}
+            {/if}
+
+        </select>
+
+        {if isset($input_variable.icon) && null !== $input_variable.icon && isset($input_variable.icon.position) && $input_variable.icon.position === "R"}
+            <span class="input-group-append">
+                <i class="input-group-text bg-primary text-white border-primary 
+                    {if isset($input_variable.icon.html_class) && !empty($input_variable.icon.html_class)}{$input_variable.icon.html_class}{/if}">
+                    {if isset($input_variable.icon.description) && !empty($input_variable.icon.description)}{$input_variable.icon.description}{/if}
+                </i>
+            </span>
+        {/if}
+      
+   </div>
 </div>

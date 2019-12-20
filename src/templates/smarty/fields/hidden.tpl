@@ -10,7 +10,7 @@
 
     {if isset($record)}
         value="{$record[$input_variable.name]}"
-    {else}
-        value="{$input_variable.value}"
-    {/if}/>
+    {elseif isset($presets) && isset($presets[$input_variable.name])}
+        value="{$presets[$input_variable.name]}"
+    {/if} />
 </div>
