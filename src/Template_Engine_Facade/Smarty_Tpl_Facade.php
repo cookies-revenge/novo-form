@@ -1,6 +1,6 @@
 <?php
 
-namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Template_Engine_Facades;
+namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Template_Engine_Facade;
 
 class Smarty_Tpl_Facade extends Abstract_Tpl_Facade
 {
@@ -25,6 +25,11 @@ class Smarty_Tpl_Facade extends Abstract_Tpl_Facade
     public function BuildFormHTML()
     {
         return $this->tplEngineObject_->fetch($this->templateDir_ . "/form.tpl");
+    }
+
+    public function BuildStaticFormHTML()
+    {
+        return $this->tplEngineObject_->fetch($this->templateDir_ . "/static_form.tpl");
     }
 
     public function AssignVariable($varName, $varValue)

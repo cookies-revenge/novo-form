@@ -21,7 +21,7 @@
     
     {if isset($field_group.preceding_partial) && null !== $field_group.preceding_partial}
         {foreach $field_group.preceding_partial as $fgpre_partial}
-            {include file="{$fgpre_partial.source}"}
+            {include file="file:{$fgpre_partial.source}"}
         {/foreach}
     {/if}
 
@@ -32,7 +32,7 @@
 
     {if isset($field_group.suceding_partial) && null !== $field_group.suceding_partial}
         {foreach $field_group.suceding_partial as $fgsuc_partial}
-            {include file="{$fgsuc_partial.source}"}
+            {include file="file:{$fgsuc_partial.source}"}
         {/foreach}
     {/if}
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Template_Engine_Facades;
+namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Template_Engine_Facade;
 
 abstract class Abstract_Tpl_Facade implements Tpl_Facade_Interface
 {

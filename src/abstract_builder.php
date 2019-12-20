@@ -11,11 +11,17 @@ abstract class Abstract_Builder
     {
         switch ($templatingEngine) {
             case "smarty":
-                $this->templatingEngine_ = new \CookiesRevenge\Novo\Utilities\NovoFormBuilder\Template_Engine_Facades\Smarty_Tpl_Facade();
+                $this->templatingEngine_ = new \CookiesRevenge\Novo\Utilities\NovoFormBuilder\Template_Engine_Facade\Smarty_Tpl_Facade();
                 break;
             default:
                 throw new \Exception("Template engine is either invalid or unsupported.");
         }
+        return $this;
+    }
+
+
+    public function SetDisplayMode($displayMode) {
+        $this->displayMode_ = $displayMode;
         return $this;
     }
 
@@ -63,4 +69,6 @@ abstract class Abstract_Builder
      */
     /** @var array */
     protected $dataCollection_ = [];
+
+    protected $displayMode_;
 }

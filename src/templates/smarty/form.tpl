@@ -3,9 +3,7 @@
 
     {if isset($title)}
         <div class="novo-form-title" class="mb-4">
-            <h1 class="text-gray-800">
-                {$title} Form
-            </h1>
+            <h1 class="text-gray-800">{$title}</h1>
         </div>
     {/if}
 
@@ -13,7 +11,7 @@
     {* Inject form-level preceding partial(s) *}
     {if isset($preceding_partial) && null !== $preceding_partial}
         {foreach $preceding_partial as $pre_partial}
-            {include file="{$pre_partial.source}"}
+            {include file="file:{$pre_partial.source}"}
         {/foreach}
     {/if}
 
@@ -27,7 +25,7 @@
 
 
         {* Check if needed to show controls also on top of the Form; May be useful for tall forms *}
-        {if $show_double_controls}
+        {if $display_double_controls}
             <div class="form-group novo-form-controls-wrapper">
                 {foreach $control_definitions as $control_definition}
                     {if !isset($control_definition.availability) ||
@@ -71,7 +69,7 @@
                 {* Inject field-level preceding partial(s) *}
                 {if isset($field_definition.preceding_partial) && null !== $field_definition.preceding_partial}
                     {foreach $field_definition.preceding_partial as $pre_partial}
-                        {include file="{$pre_partial}"}
+                        {include file="file:{$pre_partial.source}"}
                     {/foreach}
                 {/if}
 
@@ -113,10 +111,10 @@
                 </div>
 
 
-                {* Inject field-level suceeding partial(s) *}
-                {if isset($field_definition.suceeding_partial) && null !== $field_definition.suceeding_partial}
-                    {foreach $field_definition.suceeding_partial as $suc_partial}
-                        {include file="{$suc_partial}"}
+                {* Inject field-level succeeding partial(s) *}
+                {if isset($field_definition.succeeding_partial) && null !== $field_definition.succeeding_partial}
+                    {foreach $field_definition.succeeding_partial as $suc_partial}
+                        {include file="file:{$suc_partial.source}"}
                     {/foreach}
                 {/if}
 
@@ -141,10 +139,10 @@
     </form>
 
 
-    {* Inject form-level suceeding partial(s) *}
-    {if isset($suceeding_partial) && null !== $suceeding_partial}
-        {foreach $suceeding_partial as $suc_partial}
-            {include file="{$suc_partial}"}
+    {* Inject form-level succeeding partial(s) *}
+    {if isset($succeeding_partial) && null !== $succeeding_partial}
+        {foreach $succeeding_partial as $suc_partial}
+            {include file="file:{$suc_partial.source}"}
         {/foreach}
     {/if}
 

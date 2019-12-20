@@ -1,0 +1,53 @@
+<form entity="linestops" class_name="Linestop" type="standard" display_double_controls="true" action_uri="test/remove/it/for/standardized/value">
+
+
+
+    <title html_class=""><![CDATA[TEST NOVO FORM]]></title>
+
+
+
+    <preceding_partial source="/vagrant/NovoFormBuilder/test/partials/preceding_form.tpl" />
+    <succeeding_partial source="/vagrant/NovoFormBuilder/test/partials/succeeding_form.tpl" />
+
+
+
+    <controls>
+
+        <control type="button" html_class="btn btn-primary js__special-button-class" icon="far fa-check" availability="*">
+            <title><![CDATA[Button 1]]></title>
+            <description><![CDATA[Button Title goes here, visible when hovering]]></description>
+        </control>
+
+        <control type="submit" html_class="btn btn-primary" icon="far fa-check" availability="*">
+            <title><![CDATA[Button 2]]></title>
+            <description><![CDATA[Button Title 2]]></description>
+        </control>
+
+    </controls>
+
+
+
+    <fields>
+
+        <field name="title" type="input" readonly="false" html_class="js__field1-class" availability="*" format="null" sizing="default" resizable="" preloaded="" source_url="" multiple_choice="">
+
+            <placeholder><![CDATA[Add text here... (placeholder)]]></placeholder>
+            <label html_class=""><![CDATA[Field 1 (String)]]></label>
+            <description html_class=""><![CDATA[This is field 1 description... Use me to describe the field better.]]></description>
+            <icon position="L" html_class="">
+                <description><![CDATA[Field 1]]></description>
+            </icon>
+            <icon position="R" html_class="far fa-calendar-alt">
+                <description><![CDATA[]]></description>
+            </icon>
+            <validation mandatory="true" max-length="32" />
+            <preceding_partial source="resources/smarty_templates/partials/preceding_input.tpl" />
+            <succeeding_partial source="resources/smarty_templates/partials/succeeding_input.tpl" />
+
+        </field>
+
+    </fields>
+
+
+
+</form>
