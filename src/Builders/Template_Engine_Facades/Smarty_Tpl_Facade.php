@@ -1,6 +1,6 @@
 <?php
 
-namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Template_Engine_Facade;
+namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Builders\Template_Engine_Facades;
 
 class Smarty_Tpl_Facade extends Abstract_Tpl_Facade
 {
@@ -8,8 +8,8 @@ class Smarty_Tpl_Facade extends Abstract_Tpl_Facade
     public function ConstructEngineObject()
     {
         $root = dirname(__DIR__);
-		$this->templateDir_ = $root ."/templates/smarty";
-		$this->cacheDir_ = $root ."/templates/smarty_cache";
+		$this->templateDir_ = $root ."/Templates/Smarty";
+		$this->cacheDir_ = $root ."/Templates/Smarty_Cache";
 		
 		$this->tplEngineObject_ = new \Smarty();
 

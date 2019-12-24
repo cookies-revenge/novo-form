@@ -1,6 +1,6 @@
 <?php
 
-namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Parser;
+namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Builders\Parsers;
 
 class Xml_Parser
 {
@@ -18,6 +18,7 @@ class Xml_Parser
         $this->metadata_["class_name"] = (string) $this->xml_["class_name"] ?? null;
         $this->metadata_["action_uri"] = (string) $this->xml_["action_uri"] ?? null;
         $this->metadata_["title"] = (string) $this->xml_->title ?? "Untitled Form";
+        $this->metadata_["title_tag"] = (string) $this->xml_->title["type"] ?? "h1";
         $this->metadata_["display_double_controls"] = filter_var((string) $this->xml_["display_double_controls"], FILTER_VALIDATE_BOOLEAN) ?? false;
 
         $this->metadata_["preceding_partial"] = [];

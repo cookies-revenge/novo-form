@@ -2,8 +2,8 @@
 require_once "../vendor/autoload.php";
 require_once "./autoloader.php";
 
-use CookiesRevenge\Novo\Utilities\NovoFormBuilder\Form_Builder;
-use CookiesRevenge\Novo\Utilities\NovoFormBuilder\Parser\Xml_Parser;
+use CookiesRevenge\Novo\Utilities\NovoFormBuilder\Builders\Form_Builder;
+use CookiesRevenge\Novo\Utilities\NovoFormBuilder\Builders\Parsers\Xml_Parser;
 
 define("APP_PATH", dirname(__DIR__));
 
@@ -14,7 +14,7 @@ $map = $xmlParser->Convert();
 $formBuilder = new Form_Builder();
 $formBuilder->SetTemplatingEngine("smarty");
 $formBuilder->SetDefinitionsMap($map);
-$formBuilder->SetDisplayMode(\CookiesRevenge\Novo\Utilities\NovoFormBuilder\Form_Builder_Constants::NOVO_FORM_DISPLAY_MODE_STANDARD);
+$formBuilder->SetDisplayMode(\CookiesRevenge\Novo\Utilities\NovoFormBuilder\Builders\Form_Builder_Constants::NOVO_FORM_DISPLAY_MODE_STANDARD);
 $formHtml = $formBuilder->BuildForm();
 
 echo $formHtml;

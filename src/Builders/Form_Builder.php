@@ -1,6 +1,6 @@
 <?php
 
-namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder;
+namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Builders;
 
 class Form_Builder extends Abstract_Builder
 {
@@ -25,6 +25,7 @@ class Form_Builder extends Abstract_Builder
     private function assignFormMetadata() {
         $this->templatingEngine_
             ->AssignVariable("title", $this->definitionsMap_["title"])
+            ->AssignVariable("title_tag", $this->definitionsMap_["title_tag"])
             ->AssignVariable("entity", $this->definitionsMap_["entity"])
             ->AssignVariable("action_uri", $this->definitionsMap_["action_uri"])
             ->AssignVariable("class_name", $this->definitionsMap_["class_name"])

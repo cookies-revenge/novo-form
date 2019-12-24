@@ -3,7 +3,7 @@
 
     {if isset($title)}
         <div class="novo-form-title" class="mb-4">
-            <h1 class="text-gray-800">{$title}</h1>
+            <{$title_tag} class="text-gray-800 {$title_tag}">{$title}</{$title_tag}>
         </div>
     {/if}
 
@@ -27,13 +27,13 @@
 
         {* Check if needed to show controls also on top of the Form; May be useful for tall forms *}
         {if $display_double_controls}
-            <div class="form-group w-100 novo-form-controls-wrapper">
+            <div class="form-group w-100 novo-form-controls-wrapper border border-secondary p-2">
                 {foreach $control_definitions as $control_definition}
                     {if !isset($control_definition.availability) ||
                         $control_definition.availability === "*" || 
                         (!empty($record) && $control_definition.availability === "edit") || 
                         (empty($record) && $control_definition.availability === "new")}
-                        {include file="controls/control.tpl"}
+                        {include file="Controls/control.tpl"}
                     {/if}
                 {/foreach}
             </div>
@@ -47,7 +47,7 @@
                     $field_definition.availability === "*" || 
                     (!empty($record) && $field_definition.availability === "edit") || 
                     (empty($record) && $field_definition.availability === "new")}
-                    {include file="fields/hidden.tpl"}
+                    {include file="Fields/hidden.tpl"}
                 {/if}
             {/if}
         {/foreach}
@@ -68,7 +68,7 @@
 
                 {if $field_definition.type === "fieldgroup"}
                     {assign var="field_group" value=$field_definition}
-                    {include file="util/field_group.tpl"}
+                    {include file="Util/field_group.tpl"}
                     {* 
                      * util/field_group.tpl has it's own includes for partials, labels, descriptions... 
                      * so skip the code below after including it 
@@ -118,7 +118,7 @@
                         {*include file="{$field_definition.custom_partial}"*}
                     {else}
                         {assign var="input_variable" value=$field_definition}
-                        {include file="fields/{$field_definition.type}.tpl"}
+                        {include file="Fields/{$field_definition.type}.tpl"}
                     {/if}
 
 
@@ -138,13 +138,13 @@
         {/foreach}
 
 
-        <div class="form-group w-100 novo-form-controls-wrapper">
+        <div class="form-group w-100 novo-form-controls-wrapper border border-secondary p-2">
             {foreach $control_definitions as $control_definition}
                 {if !isset($control_definition.availability) ||
                     $control_definition.availability === "*" || 
                     (!empty($record) && $control_definition.availability === "edit") || 
                     (empty($record) && $control_definition.availability === "new")}
-                    {include file="controls/control.tpl"}
+                    {include file="Controls/control.tpl"}
                 {/if}
             {/foreach}
         </div>

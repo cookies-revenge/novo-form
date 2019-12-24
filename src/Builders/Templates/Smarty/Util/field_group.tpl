@@ -52,7 +52,7 @@
                 {/if}">{$group_field_definition.description.text}</small>
             {/if}
 
-            {include file="fields/{$group_field_definition.type}.tpl"}
+            {include file="Fields/{$group_field_definition.type}.tpl"}
 
         </div>
     {/foreach}

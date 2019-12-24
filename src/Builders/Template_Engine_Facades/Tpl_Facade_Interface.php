@@ -1,6 +1,6 @@
 <?php
 
-namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Template_Engine_Facade;
+namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Builders\Template_Engine_Facades;
 
 interface Tpl_Facade_Interface {
     public function AssignVariable($varName, $varValue);

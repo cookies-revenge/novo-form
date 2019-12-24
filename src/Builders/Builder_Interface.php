@@ -1,6 +1,6 @@
 <?php
 
-namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder;
+namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Builders;
 
 interface Builder_Interface
 {
