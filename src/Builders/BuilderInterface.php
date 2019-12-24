@@ -1,8 +1,8 @@
 <?php
 
-namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Builders;
+namespace CookiesRevenge\NovoForm\Builders;
 
-interface Builder_Interface
+interface BuilderInterface
 {
     /**
      * Defines a templating engine to be used by the FormBuilder.
@@ -20,12 +20,4 @@ interface Builder_Interface
      * @return string Fabricated HTML output for Form
      */
     public function BuildForm();
-
-    /**
-     * Defines a templating engine to be used by the FormBuilder.
-     * This may be Smarty, Blade, Mustache or any other desired templating engine.
-     * 
-     * @return string Fabricated HTML output for Form Results, to be injected in Form TBODY
-     */
-    public function BuildFormResults();
 }

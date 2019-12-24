@@ -1,9 +1,14 @@
 <section class="container novo-form-container">
 
 
-    {if isset($title)}
-        <div class="novo-form-title" class="mb-4">
-            <{$title_tag} class="text-gray-800 {$title_tag}">{$title}</{$title_tag}>
+    {if isset($title) && null !== $title}
+        <div class="novo-form-title">
+            <{$title.type} class="text-gray-800 {$title.type}
+            {if isset($title.html_class) && !empty($title.html_class)}
+                {$title.html_class}
+            {/if}">
+                {$title.text}
+            </{$title.type}>
         </div>
     {/if}
 

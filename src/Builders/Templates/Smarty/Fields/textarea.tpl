@@ -13,7 +13,7 @@
 
 		<textarea class="form-control" rows="5" 
             {if isset($input_variable.resizable) && !$input_variable.resizable}
-                style="resize: none;"
+                style="resize: none;" 
             {/if}
             name="{$input_variable.name}" 
             placeholder="{if isset($input_variable.placeholder) && $input_variable.placeholder}{$input_variable.placeholder}{/if}"

@@ -1,8 +1,8 @@
 <?php
 
-namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Builders\Parsers;
+namespace CookiesRevenge\NovoForm\Builders\Parsers;
 
-class Xml_Parser
+class XmlParser
 {
 
     public function SetDefinitionsXml($definitionsXml)
@@ -17,8 +17,16 @@ class Xml_Parser
         $this->metadata_["entity"] = (string) $this->xml_["entity"] ?? null;
         $this->metadata_["class_name"] = (string) $this->xml_["class_name"] ?? null;
         $this->metadata_["action_uri"] = (string) $this->xml_["action_uri"] ?? null;
-        $this->metadata_["title"] = (string) $this->xml_->title ?? "Untitled Form";
-        $this->metadata_["title_tag"] = (string) $this->xml_->title["type"] ?? "h1";
+
+        $this->metadata_["title"] = null;
+        if (isset($this->xml_->title)) {
+            $this->metadata_["title"] = [
+                "text" => (string) $this->xml_->title ?? "Untitled Form",
+                "html_class" => (string) $this->xml_->title["html_class"] ?? null,
+                "type" => (string) $this->xml_->title["type"] ?? "h1"
+            ];
+        }
+
         $this->metadata_["display_double_controls"] = filter_var((string) $this->xml_["display_double_controls"], FILTER_VALIDATE_BOOLEAN) ?? false;
 
         $this->metadata_["preceding_partial"] = [];
@@ -52,6 +60,7 @@ class Xml_Parser
             if ($field->getName() === "fieldgroup") {
                 $fieldDefinition = [
                     "type" => "fieldgroup",
+                    "html_class" => (string) $field["html_class"] ?? null,
                     "label" => [
                         "text" => (string) $field->label ?? null,
                         "html_class" => (string) $field->label["html_class"] ?? null
@@ -99,7 +108,7 @@ class Xml_Parser
             "availability" => (string) $field["availability"] ?? "*",
             "format" => (string) $field["format"] ?? null,
             "size" => (string) $field["size"] ?? null,
-            "resizable" => (string) $field["resizable"] ?? true,
+            "resizable" => filter_var((string) $field["resizable"] ?? false, FILTER_VALIDATE_BOOLEAN),
             "source_url" => (string) $field["source_url"] ?? null,
             "preloaded" => (string) $field["preloaded"] ?? true,
             "multiple_choice" => filter_var((string) $field["multiple_choice"] ?? false, FILTER_VALIDATE_BOOLEAN),

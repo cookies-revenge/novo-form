@@ -1,4 +1,7 @@
-<div class="form-group novo-form-field-group-wrapper border border-secondary p-3">
+<div class="form-group novo-form-field-group-wrapper border border-secondary p-3
+    {if isset($field_group.html_class) && !empty($field_group.html_class)}
+            {$field_group.html_class}
+    {/if}">
 
     {if !empty($field_group.label)}
         <p class="novo-field-group-label {if isset($field_group.label.html_class) && !empty($field_group.label.html_class)}{$field_group.label.html_class}{/if}">

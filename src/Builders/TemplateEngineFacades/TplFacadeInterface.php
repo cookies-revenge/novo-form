@@ -1,8 +1,9 @@
 <?php
 
-namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Builders\Template_Engine_Facades;
+namespace CookiesRevenge\NovoForm\Builders\TemplateEngineFacades;
 
-interface Tpl_Facade_Interface {
+interface TplFacadeInterface
+{
     public function AssignVariable($varName, $varValue);
     public function AssignVariables($variables);
     public function IsCachingOn(bool $isCachingOn);

@@ -1,5 +1,5 @@
 {
-  "name": "cookies-revenge/novo-form-builder",
+  "name": "cookies-revenge/novo-form",
   "description": "Novo Utility used to build fully dynamic forms",
   "type": "package",
   "require": {
@@ -17,7 +17,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "CookiesRevenge\\Novo\\Utilities\\NovoFormBuilder\\": "src/"
+      "CookiesRevenge\\NovoForm\\": "src/"
     }
   }
 }

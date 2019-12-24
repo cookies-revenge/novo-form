@@ -2,12 +2,12 @@
 
 
 
-    <title html_class="" type="h1">TEST NOVO FÖRM</title>
+    <title html_class="text-danger" type="h1">TEST NOVO FÖRM</title>
 
 
 
-    <preceding_partial source="/vagrant/NovoFormBuilder/test/partials/preceding_form.tpl" />
-    <succeeding_partial source="/vagrant/NovoFormBuilder/test/partials/succeeding_form.tpl" />
+    <preceding_partial source="/vagrant/NovoForm/test/partials/preceding_form.tpl" />
+    <succeeding_partial source="/vagrant/NovoForm/test/partials/succeeding_form.tpl" />
 
 
 
@@ -38,33 +38,33 @@
                 <description>Field 1</description>
             </icon>
             <validation mandatory="true" max-length="32" />
-            <preceding_partial source="/vagrant/NovoFormBuilder/test/partials/preceding_input.tpl" />
-            <succeeding_partial source="/vagrant/NovoFormBuilder/test/partials/succeeding_input.tpl" />
+            <preceding_partial source="/vagrant/NovoForm/test/partials/preceding_input.tpl" />
+            <succeeding_partial source="/vagrant/NovoForm/test/partials/succeeding_input.tpl" />
 
         </field>
 
 
-        <fieldgroup>
+        <fieldgroup html_class="bg-light rounded rounded-lg">
 
-            <label html_class="">Field Group</label>
+            <label html_class="font-weight-bold text-uppercase text-info">Field Group</label>
             <description html_class="">This is field group. Email and Password will be contained in this group.</description>
-            <preceding_partial source="/vagrant/NovoFormBuilder/test/partials/preceding_fieldgroup.tpl" />
-            <succeeding_partial source="/vagrant/NovoFormBuilder/test/partials/succeeding_fieldgroup.tpl" />
+            <preceding_partial source="/vagrant/NovoForm/test/partials/preceding_fieldgroup.tpl" />
+            <succeeding_partial source="/vagrant/NovoForm/test/partials/succeeding_fieldgroup.tpl" />
 
-            <field name="email" type="email" readonly="false" html_class="js__field2-class" availability="*" format="null" size="default" resizable="" preloaded="" source_url="" multiple_choice="">
+            <field name="email" type="email" readonly="false" html_class="js__field2-class" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
 
                 <placeholder>Add email here... (placeholder)</placeholder>
                 <label html_class="">Email (Email, field 2)</label>
                 <description html_class="">This is field 2 description</description>
                 <icon position="R">
-                    <description>@gmail.com</description>
+                    <description>SOMETHING</description>
                 </icon>
                 <validation mandatory="true" />
 
             </field>
 
 
-            <field name="password" type="password" readonly="false" html_class="js__field3-class" availability="*" format="null" size="default" resizable="" preloaded="" source_url="" multiple_choice="">
+            <field name="password" type="password" readonly="false" html_class="js__field3-class" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
 
                 <placeholder>Password (placeholder)</placeholder>
                 <label html_class="">Password (Password, field 3)</label>

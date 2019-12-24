@@ -1,8 +1,8 @@
 <?php
 
-namespace CookiesRevenge\Novo\Utilities\NovoFormBuilder\Builders;
+namespace CookiesRevenge\NovoForm\Builders;
 
-abstract class Abstract_Builder
+abstract class AbstractBuilder
 {
 
     abstract public function BuildForm();
@@ -11,7 +11,7 @@ abstract class Abstract_Builder
     {
         switch ($templatingEngine) {
             case "smarty":
-                $this->templatingEngine_ = new \CookiesRevenge\Novo\Utilities\NovoFormBuilder\Builders\Template_Engine_Facades\Smarty_Tpl_Facade();
+                $this->templatingEngine_ = new \CookiesRevenge\NovoForm\Builders\TemplateEngineFacades\SmartyTplFacade();
                 break;
             default:
                 throw new \Exception("Template engine is either invalid or unsupported.");

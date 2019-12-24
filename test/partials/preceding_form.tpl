@@ -1,1 +1,1 @@
-<p style="color:green">Hi, I am a paragraph preceding test form.</p>
+<p class="alert alert-success mb-2">This is a success message (preceding form)</p>
