@@ -4,7 +4,7 @@
 
         {if isset($input_variable.icon) && null !== $input_variable.icon && isset($input_variable.icon.position) && $input_variable.icon.position === "L"}
             <span class="input-group-prepend">
-                <i class="input-group-text bg-primary text-white border-primary 
+                <i class="input-group-text bg-dark text-white border-dark 
                     {if isset($input_variable.icon.html_class) && !empty($input_variable.icon.html_class)}{$input_variable.icon.html_class}{/if}">
                     {if isset($input_variable.icon.description) && !empty($input_variable.icon.description)}{$input_variable.icon.description}{/if}
                 </i>
@@ -38,7 +38,7 @@
 
         {if isset($input_variable.icon) && null !== $input_variable.icon && isset($input_variable.icon.position) && $input_variable.icon.position === "R"}
             <span class="input-group-append">
-                <i class="input-group-text bg-primary text-white border-primary 
+                <i class="input-group-text bg-dark text-white border-dark 
                     {if isset($input_variable.icon.html_class) && !empty($input_variable.icon.html_class)}{$input_variable.icon.html_class}{/if}">
                     {if isset($input_variable.icon.description) && !empty($input_variable.icon.description)}{$input_variable.icon.description}{/if}
                 </i>

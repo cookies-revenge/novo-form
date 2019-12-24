@@ -17,3 +17,7 @@ da izlaz bude preradjen array, koji moze direktno da se upuca u model kao
 support za custom types
 
 make a built-in debugger
+
+default styles (description, label, input, dropdown... )
+
+file validations (filesize, max-width, min-width, max-height, min-height, aspect-ratio...)

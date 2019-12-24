@@ -1,4 +1,4 @@
-<form entity="linestops" class_name="Linestop" type="standard" display_double_controls="true" action_uri="test/remove/it/for/standardized/value">
+<form entity="linestops" class_name="Linestop" type="standard" display_double_controls="true" action_uri="simple_form_be.php">
 
 
 
@@ -18,7 +18,7 @@
             <description>Button Title goes here, visible when hovering</description>
         </control>
 
-        <control type="submit" html_class="btn btn-primary" icon="far fa-check" availability="*">
+        <control type="submit" html_class="btn btn-success" icon="far fa-check" availability="*">
             <title>Button 2</title>
             <description>Button Title 2</description>
         </control>
@@ -29,7 +29,7 @@
 
     <fields>
 
-        <field name="username" type="input" readonly="false" html_class="js__field1-class" availability="*" format="null" sizing="default" resizable="" preloaded="" source_url="" multiple_choice="">
+        <field name="username" type="input" readonly="false" html_class="js__field1-class" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
 
             <placeholder>Add username here... (placeholder)</placeholder>
             <label html_class="">Username (String, field 1)</label>
@@ -51,20 +51,20 @@
             <preceding_partial source="/vagrant/NovoFormBuilder/test/partials/preceding_fieldgroup.tpl" />
             <succeeding_partial source="/vagrant/NovoFormBuilder/test/partials/succeeding_fieldgroup.tpl" />
 
-            <field name="email" type="email" readonly="false" html_class="js__field2-class" availability="*" format="null" sizing="default" resizable="" preloaded="" source_url="" multiple_choice="">
+            <field name="email" type="email" readonly="false" html_class="js__field2-class" availability="*" format="null" size="default" resizable="" preloaded="" source_url="" multiple_choice="">
 
                 <placeholder>Add email here... (placeholder)</placeholder>
                 <label html_class="">Email (Email, field 2)</label>
                 <description html_class="">This is field 2 description</description>
-                <icon position="R" html_class="far fa-calendar-alt">
-                    <description></description>
+                <icon position="R">
+                    <description>@gmail.com</description>
                 </icon>
                 <validation mandatory="true" />
 
             </field>
 
 
-            <field name="password" type="password" readonly="false" html_class="js__field3-class" availability="*" format="null" sizing="default" resizable="" preloaded="" source_url="" multiple_choice="">
+            <field name="password" type="password" readonly="false" html_class="js__field3-class" availability="*" format="null" size="default" resizable="" preloaded="" source_url="" multiple_choice="">
 
                 <placeholder>Password (placeholder)</placeholder>
                 <label html_class="">Password (Password, field 3)</label>
@@ -76,7 +76,7 @@
         </fieldgroup>
 
 
-        <field name="closing-date" type="datepicker" readonly="false" html_class="js__closing-date" availability="*" format="Y-m-d H:i:s" sizing="default" resizable="" preloaded="" source_url="" multiple_choice="">
+        <field name="closing-date" type="datepicker" readonly="false" html_class="js__closing-date" availability="*" format="Y-m-d H:i:s" size="default" resizable="" preloaded="" source_url="" multiple_choice="">
 
             <placeholder>Select closing date... (placeholder)</placeholder>
             <label html_class="">Closing Date (Datepicker, field 4)</label>
@@ -93,6 +93,17 @@
             <placeholder>Comment (optional)</placeholder>
             <label html_class="">Comment (Textarea, field 5)</label>
             <description html_class="">This is field 5 description</description>
+        </field>
+
+
+        <field name="avatar" type="file" availability="*" multiple_choice="true" accept_types=".jpg,.jpeg,.png">
+            <placeholder>Avatar File (optional)</placeholder>
+            <label html_class="">Avatar (File, field 6)</label>
+            <description html_class="">This is field 6 description</description>
+            <icon position="L" html_class="">
+                <description>Browse Avatar...</description>
+            </icon>
+            <validation mandatory="true" max-filesize="64" />
         </field>
 
 

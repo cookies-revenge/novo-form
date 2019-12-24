@@ -71,7 +71,6 @@ class Xml_Parser
                         continue;
                     $fieldDefinition["field_definitions"][] = $this->processFieldTagDefinitions($subfield);
                 }
-                //var_dump($fieldDefinition);
                 $this->metadata_["field_definitions"][] = $fieldDefinition;
                 continue;
             }
@@ -98,11 +97,12 @@ class Xml_Parser
             "html_class" => (string) $field["html_class"] ?? null,
             "availability" => (string) $field["availability"] ?? "*",
             "format" => (string) $field["format"] ?? null,
-            "sizing" => (string) $field["sizing"] ?? null,
+            "size" => (string) $field["size"] ?? null,
             "resizable" => (string) $field["resizable"] ?? true,
             "source_url" => (string) $field["source_url"] ?? null,
             "preloaded" => (string) $field["preloaded"] ?? true,
-            "multiple_choice" => (string) $field["multiple_choice"] ?? null
+            "multiple_choice" => filter_var((string) $field["multiple_choice"] ?? false, FILTER_VALIDATE_BOOLEAN),
+            "accept_types" => (string) $field["accept_types"] ?? null,
         ];
         foreach ($field->preceding_partial as $preceding) {
             $fieldDefinition["preceding_partial"][] = ["source" => (string) $preceding["source"] ?? null];

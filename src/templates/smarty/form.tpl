@@ -27,7 +27,7 @@
 
         {* Check if needed to show controls also on top of the Form; May be useful for tall forms *}
         {if $display_double_controls}
-            <div class="form-group novo-form-controls-wrapper">
+            <div class="form-group w-100 novo-form-controls-wrapper">
                 {foreach $control_definitions as $control_definition}
                     {if !isset($control_definition.availability) ||
                         $control_definition.availability === "*" || 
@@ -77,7 +77,7 @@
                 {/if}
 
 
-                <div class="form-group novo-form-field-wrapper">
+                <div class="form-group w-100 novo-form-field-wrapper">
 
 
                     {* Inject field-level preceding partial(s) *}
@@ -89,7 +89,7 @@
 
 
                     {if !empty($field_definition.label)}
-                        <label class="form-label 
+                        <label class="form-label w-100 
                             {if isset($field_definition.label.html_class) && !empty($field_definition.label.html_class)}
                                 {$field_definition.label.html_class}
                             {/if}">
@@ -138,7 +138,7 @@
         {/foreach}
 
 
-        <div class="form-group novo-form-controls-wrapper">
+        <div class="form-group w-100 novo-form-controls-wrapper">
             {foreach $control_definitions as $control_definition}
                 {if !isset($control_definition.availability) ||
                     $control_definition.availability === "*" || 

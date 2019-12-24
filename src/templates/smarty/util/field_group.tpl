@@ -1,4 +1,4 @@
-<div class="form-group novo-form-field-group-wrapper border border-light p-1">
+<div class="form-group novo-form-field-group-wrapper border border-secondary p-3">
 
     {if !empty($field_group.label)}
         <p class="novo-field-group-label {if isset($field_group.label.html_class) && !empty($field_group.label.html_class)}{$field_group.label.html_class}{/if}">
@@ -27,10 +27,10 @@
 
     {foreach $field_group.field_definitions as $group_field_definition}
         {assign var="input_variable" value=$group_field_definition}
-        <div class="form-group novo-form-field-wrapper">
+        <div class="form-group w-100 novo-form-field-wrapper">
 
             {if !empty($group_field_definition.label)}
-                <label class="form-label 
+                <label class="form-label w-100 
                     {if isset($group_field_definition.label.html_class) && !empty($group_field_definition.label.html_class)}
                         {$group_field_definition.label.html_class}
                     {/if}">
