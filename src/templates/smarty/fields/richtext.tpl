@@ -10,7 +10,7 @@
 
         {foreach $input_variable.validation as $validation_type => $value}vito-{$validation_type}="{$value}"{/foreach} 
 
-        {if isset($input_variable.read_only) && $input_variable.read_only}readonly{/if}
+        {if isset($input_variable.readonly) && $input_variable.readonly}readonly{/if}
     >{if isset($record)}{$record[$input_variable.name]}{elseif isset($presets) && isset($presets[$input_variable.name])}{$presets[$input_variable.name]}{/if}</textarea>
 
     {if $input_variable.counter}

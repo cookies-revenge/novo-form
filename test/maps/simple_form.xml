@@ -2,7 +2,7 @@
 
 
 
-    <title html_class=""><![CDATA[TEST NOVO FORM]]></title>
+    <title html_class="">TEST NOVO FÖRM</title>
 
 
 
@@ -14,13 +14,13 @@
     <controls>
 
         <control type="button" html_class="btn btn-primary js__special-button-class" icon="far fa-check" availability="*">
-            <title><![CDATA[Button 1]]></title>
-            <description><![CDATA[Button Title goes here, visible when hovering]]></description>
+            <title>Button 1</title>
+            <description>Button Title goes here, visible when hovering</description>
         </control>
 
         <control type="submit" html_class="btn btn-primary" icon="far fa-check" availability="*">
-            <title><![CDATA[Button 2]]></title>
-            <description><![CDATA[Button Title 2]]></description>
+            <title>Button 2</title>
+            <description>Button Title 2</description>
         </control>
 
     </controls>
@@ -29,22 +29,72 @@
 
     <fields>
 
-        <field name="title" type="input" readonly="false" html_class="js__field1-class" availability="*" format="null" sizing="default" resizable="" preloaded="" source_url="" multiple_choice="">
+        <field name="username" type="input" readonly="false" html_class="js__field1-class" availability="*" format="null" sizing="default" resizable="" preloaded="" source_url="" multiple_choice="">
 
-            <placeholder><![CDATA[Add text here... (placeholder)]]></placeholder>
-            <label html_class=""><![CDATA[Field 1 (String)]]></label>
-            <description html_class=""><![CDATA[This is field 1 description... Use me to describe the field better.]]></description>
+            <placeholder>Add username here... (placeholder)</placeholder>
+            <label html_class="">Username (String, field 1)</label>
+            <description html_class="">This is field 1 description... Use me to describe the field better.</description>
             <icon position="L" html_class="">
-                <description><![CDATA[Field 1]]></description>
-            </icon>
-            <icon position="R" html_class="far fa-calendar-alt">
-                <description><![CDATA[]]></description>
+                <description>Field 1</description>
             </icon>
             <validation mandatory="true" max-length="32" />
-            <preceding_partial source="resources/smarty_templates/partials/preceding_input.tpl" />
-            <succeeding_partial source="resources/smarty_templates/partials/succeeding_input.tpl" />
+            <preceding_partial source="/vagrant/NovoFormBuilder/test/partials/preceding_input.tpl" />
+            <succeeding_partial source="/vagrant/NovoFormBuilder/test/partials/succeeding_input.tpl" />
 
         </field>
+
+
+        <fieldgroup>
+
+            <label html_class="">Field Group</label>
+            <description html_class="">This is field group. Email and Password will be contained in this group.</description>
+            <preceding_partial source="/vagrant/NovoFormBuilder/test/partials/preceding_fieldgroup.tpl" />
+            <succeeding_partial source="/vagrant/NovoFormBuilder/test/partials/succeeding_fieldgroup.tpl" />
+
+            <field name="email" type="email" readonly="false" html_class="js__field2-class" availability="*" format="null" sizing="default" resizable="" preloaded="" source_url="" multiple_choice="">
+
+                <placeholder>Add email here... (placeholder)</placeholder>
+                <label html_class="">Email (Email, field 2)</label>
+                <description html_class="">This is field 2 description</description>
+                <icon position="R" html_class="far fa-calendar-alt">
+                    <description></description>
+                </icon>
+                <validation mandatory="true" />
+
+            </field>
+
+
+            <field name="password" type="password" readonly="false" html_class="js__field3-class" availability="*" format="null" sizing="default" resizable="" preloaded="" source_url="" multiple_choice="">
+
+                <placeholder>Password (placeholder)</placeholder>
+                <label html_class="">Password (Password, field 3)</label>
+                <description html_class=""><![CDATA[Minimum 1 uppercase, minimum length 8, minimum 1 special char & min 1 numeric]]></description>
+                <validation mandatory="true" />
+
+            </field>
+
+        </fieldgroup>
+
+
+        <field name="closing-date" type="datepicker" readonly="false" html_class="js__closing-date" availability="*" format="Y-m-d H:i:s" sizing="default" resizable="" preloaded="" source_url="" multiple_choice="">
+
+            <placeholder>Select closing date... (placeholder)</placeholder>
+            <label html_class="">Closing Date (Datepicker, field 4)</label>
+            <description html_class="">This is field 4 description</description>
+            <icon position="R" html_class="far fa-calendar-alt">
+                <description></description>
+            </icon>
+            <validation mandatory="true" />
+
+        </field>
+
+
+        <field name="comment" type="textarea" availability="*" resizable="false">
+            <placeholder>Comment (optional)</placeholder>
+            <label html_class="">Comment (Textarea, field 5)</label>
+            <description html_class="">This is field 5 description</description>
+        </field>
+
 
     </fields>
 

@@ -26,7 +26,7 @@
                 vito-name="{$input_variable.name}"
 
                 {foreach $input_variable.validation as $validation_type => $value}vito-{$validation_type}="{$value}"{/foreach} 
-                {if $input_variable.read_only}readonly{/if} 
+                {if $input_variable.readonly}readonly{/if} 
                 value="0" />
 
             <input type="checkbox" 
@@ -34,7 +34,7 @@
                 vito-name="{$input_variable.name}-{$field_index}"
 
                 {foreach $input_variable.validation as $validation_type => $value}vito-{$validation_type}="{$value}"{/foreach} 
-                {if $input_variable.read_only}readonly{/if} 
+                {if $input_variable.readonly}readonly{/if} 
                 {if $input_variable.checked}checked{/if} value="1" />
 
         {/if}

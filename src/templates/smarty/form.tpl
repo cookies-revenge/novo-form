@@ -19,6 +19,7 @@
     <form id="{$entity}_form" 
         action="{if isset($action_uri)}{$action_uri}{else}/api/{$entity|strtolower}{if isset($record)}/{$record.Id}{/if}{/if}" 
         method="POST" 
+        enctype="multipart/form-data" 
         data-http-method="{if !empty($record)}PUT{else}POST{/if}" 
         data-form-type="{$form_type}" 
         class="novo-form js__novo-form">
@@ -65,16 +66,27 @@
                     {continue}
                 {/if}
 
-
-                {* Inject field-level preceding partial(s) *}
-                {if isset($field_definition.preceding_partial) && null !== $field_definition.preceding_partial}
-                    {foreach $field_definition.preceding_partial as $pre_partial}
-                        {include file="file:{$pre_partial.source}"}
-                    {/foreach}
+                {if $field_definition.type === "fieldgroup"}
+                    {assign var="field_group" value=$field_definition}
+                    {include file="util/field_group.tpl"}
+                    {* 
+                     * util/field_group.tpl has it's own includes for partials, labels, descriptions... 
+                     * so skip the code below after including it 
+                    *}
+                    {continue}
                 {/if}
 
 
                 <div class="form-group novo-form-field-wrapper">
+
+
+                    {* Inject field-level preceding partial(s) *}
+                    {if isset($field_definition.preceding_partial) && null !== $field_definition.preceding_partial}
+                        {foreach $field_definition.preceding_partial as $pre_partial}
+                            {include file="file:{$pre_partial.source}"}
+                        {/foreach}
+                    {/if}
+
 
                     {if !empty($field_definition.label)}
                         <label class="form-label 
@@ -83,40 +95,41 @@
                             {/if}">
                             {if !empty($field_definition.label.text)}
                                 {$field_definition.label.text}
+                                {if isset($field_definition.validation.mandatory) && $field_definition.validation.mandatory}
+                                    <i>*</i>
+                                {/if}
                             {else}
                                 &nbsp;
-                            {/if}
-                            {if isset($field_definition.validation.mandatory) && $field_definition.validation.mandatory}
-                                <i>*</i>
                             {/if}
                         </label>
                     {/if}
 
                     {if !empty($field_definition.description)}
-                        <small class="label-description w-100 mt-1 mb-1">{$field_definition.description}</small>
+                        <small class="label-description w-100 mt-1 mb-1 
+                        {if isset($field_definition.description.html_class) && !empty($field_definition.description.html_class)}
+                            {$field_definition.description.html_class}
+                        {/if}">{$field_definition.description.text}</small>
                     {/if}
 
                     
                     {if $field_definition.type === "complex"}
                         {include file="util/complex_type.tpl"}
-                    {elseif $field_definition.type === "field_group"}
-                        {assign var="field_group" value=$field_definition}
-                        {include file="util/field_group.tpl"}
                     {elseif $field_definition.type === "custom"}
                         {*include file="{$field_definition.custom_partial}"*}
                     {else}
                         {assign var="input_variable" value=$field_definition}
                         {include file="fields/{$field_definition.type}.tpl"}
                     {/if}
+
+
+                    {* Inject field-level succeeding partial(s) *}
+                    {if isset($field_definition.succeeding_partial) && null !== $field_definition.succeeding_partial}
+                        {foreach $field_definition.succeeding_partial as $suc_partial}
+                            {include file="file:{$suc_partial.source}"}
+                        {/foreach}
+                    {/if}
                 </div>
 
-
-                {* Inject field-level succeeding partial(s) *}
-                {if isset($field_definition.succeeding_partial) && null !== $field_definition.succeeding_partial}
-                    {foreach $field_definition.succeeding_partial as $suc_partial}
-                        {include file="file:{$suc_partial.source}"}
-                    {/foreach}
-                {/if}
 
             {/if}
         

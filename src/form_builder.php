@@ -29,7 +29,7 @@ class Form_Builder extends Abstract_Builder
             ->AssignVariable("action_uri", $this->definitionsMap_["action_uri"])
             ->AssignVariable("class_name", $this->definitionsMap_["class_name"])
 
-            ->AssignVariable("form_type", $this->definitionsMap_["form_type"] ?? "standard")
+            ->AssignVariable("form_type", $this->definitionsMap_["form_type"] ?? Form_Builder_Constants::NOVO_FORM_DISPLAY_MODE_STANDARD)
 
             ->AssignVariable("preceding_partial", $this->definitionsMap_["preceding_partial"])
             ->AssignVariable("succeeding_partial", $this->definitionsMap_["succeeding_partial"])

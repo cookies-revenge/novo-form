@@ -1,1 +1,1 @@
-<p>Hi, I am a paragraph succeeding test form.</p>
+<p style="color:#666">Hi, I am a paragraph succeeding test field.</p>

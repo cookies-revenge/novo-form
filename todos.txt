@@ -1,64 +1,7 @@
 
-implement XML definition maps in format:
+########## implement XML definition maps
 
-<field type="input" html_class="..." size="..." resizable="..." ...>
-    <placeholder>
-        <text>
-            <![CDATA[
-                placeholder text goes here...
-            ]]>
-        </text>
-    </placeholder>
-    <label html_class="..." ... >
-        <text>
-            <![CDATA[
-                label text goes here...
-            ]]>
-        </text>
-    </label>
-    <description html_class="..." ... >
-        <text>
-            <![CDATA[
-                description text goes here...
-            ]]>
-        </text>
-    </description>
-    <validation max-length="30" mandatory="true" ... />
-    <preceding_partial source="..." ... />
-    <preceding_partial source="..." ... />
-    <succeeding_partial source="..." ... />
-    <succeeding_partial source="..." ... />
-    <icon position="L" html_class="...">
-        <description>
-            <![CDATA[
-                icon text goes here...
-            ]]>
-        </description>
-    </icon>
-</field>
-
-<field_group html_class="..." ...>
-    <label html_class="..." ... >
-        <text>
-            <![CDATA[
-                label text goes here...
-            ]]>
-        </text>
-    </label>
-    <description html_class="..." ...>
-        <text>
-            <![CDATA[
-                description text goes here...
-            ]]>
-        </text>
-    </description>
-    <field ... />
-    <field ... />
-    <preceding_partial source="..." ... />
-    <succeeding_partial source="..." ... />
-</field_group>
-
-make missing props default to null (xml -> php)
+########## make missing props default to null (xml -> php)
 
 ########## set a standard for definition maps ^
 
@@ -72,3 +15,5 @@ da izlaz bude preradjen array, koji moze direktno da se upuca u model kao
 ->setByName($colName, $value)
 
 support za custom types
+
+make a built-in debugger

@@ -34,7 +34,7 @@
                 value="{date($date_format, $presets[$input_variable.name])}"
             {/if} 
 
-            {if $input_variable.read_only}disabled{/if} />
+            {if $input_variable.readonly}disabled{/if} />
 
         {if isset($input_variable.icon) && null !== $input_variable.icon && isset($input_variable.icon.position) && $input_variable.icon.position === "R"}
             <span class="input-group-append">

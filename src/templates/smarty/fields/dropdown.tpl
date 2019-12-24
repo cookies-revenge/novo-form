@@ -19,7 +19,7 @@
         {/if}>
 
         <button class="form-control btn btn-dropdown dropdown-toggle"
-            {if $input_variable.read_only}disabled{/if} 
+            {if $input_variable.readonly}disabled{/if} 
             type="button" 
             data-toggle="dropdown" 
             aria-haspopup="true" 

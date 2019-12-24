@@ -1,0 +1,1 @@
+<p style="color:red">Hi, I am a paragraph preceding fieldgroup.</p>
