@@ -13,10 +13,6 @@ interface TplFacadeInterface
 
     public function ConstructEngineObject();
 
-    /**
-     * Builds Form HTML.
-     *
-     * @return string Form HTML
-     */
-    public function BuildFormHTML();
+    public function BuildForm();
+    public function BuildStaticForm();
 }

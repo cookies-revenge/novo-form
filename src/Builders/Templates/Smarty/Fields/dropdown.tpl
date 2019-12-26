@@ -1,53 +1,54 @@
-<div {if $input_variable.html_class}class="{$input_variable.html_class}"{/if}>
+<div {if $fieldObj->getHtmlClass()}class="{$fieldObj->getHtmlClass()}"{/if}>
 
     {* defaults *}
-    {assign var="option_value_column" value="Id"}
-    {assign var="option_label_column" value="Title"}
-    {if isset($input_variable.option_value_column) && null !== $input_variable.option_value_column}
+    {assign var="optionValueColumn" value="Id"}
+    {assign var="optionLabelColumn" value="Title"}
+    {if $fieldObj->getOptionValueColumn()}
         {* override, if defined *}
-        {$option_value_column = $input_variable.option_value_column}
+        {$optionValueColumn = $fieldObj->getOptionValueColumn()}
     {/if}
-    {if isset($input_variable.option_label_column) && null !== $input_variable.option_label_column}
+    {if $fieldObj->getOptionLabelColumn()}
         {* override, if defined *}
-        {$option_label_column = $input_variable.option_label_column}
+        {$optionLabelColumn = $fieldObj->getOptionLabelColumn()}
     {/if}
 
     <div class="dropdown js__dropdown w-100"
-        data-preloaded="{if isset($input_variable.preloaded) && $input_variable.preloaded}true{else}false{/if}" 
-        {if isset($input_variable.source_url) && null !== $input_variable.source_url}
-            data-source-url="{$input_variable.source_url}"
+        data-preloaded="{if $fieldObj->getPreloaded()}true{else}false{/if}" 
+        {if $fieldObj->getSourceUrl()}
+            data-source-url="{$fieldObj->getSourceUrl()}"
         {/if}>
 
         <button class="form-control btn btn-dropdown dropdown-toggle"
-            {if $input_variable.readonly}disabled{/if} 
+            {if $fieldObj->getReadonly()}disabled{/if} 
             type="button" 
             data-toggle="dropdown" 
             aria-haspopup="true" 
             aria-expanded="true">
 		    <span class="dropdown-selection">
-                {if isset($record)}
-                    {if isset($field_datasets[$input_variable.name])}
-                        {foreach $field_datasets[$input_variable.name] as $dataset_record}
-                            {if $dataset_record[$option_value_column] === $record[$input_variable.name]}
-                                {$dataset_record[$option_title_column]}
+                {assign var="fieldName" value=$fieldObj->getName()}
+                {if !empty($record) && isset($record[$fieldName])}
+                    {if isset($fieldDatasets[$fieldName])}
+                        {foreach $fieldDatasets[$fieldName] as $datasetRecord}
+                            {if $datasetRecord[$optionValueColumn] === $record[$fieldName]}
+                                {$datasetRecord[$optionLabelColumn]}
                             {/if}
 		                {/foreach}
                     {else}
-			            {$record[$input_variable.name]}
+			            {$record[$fieldName]}
                     {/if}
-                {elseif isset($presets) && isset($presets[$input_variable.name])}
-                    {if isset($field_datasets[$input_variable.name])}
-                        {foreach $field_datasets[$input_variable.name] as $dataset_record}
-                            {if $dataset_record[$option_value_column] === $presets[$input_variable.name]}
-                                {$dataset_record[$option_title_column]}
+                {elseif isset($presets) && isset($presets[$fieldName])}
+                    {if isset($fieldDatasets[$fieldName])}
+                        {foreach $fieldDatasets[$fieldName] as $datasetRecord}
+                            {if $datasetRecord[$optionValueColumn] === $presets[$fieldName]}
+                                {$datasetRecord[$optionLabelColumn]}
                             {/if}
 		                {/foreach}
                     {else}
-			            {$presets[$input_variable.name]}
+			            {$presets[$fieldName]}
                     {/if}
 			    {else}
-			        {if $input_variable.placeholder}
-                        {$input_variable.placeholder}
+			        {if $fieldObj->getPlaceholder()}
+                        {$fieldObj->getPlaceholder()}
                     {else}
                         Select option
                     {/if}
@@ -56,19 +57,19 @@
 		    <span class="caret"></span>
 	    </button>
 
-        <ul class="dropdown-menu" aria-labelledby="js__field-label-{$input_variable.name}">
+        <ul class="dropdown-menu" aria-labelledby="js__field-label-{$fieldObj->getName()}">
             <li>
                 <a href="javascript:;" class="reset-dropdown js__reset-dropdown">Clear selection</a>
             </li>
             <li>
                 <input type="text" class="js__dropdown-searchkey search-dropdown" placeholder="Search options...">
             </li>
-            {if isset($input_variable.preloaded) && $input_variable.preloaded}
-                {if isset($field_datasets[$input_variable.name])}
-                    {foreach $field_datasets[$input_variable.name] as $dataset_record}
+            {if $fieldObj->getPreloaded()}
+                {if isset($fieldDatasets[$fieldObj->getName()])}
+                    {foreach $fieldDatasets[$fieldObj->getName()] as $datasetRecord}
                         <li>
-                            <a href="javascript:;" data-id="{$dataset_record[$option_value_column]}">
-                                {$dataset_record[$option_title_column]}
+                            <a href="javascript:;" data-id="{$datasetRecord[$optionValueColumn]}">
+                                {$datasetRecord[$optionLabelColumn]}
                             </a>
                         </li>
                     {/foreach}
@@ -77,17 +78,18 @@
 	    </ul>
 
         <input type="hidden" 
-            name="{$input_variable.name}" 
-            vito-name="{$input_variable.name}-{$field_index}" 
+            name="{$fieldObj->getName()}" 
+            vito-name="{$fieldObj->getName()}-{$fieldIndex}" 
 
-		    {foreach $input_variable.validation as $validation_type => $value}
-                vito-{$validation_type}="{$value}"
+		    {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+                vito-{$validationType}="{$value}"
             {/foreach}
 
-            {if isset($record)}
-                value="{$record[$input_variable.name]}"
-            {elseif isset($presets) && isset($presets[$input_variable.name])}
-                value="{$presets[$input_variable.name]}"
+            {assign var="fieldName" value=$fieldObj->getName()}
+            {if !empty($record) && isset($record[$fieldName])}
+                value="{$record[$fieldName]}"
+            {elseif !empty($presets) && isset($presets[$fieldName])}
+                value="{$presets[$fieldName]}"
             {/if}
         />
 

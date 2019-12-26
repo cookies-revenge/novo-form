@@ -22,12 +22,12 @@ class SmartyTplFacade extends AbstractTplFacade
         $this->tplEngineObject_->debugging = $this->isDebuggingOn_;
     }
 
-    public function BuildFormHTML()
+    public function BuildForm()
     {
         return $this->tplEngineObject_->fetch($this->templateDir_ . "/form.tpl");
     }
 
-    public function BuildStaticFormHTML()
+    public function BuildStaticForm()
     {
         return $this->tplEngineObject_->fetch($this->templateDir_ . "/static_form.tpl");
     }

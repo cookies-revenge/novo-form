@@ -1,6 +1,6 @@
 <?php
 
-namespace CookiesRevenge\NovoForm\Builders;
+namespace CookiesRevenge\NovoForm;
 
 class Comparator
 {
@@ -46,11 +46,11 @@ class Comparator
     }
 
     private $methods_ = [
-        \CookiesRevenge\NovoForm\Constants::COMPARATOR_EQUAL => "compareEqual",
-        \CookiesRevenge\NovoForm\Constants::COMPARATOR_STRICT_EQUAL => "compareStrictEqual",
-        \CookiesRevenge\NovoForm\Constants::COMPARATOR_LESS_THAN => "compareLessThan",
-        \CookiesRevenge\NovoForm\Constants::COMPARATOR_LESS_THAN_EQUAL => "compareLessThanEqual",
-        \CookiesRevenge\NovoForm\Constants::COMPARATOR_HIGHER_THAN => "compareHigherThan",
-        \CookiesRevenge\NovoForm\Constants::COMPARATOR_HIGHER_THAN_EQUAL => "compareHigherThanEqual",
+        \CookiesRevenge\NovoForm\Constants::COMPARE_EQUAL => "compareEqual",
+        \CookiesRevenge\NovoForm\Constants::COMPARE_STRICT_EQUAL => "compareStrictEqual",
+        \CookiesRevenge\NovoForm\Constants::COMPARE_LESS_THAN => "compareLessThan",
+        \CookiesRevenge\NovoForm\Constants::COMPARE_LESS_THAN_EQUAL => "compareLessThanEqual",
+        \CookiesRevenge\NovoForm\Constants::COMPARE_HIGHER_THAN => "compareHigherThan",
+        \CookiesRevenge\NovoForm\Constants::COMPARE_HIGHER_THAN_EQUAL => "compareHigherThanEqual",
     ];
 }

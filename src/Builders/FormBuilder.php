@@ -5,42 +5,29 @@ namespace CookiesRevenge\NovoForm\Builders;
 class FormBuilder extends AbstractBuilder
 {
 
-    public function BuildForm() {
+    public function Build() {
         $this->templatingEngine_->ConstructEngineObject();
-        $this->assignFormMetadata();
-        $form = "";
-        switch ($this->displayMode_) {
-            case "STANDARD":
-                $form = $this->templatingEngine_->BuildFormHTML();
-                break;
-            case "STATIC":
-                $form = $this->templatingEngine_->BuildStaticFormHTML();
-                break;
-            default: throw new \Exception("Form DisplayMode (type) not defined in ". __CLASS__ ."::". __FUNCTION__);
-        }
+        $this->assignTplData();
+        $form = $this->templatingEngine_->BuildForm();
         return $form;
     }
 
 
-    private function assignFormMetadata() {
-        $this->templatingEngine_
-            ->AssignVariable("title", $this->definitionsMap_["title"])
-            ->AssignVariable("entity", $this->definitionsMap_["entity"])
-            ->AssignVariable("action_uri", $this->definitionsMap_["action_uri"])
-            ->AssignVariable("class_name", $this->definitionsMap_["class_name"])
+    public function SetForm($formObject) {
+        $this->formObject_ = $formObject;
+        return $this;
+    }
 
-            ->AssignVariable("form_type", $this->definitionsMap_["form_type"] ?? \CookiesRevenge\NovoForm\Constants::DISPLAY_MODE_STANDARD)
 
-            ->AssignVariable("preceding_partial", $this->definitionsMap_["preceding_partial"])
-            ->AssignVariable("succeeding_partial", $this->definitionsMap_["succeeding_partial"])
-
-            ->AssignVariable("field_definitions", $this->definitionsMap_["field_definitions"])
-            ->AssignVariable("control_definitions", $this->definitionsMap_["control_definitions"])
-            ->AssignVariable("display_double_controls", $this->definitionsMap_["display_double_controls"] ?? false);
+    private function assignTplData() {
+        $this->templatingEngine_->AssignVariable("formObj", $this->formObject_);
 
         if (!empty($this->dataCollection_)) {
             $this->templatingEngine_->AssignVariable("record", $this->dataCollection_["record"])
-                ->AssignVariable("presets", $this->dataCollection_["presets"]);
+                ->AssignVariable("presets", $this->dataCollection_["presets"])
+                ->AssignVariable("fieldDatasets", $this->dataCollection_["fieldDatasets"]);
         }
     }
+
+    private $formObject_ = null;
 }

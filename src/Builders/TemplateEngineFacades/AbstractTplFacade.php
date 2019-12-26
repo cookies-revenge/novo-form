@@ -6,7 +6,8 @@ abstract class AbstractTplFacade implements TplFacadeInterface
 {
 
     abstract public function ConstructEngineObject();
-    abstract public function BuildFormHTML();
+    abstract public function BuildForm();
+    abstract public function BuildStaticForm();
     abstract public function AssignVariable($varName, $varValue);
     abstract public function AssignVariables($variables);
 

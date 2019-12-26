@@ -1,22 +1,24 @@
-<div {if $input_variable.html_class}class="{$input_variable.html_class}"{/if}>
+<div {if $fieldObj->getHtmlClass()}class="{$fieldObj->getHtmlClass()}"{/if}>
 
     <textarea class="form-control novo-richtext js__richtext" rows="5" 
-        {if isset($input_variable.resizable) && !$input_variable.resizable}
+        {if isset($fieldObj->getResizable()) && !$fieldObj->getResizable()}
             style="resize:false;"
         {/if}
-        name="{$input_variable.name}" 
-        placeholder="{if isset($input_variable.placeholder) && $input_variable.placeholder}{$input_variable.placeholder}{/if}"
-        vito-name="{$input_variable.name}-{$field_index}"
+        name="{$fieldObj->getName()}" 
+        placeholder="{if $fieldObj->getPlaceholder()}{$fieldObj->getPlaceholder()}{/if}"
+        vito-name="{$fieldObj->getName()}-{$fieldIndex}"
 
-        {foreach $input_variable.validation as $validation_type => $value}vito-{$validation_type}="{$value}"{/foreach} 
+        {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+            vito-{$validationType}="{$value}"
+        {/foreach}
 
-        {if isset($input_variable.readonly) && $input_variable.readonly}readonly{/if}
-    >{if isset($record)}{$record[$input_variable.name]}{elseif isset($presets) && isset($presets[$input_variable.name])}{$presets[$input_variable.name]}{/if}</textarea>
+        {if isset($fieldObj->getReadonly()) && $fieldObj->getReadonly()}readonly{/if}
+    >{assign var="fieldName" value=$fieldObj->getName()}{if !empty($record) && isset($record[$fieldName])}{$record[$fieldName]}{elseif !empty($presets) && isset($presets[$fieldName])}{$presets[$fieldName]}{/if}</textarea>
 
-    {if $input_variable.counter}
+    {if $fieldObj->getValidationCriteria("max-length") !== null}
         <span class="text-gray-600 w-100 novo-richtext-counter-notification js__richtext-counter" 
-            data-default-counter-limit="{$input_variable.counter}">
-            Remaining: {$input_variable.counter}
+            data-default-counter-limit="{$fieldObj->getValidationCriteria("max-length")}">
+            Remaining: <i>{$fieldObj->getValidationCriteria("max-length")}</i>
         </span>
     {/if}
       

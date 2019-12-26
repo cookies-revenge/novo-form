@@ -1,58 +1,56 @@
-<div {if $input_variable.html_class}class="{$input_variable.html_class}"{/if}>
+<div {if $fieldObj->getHtmlClass()}class="{$fieldObj->getHtmlClass()}"{/if}>
 
-   <div class="input-group {if isset($input_variable.size) && null !== $input_variable.size}input-group-{$input_variable.size}{/if}">
+   <div class="input-group {if $fieldObj->getSize()}input-group-{$fieldObj->getSize()}{/if}">
 
-        {if isset($input_variable.icon) && null !== $input_variable.icon && isset($input_variable.icon.position) && $input_variable.icon.position === "L"}
-            <span class="input-group-prepend">
-                <i class="input-group-text bg-dark text-white border-dark 
-                    {if isset($input_variable.icon.html_class) && !empty($input_variable.icon.html_class)}{$input_variable.icon.html_class}{/if}">
-                    {if isset($input_variable.icon.description) && !empty($input_variable.icon.description)}{$input_variable.icon.description}{/if}
-                </i>
-            </span>
-        {/if}
+        {assign var="iconPosition" value="L"}
+        {include file="Partials/field_icon.tpl"}
 
         {* defaults *}
-        {assign var="option_value_column" value="Id"}
-        {assign var="option_label_column" value="Title"}
-        {if isset($input_variable.option_value_column) && null !== $input_variable.option_value_column}
+        {assign var="optionValueColumn" value="Id"}
+        {assign var="optionLabelColumn" value="Title"}
+        {if $fieldObj->getOptionValueColumn()}
             {* override, if defined *}
-            {$option_value_column = $input_variable.option_value_column}
+            {$optionValueColumn = $fieldObj->getOptionValueColumn()}
         {/if}
-        {if isset($input_variable.option_label_column) && null !== $input_variable.option_label_column}
+        {if $fieldObj->getOptionLabelColumn()}
             {* override, if defined *}
-            {$option_label_column = $input_variable.option_label_column}
+            {$optionLabelColumn = $fieldObj->getOptionLabelColumn()}
         {/if}
 
 		<select class="form-control custom-select"  
-            name="{$input_variable.name}" 
-            vito-name="{$input_variable.name}-{$field_index}"
-            data-preloaded="{if isset($input_variable.preloaded) && $input_variable.preloaded}true{else}false{/if}" 
-            {if isset($input_variable.source_url) && null !== $input_variable.source_url}
-                data-source-url="{$input_variable.source_url}"
+            name="{$fieldObj->getName()}" 
+            vito-name="{$fieldObj->getName()}-{$fieldIndex}"
+            data-preloaded="{if isset($fieldObj->getPreloaded()) && $fieldObj->getPreloaded()}true{else}false{/if}" 
+            {if isset($fieldObj->getSourceUrl()) && null !== $fieldObj->getSourceUrl()}
+                data-source-url="{$fieldObj->getSourceUrl()}"
             {/if}
 
-            {foreach $input_variable.validation as $validation_type => $value}vito-{$validation_type}="{$value}"{/foreach} 
-            {if isset($input_variable.readonly) && $input_variable.readonly}readonly{/if}>
-            {if isset($input_variable.multiple_choice) && $input_variable.multiple_choice}multiple{/if}
+            {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+                vito-{$validationType}="{$value}"
+            {/foreach}
 
-            {if isset($input_variable.placeholder) && $input_variable.placeholder}
-                <option selected value disabled>{$input_variable.placeholder}</option>
+            {if $fieldObj->getReadonly()}readonly{/if}>
+            {if $fieldObj->getMultipleChoice()}multiple{/if}
+
+            {if $fieldObj->getPlaceholder()}
+                <option selected value disabled>{$fieldObj->getPlaceholder()}</option>
             {/if}
 
-            {if isset($input_variable.preloaded) && $input_variable.preloaded}
-                {if isset($field_datasets[$input_variable.name])}
-                    {foreach $field_datasets[$input_variable.name] as $dataset_record}
-                        <option value="{$dataset_record[$option_value_column]}"
-                            {if isset($record)}
-                                {if $record[$input_variable.name] === $dataset_record[$option_value_column]}
+            {assign var="fieldName" value=$fieldObj->getName()}
+            {if $fieldObj->getPreloaded()}
+                {if isset($fieldDatasets[$fieldName])}
+                    {foreach $fieldDatasets[$fieldName] as $datasetRecord}
+                        <option value="{$datasetRecord[$optionValueColumn]}"
+                            {if !empty($record) && isset($record[$fieldName])}
+                                {if $record[$fieldName] === $datasetRecord[$optionValueColumn]}
                                     selected
                                 {/if}
-                            {elseif isset($presets) && isset($presets[$input_variable.name])}
-                                {if $presets[$input_variable.name] === $dataset_record[$option_value_column]}
+                            {elseif !empty($presets) && isset($presets[$fieldName])}
+                                {if $presets[$fieldName] === $datasetRecord[$optionValueColumn]}
                                     selected
                                 {/if}
                             {/if}>
-                            {$dataset_record[$option_label_column]}
+                            {$datasetRecord[$optionLabelColumn]}
                         </option>
                     {/foreach}
                 {/if}
@@ -60,14 +58,8 @@
 
         </select>
 
-        {if isset($input_variable.icon) && null !== $input_variable.icon && isset($input_variable.icon.position) && $input_variable.icon.position === "R"}
-            <span class="input-group-append">
-                <i class="input-group-text bg-dark text-white border-dark 
-                    {if isset($input_variable.icon.html_class) && !empty($input_variable.icon.html_class)}{$input_variable.icon.html_class}{/if}">
-                    {if isset($input_variable.icon.description) && !empty($input_variable.icon.description)}{$input_variable.icon.description}{/if}
-                </i>
-            </span>
-        {/if}
+        {assign var="iconPosition" value="R"}
+        {include file="Partials/field_icon.tpl"}
       
    </div>
 </div>

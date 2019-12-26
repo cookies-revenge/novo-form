@@ -14,11 +14,13 @@
     <controls>
 
         <control type="button" html_class="btn btn-primary js__special-button-class" icon="far fa-check" availability="*">
+            <name>Button1</name>
             <title>Button 1</title>
             <description>Button Title goes here, visible when hovering</description>
         </control>
 
         <control type="submit" html_class="btn btn-success" icon="far fa-check" availability="*">
+            <name>Button2</name>
             <title>Button 2</title>
             <description>Button Title 2</description>
         </control>
@@ -76,7 +78,7 @@
         </fieldgroup>
 
 
-        <field name="closing-date" type="datepicker" readonly="false" html_class="js__closing-date" availability="*" format="Y-m-d H:i:s" size="default" resizable="" preloaded="" source_url="" multiple_choice="">
+        <field name="closing-date" type="date" readonly="false" html_class="js__closing-date" availability="*" format="Y-m-d H:i:s" size="default" resizable="" preloaded="" source_url="" multiple_choice="">
 
             <placeholder>Select closing date... (placeholder)</placeholder>
             <label html_class="">Closing Date (Datepicker, field 4)</label>
@@ -104,6 +106,21 @@
                 <description>Browse Avatar...</description>
             </icon>
             <validation mandatory="true" max-filesize="64" />
+        </field>
+
+
+        <field name="number" type="numeric" availability="*" resizable="" preloaded="true">
+            <placeholder>Numeric</placeholder>
+            <label html_class="">Numeric</label>
+            <description html_class="">This is Numeric description. Max val = 5000.</description>
+            <validation max-value="5000" />
+        </field>
+
+        <field name="selectbox" type="select" availability="*" resizable="" preloaded="true">
+            <placeholder>Selectbox</placeholder>
+            <label html_class="">Selectbox</label>
+            <description html_class="">This is Selectbox description</description>
+            <validation mandatory="true" />
         </field>
 
 

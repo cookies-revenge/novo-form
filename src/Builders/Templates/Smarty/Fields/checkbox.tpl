@@ -1,41 +1,64 @@
-<div {if $input_variable.html_class}class="{$input_variable.html_class}"{/if}>
+<div {if $fieldObj->getHtmlClass()}class="{$fieldObj->getHtmlClass()}"{/if}>
 
-    <div class="input-group {if isset($input_variable.size) && null !== $input_variable.size}input-group-{$input_variable.size}{/if} novo-checkbox">
+    {assign var="fieldName" value=$fieldObj->getName()}
+    <div class="input-group {if $fieldObj->getSize()}input-group-{$fieldObj->getSize()}{/if} novo-checkbox">
 
         {if isset($record)}
 
             <input type="hidden" 
-                name="{$input_variable.name}" 
-                vito-name="{$input_variable.name}"
+                name="{$fieldName}" 
+                vito-name="{$fieldName}"
 
-                {foreach $input_variable.validation as $validation_type => $value}vito-{$validation_type}="{$value}"{/foreach} 
-                value="{if null !== $record[$input_variable.name] && $record[$input_variable.name] != 0}1{else}0{/if}" />
+                {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+                    vito-{$validationType}="{$value}"
+                {/foreach} 
+
+                value="{if null !== $record[$fieldName] && $record[$fieldName] != 0}1{else}0{/if}" />
 
             <input type="checkbox" 
-                name="{$input_variable.name}" 
-                vito-name="{$input_variable.name}-{$field_index}"
+                name="{$fieldName}" 
+                vito-name="{$fieldName}-{$fieldIndex}"
 
-                {foreach $input_variable.validation as $validation_type => $value}vito-{$validation_type}="{$value}"{/foreach} 
-                {if null !== $record[$input_variable.name] && $record[$input_variable.name] != 0}checked{/if} 
+                {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+                    vito-{$validationType}="{$value}"
+                {/foreach} 
+
+                {if !empty($record) && isset($record[$fieldName])}
+                    {if !empty($record[$fieldName])}
+                        checked
+                    {/if}
+                {/if} 
                 value="1" />
 
         {else}
         
             <input type="hidden" 
-                name="{$input_variable.name}" 
-                vito-name="{$input_variable.name}"
+                name="{$fieldName}" 
+                vito-name="{$fieldName}"
 
-                {foreach $input_variable.validation as $validation_type => $value}vito-{$validation_type}="{$value}"{/foreach} 
-                {if $input_variable.readonly}readonly{/if} 
+                {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+                    vito-{$validationType}="{$value}"
+                {/foreach} 
+
+                {if $fieldObj->getReadonly()}readonly{/if} 
                 value="0" />
 
             <input type="checkbox" 
-                name="{$input_variable.name}" 
-                vito-name="{$input_variable.name}-{$field_index}"
+                name="{$fieldName}" 
+                vito-name="{$fieldName}-{$fieldIndex}"
 
-                {foreach $input_variable.validation as $validation_type => $value}vito-{$validation_type}="{$value}"{/foreach} 
-                {if $input_variable.readonly}readonly{/if} 
-                {if $input_variable.checked}checked{/if} value="1" />
+                {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+                    vito-{$validationType}="{$value}"
+                {/foreach} 
+
+                {if $fieldObj->getReadonly()}readonly{/if} 
+
+                {if !empty($presets) && isset($presets[$fieldName])}
+                    {if !empty($presets[$fieldName])}
+                        checked
+                    {/if}
+                {/if}
+                value="1" />
 
         {/if}
 

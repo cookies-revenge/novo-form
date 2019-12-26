@@ -1,16 +1,17 @@
-<div {if $input_variable.html_class}class="{$input_variable.html_class}"{/if}>
+<div {if $fieldObj->getHtmlClass()}class="{$fieldObj->getHtmlClass()}"{/if}>
 
     <input type="hidden" 
-        name="{$input_variable.name}" 
-        vito-name="{$input_variable.name}-{$field_index}" 
+        name="{$fieldObj->getName()}" 
+        vito-name="{$fieldObj->getName()}-{$fieldIndex}" 
 
-    {if isset($input_variable.validation)}
-        {foreach $input_variable.validation as $validation_type => $value}vito-{$validation_type}="{$value}"{/foreach}
-    {/if}
+    {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+        vito-{$validationType}="{$value}"
+    {/foreach}
 
-    {if isset($record)}
-        value="{$record[$input_variable.name]}"
-    {elseif isset($presets) && isset($presets[$input_variable.name])}
-        value="{$presets[$input_variable.name]}"
+    {assign var="fieldName" value=$fieldObj->getName()}
+    {if !empty($record) && isset($record[$fieldName])}
+        value="{$record[$fieldName]}"
+    {elseif !empty($presets) && isset($presets[$fieldName])}
+        value="{$presets[$fieldName]}"
     {/if} />
 </div>

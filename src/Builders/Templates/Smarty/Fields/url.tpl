@@ -1,40 +1,31 @@
-<div {if $input_variable.html_class}class="{$input_variable.html_class}"{/if}>
+<div {if $fieldObj->getHtmlClass()}class="{$fieldObj->getHtmlClass()}"{/if}>
 
-   <div class="input-group {if isset($input_variable.size) && null !== $input_variable.size}input-group-{$input_variable.size}{/if}">
+   <div class="input-group {if $fieldObj->getSize() !== null}input-group-{$fieldObj->getSize()}{/if}">
 
-      {if isset($input_variable.icon) && null !== $input_variable.icon && isset($input_variable.icon.position) && $input_variable.icon.position === "L"}
-         <span class="input-group-prepend">
-               <i class="input-group-text bg-dark text-white border-dark 
-                  {if isset($input_variable.icon.html_class) && !empty($input_variable.icon.html_class)}{$input_variable.icon.html_class}{/if}">
-                  {if isset($input_variable.icon.description) && !empty($input_variable.icon.description)}{$input_variable.icon.description}{/if}
-               </i>
-         </span>
-      {/if}
+      {assign var="iconPosition" value="L"}
+      {include file="Partials/field_icon.tpl"}
 
 		<input class="form-control" type="url" 
-         name="{$input_variable.name}" 
-         placeholder="{if isset($input_variable.placeholder) && $input_variable.placeholder}{$input_variable.placeholder}{/if}"
-         vito-name="{$input_variable.name}-{$field_index}"
+         name="{$fieldObj->getName()}" 
+         placeholder="{if $fieldObj->getPlaceholder() !== null}{$fieldObj->getPlaceholder()}{/if}"
+         vito-name="{$fieldObj->getName()}-{$fieldIndex}"
 
-	      {foreach $input_variable.validation as $validation_type => $value}vito-{$validation_type}="{$value}"{/foreach} 
+	      {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+            vito-{$validationType}="{$value}"
+         {/foreach} 
 
-	      {if isset($input_variable.readonly) && $input_variable.readonly}readonly{/if}
+	      {if $fieldObj->getReadonly() === true}readonly{/if}
 
-         {if isset($record)}
-            value="{$record[$input_variable.name]}"
-         {elseif isset($presets) && isset($presets[$input_variable.name])}
-            value="{$presets[$input_variable.name]}"
+         {assign var="fieldName" value=$fieldObj->getName()}
+         {if !empty($record) && isset($record[$fieldName])}
+            value="{$record[$fieldName]}"
+         {elseif !empty($presets) && isset($presets[$fieldName])}
+            value="{$presets[$fieldName]}"
          {/if}
       />
 
-      {if isset($input_variable.icon) && null !== $input_variable.icon && isset($input_variable.icon.position) && $input_variable.icon.position === "R"}
-         <span class="input-group-append">
-               <i class="input-group-text bg-dark text-white border-dark 
-                  {if isset($input_variable.icon.html_class) && !empty($input_variable.icon.html_class)}{$input_variable.icon.html_class}{/if}">
-                  {if isset($input_variable.icon.description) && !empty($input_variable.icon.description)}{$input_variable.icon.description}{/if}
-               </i>
-         </span>
-      {/if}
+      {assign var="iconPosition" value="R"}
+      {include file="Partials/field_icon.tpl"}
       
    </div>
 </div>

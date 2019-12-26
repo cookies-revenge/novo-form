@@ -16,7 +16,10 @@ class XmlParser
     {
         $this->metadata_["entity"] = (string) $this->xml_["entity"] ?? null;
         $this->metadata_["class_name"] = (string) $this->xml_["class_name"] ?? null;
+        $this->metadata_["form_type"] = (string) $this->xml_["form_type"] ?? null;
         $this->metadata_["action_uri"] = (string) $this->xml_["action_uri"] ?? null;
+        $this->metadata_["success_uri"] = (string) $this->xml_["success_uri"] ?? null;
+        $this->metadata_["failure_uri"] = (string) $this->xml_["failure_uri"] ?? null;
 
         $this->metadata_["title"] = null;
         if (isset($this->xml_->title)) {
@@ -44,7 +47,7 @@ class XmlParser
             foreach ($controls as $control) {
                 $this->metadata_["control_definitions"][] = [
                     "type" => (string) $control["type"] ?? "button",
-                    "display_mode" => (string) $control["display_mode"] ?? "STANDARD",
+                    "name" => (string) $control->name ?? "na_button",
                     "html_class" => (string) $control["html_class"] ?? null,
                     "icon" => (string) $control["icon"] ?? null,
                     "availability" => (string) $control["availability"] ?? "*",
@@ -110,10 +113,13 @@ class XmlParser
             "size" => (string) $field["size"] ?? null,
             "resizable" => filter_var((string) $field["resizable"] ?? false, FILTER_VALIDATE_BOOLEAN),
             "source_url" => (string) $field["source_url"] ?? null,
-            "preloaded" => (string) $field["preloaded"] ?? true,
+            "preloaded" => filter_var((string) $field["preloaded"] ?? true, FILTER_VALIDATE_BOOLEAN),
             "multiple_choice" => filter_var((string) $field["multiple_choice"] ?? false, FILTER_VALIDATE_BOOLEAN),
             "accept_types" => (string) $field["accept_types"] ?? null,
+            "option_value_column" => (string) $field["option_value_column"] ?? null,
+            "option_label_column" => (string) $field["option_label_column"] ?? null,
         ];
+        
         foreach ($field->preceding_partial as $preceding) {
             $fieldDefinition["preceding_partial"][] = ["source" => (string) $preceding["source"] ?? null];
         }
@@ -126,6 +132,7 @@ class XmlParser
                 $fieldDefinition["validation"][$validationType] = (string) $validationValue;
             }
         }
+        
         if (isset($field->icon)) {
             $iconDefinition = [
                 "position" => (string) $field->icon["position"] ?? "L",

@@ -5,7 +5,7 @@ namespace CookiesRevenge\NovoForm\Builders;
 abstract class AbstractBuilder
 {
 
-    abstract public function BuildForm();
+    abstract public function Build();
 
     public function SetTemplatingEngine($templatingEngine)
     {
@@ -26,19 +26,6 @@ abstract class AbstractBuilder
     }
 
     /**
-     * Inject a definitions map.
-     * Map stores meta data about Form (field types, actions, validations...)
-     *
-     * @param mixed $definitionsMap Map with definitions for form wrapper, controls, validations, fields.
-     * @return $this The current object (for fluent API support)
-     */
-    public function SetDefinitionsMap($definitionsMap)
-    {
-        $this->definitionsMap_ = $definitionsMap;
-        return $this;
-    }
-
-    /**
      * Define a data collection for the form.
      * Implicitly calculates $resultsTotal by counting the data collection.
      *
@@ -48,27 +35,10 @@ abstract class AbstractBuilder
     public function SetDataCollection($dataCollection)
     {
         $this->dataCollection_ = $dataCollection;
-        $this->resultsTotal_ = count($dataCollection);
         return $this;
     }
 
-    /*
-     * templating engine
-     */
-    /** @var mixed */
     protected $templatingEngine_;
-
-    /*
-     * definitions map to build upon
-     */
-    /** @var mixed */
-    protected $definitionsMap_;
-
-    /*
-     * dataset
-     */
-    /** @var array */
     protected $dataCollection_ = [];
-
     protected $displayMode_;
 }
