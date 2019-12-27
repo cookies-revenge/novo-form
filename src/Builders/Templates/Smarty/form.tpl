@@ -1,11 +1,11 @@
 <section class="container novo-form-container">
 
-    {include file="Partials/form_title.tpl"}
+    {include file="file:Partials/form_title.tpl"}
 
 
     {* Inject form-level preceding partial(s) *}
     {assign var="partials" value=$formObj->getPrecedingPartials()}
-    {include file="Partials/partial.tpl"}
+    {include file="file:Partials/partial.tpl"}
 
 
     <form id="{$formObj->getEntity()}_form" 
@@ -16,10 +16,12 @@
         data-form-type="{$formObj->getFormType()}" 
         class="novo-form js__novo-form">
 
+        <input type="hidden" name="novo-form-identifier" value="{$formObj->getGuid()}" />
+
 
         {* Check if needed to show controls also on top of the Form; May be useful for tall forms *}
         {if $formObj->getDisplayDoubleControls() === true}
-            {include file="Partials/form_controls.tpl"}
+            {include file="file:Partials/form_controls.tpl"}
         {/if}
 
         {assign var="fieldIndex" value=0}
@@ -28,7 +30,7 @@
             {if $fieldObj->getAvailability() === "*" || 
                 (!empty($record) && $fieldObj->getAvailability() === "edit") || 
                 (empty($record) && $fieldObj->getAvailability() === "new")}
-                {include file="Fields/hidden.tpl"}
+                {include file="file:Fields/hidden.tpl"}
                 {* Increment field index; it is important as it is used to make validation identifiers unique *}
                 {$fieldIndex = $fieldIndex + 1}
             {/if}
@@ -47,8 +49,7 @@
                 {/if}
 
                 {if $fieldObj->getType() === "fieldgroup"}
-                    {assign var="field_group" value=$field_definition}
-                    {include file="Util/field_group.tpl"}
+                    {include file="file:{$fieldObj->GetTemplate()}"}
                     {* 
                      * util/field_group.tpl has it's own includes for partials, labels, descriptions... 
                      * so skip the code below after including it 
@@ -62,27 +63,24 @@
 
                     {* Inject field-level preceding partial(s) *}
                     {assign var="partials" value=$fieldObj->getPrecedingPartials()}
-                    {include file="Partials/partial.tpl"}
+                    {include file="file:Partials/partial.tpl"}
 
-                    {include file="Partials/field_label.tpl"}
-                    {include file="Partials/field_description.tpl"}
+                    {include file="file:Partials/field_label.tpl"}
+                    {include file="file:Partials/field_description.tpl"}
 
-                    {include file="{$fieldObj->GetTemplate()}"}
+                    {include file="file:{$fieldObj->GetTemplate()}"}
 
                     
                     
-                    {*if $field_definition.type === "complex"}
+                    {*if $fieldObj->getType() === "complex"}
                         {include file="util/complex_type.tpl"}
-                    {elseif $field_definition.type === "custom"}
-                    {else}
-                        {assign var="input_variable" value=$field_definition}
-                        {include file="Fields/{$field_definition.type}.tpl"}
+                    {elseif $fieldObj->getType() === "custom"}
                     {/if*}
 
 
                     {* Inject field-level succeeding partial(s) *}
                     {assign var="partials" value=$fieldObj->getSucceedingPartials()}
-                    {include file="Partials/partial.tpl"}
+                    {include file="file:Partials/partial.tpl"}
                 </div>
 
 
@@ -93,13 +91,13 @@
         {/foreach}
 
 
-        {include file="Partials/form_controls.tpl"}
+        {include file="file:Partials/form_controls.tpl"}
 
     </form>
 
 
     {* Inject form-level succeeding partial(s) *}
     {assign var="partials" value=$formObj->getSucceedingPartials()}
-    {include file="Partials/partial.tpl"}
+    {include file="file:Partials/partial.tpl"}
 
 </section>

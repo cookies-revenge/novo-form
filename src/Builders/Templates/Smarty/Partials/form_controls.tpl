@@ -3,7 +3,7 @@
         {if $controlObj->getAvailability() === "*" || 
             (!empty($record) && $controlObj->getAvailability() === "edit") || 
             (empty($record) && $controlObj->getAvailability() === "new")}
-            {include file="Controls/control.tpl"}
+            {include file="file:Controls/control.tpl"}
         {/if}
     {/foreach}
 </div>

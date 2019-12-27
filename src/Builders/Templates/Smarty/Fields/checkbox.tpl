@@ -1,7 +1,11 @@
-<div {if $fieldObj->getHtmlClass()}class="{$fieldObj->getHtmlClass()}"{/if}>
+{assign var="fieldObject" value=$fieldObj}
+{if !empty($subfieldObj)}
+   {$fieldObject =$subfieldObj}
+{/if}
+<div {if $fieldObject->getHtmlClass()}class="{$fieldObject->getHtmlClass()}"{/if}>
 
-    {assign var="fieldName" value=$fieldObj->getName()}
-    <div class="input-group {if $fieldObj->getSize()}input-group-{$fieldObj->getSize()}{/if} novo-checkbox">
+    {assign var="fieldName" value=$fieldObject->getName()}
+    <div class="input-group {if $fieldObject->getSize()}input-group-{$fieldObject->getSize()}{/if} novo-checkbox">
 
         {if isset($record)}
 
@@ -9,7 +13,7 @@
                 name="{$fieldName}" 
                 vito-name="{$fieldName}"
 
-                {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+                {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
                     vito-{$validationType}="{$value}"
                 {/foreach} 
 
@@ -19,7 +23,7 @@
                 name="{$fieldName}" 
                 vito-name="{$fieldName}-{$fieldIndex}"
 
-                {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+                {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
                     vito-{$validationType}="{$value}"
                 {/foreach} 
 
@@ -36,22 +40,22 @@
                 name="{$fieldName}" 
                 vito-name="{$fieldName}"
 
-                {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+                {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
                     vito-{$validationType}="{$value}"
                 {/foreach} 
 
-                {if $fieldObj->getReadonly()}readonly{/if} 
+                {if $fieldObject->getReadonly()}readonly{/if} 
                 value="0" />
 
             <input type="checkbox" 
                 name="{$fieldName}" 
                 vito-name="{$fieldName}-{$fieldIndex}"
 
-                {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+                {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
                     vito-{$validationType}="{$value}"
                 {/foreach} 
 
-                {if $fieldObj->getReadonly()}readonly{/if} 
+                {if $fieldObject->getReadonly()}readonly{/if} 
 
                 {if !empty($presets) && isset($presets[$fieldName])}
                     {if !empty($presets[$fieldName])}

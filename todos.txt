@@ -1,23 +1,28 @@
 
 ########## implement XML definition maps
 
-########## make missing props default to null (xml -> php)
+########## make missing attrs default to null (xml -> php)
 
-########## set a standard for definition maps ^
+########## set a standard for definition maps
 
-write docs for definition maps
+write docs for definition maps (*****)
 
-comment php code
+comment php code (*)
 
-napravi preprocesor za save_service... koji ce na bazi iste mape iz koje je izgradjena forma
-da uradi sanitizaciju/formatiranje vrednosti... na primer da odradi checkbox-eve, da vrati datum u timestamp...
-da izlaz bude preradjen array, koji moze direktno da se upuca u model kao
-->setByName($colName, $value)
+refactor php code (*)
 
-support za custom types
+########## napravi preprocesor za save_service... koji ce na bazi iste mape iz koje je izgradjena forma
+########## da uradi sanitizaciju/formatiranje vrednosti... na primer da odradi checkbox-eve, da vrati datum u timestamp...
+########## da izlaz bude preradjen array, koji moze direktno da se upuca u model kao
+########## ->setByName($colName, $value) (****)
 
-make a built-in debugger
+support za custom types (****)
 
-default styles (description, label, input, dropdown... )
+make a built-in debugger (*)
 
-file validations (filesize, max-width, min-width, max-height, min-height, aspect-ratio...)
+########## default styles (description, label, input, dropdown... )
+
+file validations (filesize, max-width, min-width, max-height, min-height, aspect-ratio...) (**)
+
+complex type treba da bude isti kao field group, ali da ima definisan class_name.
+na Save strani treba formirati povezane (complex) entitete, pa im uraditi save nakon parent entiteta. (****)

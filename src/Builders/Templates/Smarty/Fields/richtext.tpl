@@ -1,24 +1,28 @@
-<div {if $fieldObj->getHtmlClass()}class="{$fieldObj->getHtmlClass()}"{/if}>
+{assign var="fieldObject" value=$fieldObj}
+{if !empty($subfieldObj)}
+   {$fieldObject =$subfieldObj}
+{/if}
+<div {if $fieldObject->getHtmlClass()}class="{$fieldObject->getHtmlClass()}"{/if}>
 
     <textarea class="form-control novo-richtext js__richtext" rows="5" 
-        {if isset($fieldObj->getResizable()) && !$fieldObj->getResizable()}
+        {if isset($fieldObject->getResizable()) && !$fieldObject->getResizable()}
             style="resize:false;"
         {/if}
-        name="{$fieldObj->getName()}" 
-        placeholder="{if $fieldObj->getPlaceholder()}{$fieldObj->getPlaceholder()}{/if}"
-        vito-name="{$fieldObj->getName()}-{$fieldIndex}"
+        name="{$fieldObject->getName()}" 
+        placeholder="{if $fieldObject->getPlaceholder()}{$fieldObject->getPlaceholder()}{/if}"
+        vito-name="{$fieldObject->getName()}-{$fieldIndex}"
 
-        {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+        {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
             vito-{$validationType}="{$value}"
         {/foreach}
 
-        {if isset($fieldObj->getReadonly()) && $fieldObj->getReadonly()}readonly{/if}
-    >{assign var="fieldName" value=$fieldObj->getName()}{if !empty($record) && isset($record[$fieldName])}{$record[$fieldName]}{elseif !empty($presets) && isset($presets[$fieldName])}{$presets[$fieldName]}{/if}</textarea>
+        {if isset($fieldObject->getReadonly()) && $fieldObject->getReadonly()}readonly{/if}
+    >{assign var="fieldName" value=$fieldObject->getName()}{if !empty($record) && isset($record[$fieldName])}{$record[$fieldName]}{elseif !empty($presets) && isset($presets[$fieldName])}{$presets[$fieldName]}{/if}</textarea>
 
-    {if $fieldObj->getValidationCriteria("max-length") !== null}
+    {if $fieldObject->getValidationCriteria("max-length") !== null}
         <span class="text-gray-600 w-100 novo-richtext-counter-notification js__richtext-counter" 
-            data-default-counter-limit="{$fieldObj->getValidationCriteria("max-length")}">
-            Remaining: <i>{$fieldObj->getValidationCriteria("max-length")}</i>
+            data-default-counter-limit="{$fieldObject->getValidationCriteria("max-length")}">
+            Remaining: <i>{$fieldObject->getValidationCriteria("max-length")}</i>
         </span>
     {/if}
       

@@ -63,6 +63,7 @@ class XmlParser
             if ($field->getName() === "fieldgroup") {
                 $fieldDefinition = [
                     "type" => "fieldgroup",
+                    "name" => (string) $field["name"] ?? null,
                     "html_class" => (string) $field["html_class"] ?? null,
                     "label" => [
                         "text" => (string) $field->label ?? null,

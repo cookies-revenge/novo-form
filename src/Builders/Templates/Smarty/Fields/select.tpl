@@ -1,6 +1,10 @@
-<div {if $fieldObj->getHtmlClass()}class="{$fieldObj->getHtmlClass()}"{/if}>
+{assign var="fieldObject" value=$fieldObj}
+{if !empty($subfieldObj)}
+   {$fieldObject =$subfieldObj}
+{/if}
+<div {if $fieldObject->getHtmlClass()}class="{$fieldObject->getHtmlClass()}"{/if}>
 
-   <div class="input-group {if $fieldObj->getSize()}input-group-{$fieldObj->getSize()}{/if}">
+   <div class="input-group {if $fieldObject->getSize()}input-group-{$fieldObject->getSize()}{/if}">
 
         {assign var="iconPosition" value="L"}
         {include file="Partials/field_icon.tpl"}
@@ -8,36 +12,36 @@
         {* defaults *}
         {assign var="optionValueColumn" value="Id"}
         {assign var="optionLabelColumn" value="Title"}
-        {if $fieldObj->getOptionValueColumn()}
+        {if $fieldObject->getOptionValueColumn()}
             {* override, if defined *}
-            {$optionValueColumn = $fieldObj->getOptionValueColumn()}
+            {$optionValueColumn = $fieldObject->getOptionValueColumn()}
         {/if}
-        {if $fieldObj->getOptionLabelColumn()}
+        {if $fieldObject->getOptionLabelColumn()}
             {* override, if defined *}
-            {$optionLabelColumn = $fieldObj->getOptionLabelColumn()}
+            {$optionLabelColumn = $fieldObject->getOptionLabelColumn()}
         {/if}
 
 		<select class="form-control custom-select"  
-            name="{$fieldObj->getName()}" 
-            vito-name="{$fieldObj->getName()}-{$fieldIndex}"
-            data-preloaded="{if isset($fieldObj->getPreloaded()) && $fieldObj->getPreloaded()}true{else}false{/if}" 
-            {if isset($fieldObj->getSourceUrl()) && null !== $fieldObj->getSourceUrl()}
-                data-source-url="{$fieldObj->getSourceUrl()}"
+            name="{$fieldObject->getName()}" 
+            vito-name="{$fieldObject->getName()}-{$fieldIndex}"
+            data-preloaded="{if isset($fieldObject->getPreloaded()) && $fieldObject->getPreloaded()}true{else}false{/if}" 
+            {if isset($fieldObject->getSourceUrl()) && null !== $fieldObject->getSourceUrl()}
+                data-source-url="{$fieldObject->getSourceUrl()}"
             {/if}
 
-            {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+            {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
                 vito-{$validationType}="{$value}"
             {/foreach}
 
-            {if $fieldObj->getReadonly()}readonly{/if}>
-            {if $fieldObj->getMultipleChoice()}multiple{/if}
+            {if $fieldObject->getReadonly()}readonly{/if}>
+            {if $fieldObject->getMultipleChoice()}multiple{/if}
 
-            {if $fieldObj->getPlaceholder()}
-                <option selected value disabled>{$fieldObj->getPlaceholder()}</option>
+            {if $fieldObject->getPlaceholder()}
+                <option selected value disabled>{$fieldObject->getPlaceholder()}</option>
             {/if}
 
-            {assign var="fieldName" value=$fieldObj->getName()}
-            {if $fieldObj->getPreloaded()}
+            {assign var="fieldName" value=$fieldObject->getName()}
+            {if $fieldObject->getPreloaded()}
                 {if isset($fieldDatasets[$fieldName])}
                     {foreach $fieldDatasets[$fieldName] as $datasetRecord}
                         <option value="{$datasetRecord[$optionValueColumn]}"

@@ -1,22 +1,26 @@
-<div {if $fieldObj->getHtmlClass()}class="{$fieldObj->getHtmlClass()}"{/if}>
+{assign var="fieldObject" value=$fieldObj}
+{if !empty($subfieldObj)}
+   {$fieldObject =$subfieldObj}
+{/if}
+<div {if $fieldObject->getHtmlClass()}class="{$fieldObject->getHtmlClass()}"{/if}>
 
-   <div class="input-group {if $fieldObj->getSize() !== null}input-group-{$fieldObj->getSize()}{/if}">
+   <div class="input-group {if $fieldObject->getSize() !== null}input-group-{$fieldObject->getSize()}{/if}">
 
       {assign var="iconPosition" value="L"}
       {include file="Partials/field_icon.tpl"}
 
 		<input class="form-control" type="url" 
-         name="{$fieldObj->getName()}" 
-         placeholder="{if $fieldObj->getPlaceholder() !== null}{$fieldObj->getPlaceholder()}{/if}"
-         vito-name="{$fieldObj->getName()}-{$fieldIndex}"
+         name="{$fieldObject->getName()}" 
+         placeholder="{if $fieldObject->getPlaceholder() !== null}{$fieldObject->getPlaceholder()}{/if}"
+         vito-name="{$fieldObject->getName()}-{$fieldIndex}"
 
-	      {foreach $fieldObj->getValidationCriterias() as $validationType => $value}
+	      {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
             vito-{$validationType}="{$value}"
          {/foreach} 
 
-	      {if $fieldObj->getReadonly() === true}readonly{/if}
+	      {if $fieldObject->getReadonly() === true}readonly{/if}
 
-         {assign var="fieldName" value=$fieldObj->getName()}
+         {assign var="fieldName" value=$fieldObject->getName()}
          {if !empty($record) && isset($record[$fieldName])}
             value="{$record[$fieldName]}"
          {elseif !empty($presets) && isset($presets[$fieldName])}

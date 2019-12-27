@@ -46,7 +46,7 @@
         </field>
 
 
-        <fieldgroup html_class="bg-light rounded rounded-lg">
+        <fieldgroup html_class="bg-light rounded rounded-lg" name="fieldgroup1">
 
             <label html_class="font-weight-bold text-uppercase text-info">Field Group</label>
             <description html_class="">This is field group. Email and Password will be contained in this group.</description>
