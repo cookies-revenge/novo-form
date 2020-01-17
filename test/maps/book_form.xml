@@ -1,0 +1,103 @@
+<form entity="books" class_name="\Test\Models\Book" type="standard" display_double_controls="true" action_uri="simple_form_be.php">
+
+
+
+    <title html_class="text-danger" type="h1">BOOK FORM</title>
+
+
+    <controls>
+
+        <control type="button" html_class="btn btn-primary js__special-button-class" icon="far fa-check" availability="*">
+            <name>Button1</name>
+            <title>Button 1</title>
+            <description>Button with no action</description>
+        </control>
+
+        <control type="submit" html_class="btn btn-success" icon="far fa-check" availability="*">
+            <name>Submit</name>
+            <title>Submit</title>
+            <description>Button Submit</description>
+        </control>
+
+    </controls>
+
+
+
+    <fields>
+
+
+        <fieldgroup html_class="bg-light rounded rounded-lg" name="fieldgroup1">
+
+            <label html_class="font-weight-bold text-uppercase text-info">Title &amp; Subtitle</label>
+            <description html_class="">Please fill mandatory data in this box</description>
+
+            <field name="Title" type="input" readonly="false" html_class="" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
+
+                <placeholder>Book Title...</placeholder>
+                <label html_class="">Book Title</label>
+                <description html_class="">Enter a Book Title (max 128 characters)</description>
+                <validation mandatory="true" max-length="128" />
+
+            </field>
+
+
+            <field name="Subtitle" type="input" readonly="false" html_class="" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
+
+                <placeholder>Book Subtitle...</placeholder>
+                <label html_class="">Book Subtitle</label>
+                <description html_class="">Enter a Book Subtitle (max 256 characters)</description>
+                <validation mandatory="true" max-length="256" />
+
+            </field>
+
+            <field name="AuthorId" type="select" availability="*" resizable="" preloaded="true">
+                <placeholder>Book Author...</placeholder>
+                <label html_class="">Book Author</label>
+                <description html_class="">Please Select from the List</description>
+                <validation mandatory="true" />
+            </field>
+
+        </fieldgroup>
+
+
+        <field name="PublishDate" type="timestamp" readonly="false" availability="*" format="Y-m-d H:i:s" size="default" resizable="" preloaded="" source_url="" multiple_choice="">
+
+            <placeholder>Publish Date...</placeholder>
+            <label html_class="">Publish Date</label>
+            <description html_class="">Here a Datepicker component should be initialized</description>
+            <icon position="R" html_class="far fa-calendar-alt">
+                <description></description>
+            </icon>
+            <validation mandatory="true" />
+
+        </field>
+
+
+        <field name="Abstract" type="textarea" availability="*" resizable="false">
+            <placeholder>Abstract...</placeholder>
+            <label html_class="">Book Abstract</label>
+            <description html_class="">Please input a few paragraphs here</description>
+        </field>
+
+
+
+        <field name="TotalPages" type="numeric" availability="*" resizable="" preloaded="true">
+            <placeholder>Total Pages...</placeholder>
+            <label html_class="">Total Pages</label>
+            <description html_class="">Total Pages of the Book (numeric)</description>
+            <validation max-value="2000" />
+        </field>
+
+        <field name="Genre" type="select" availability="*" resizable="" preloaded="true">
+            <placeholder>Book Genre...</placeholder>
+            <label html_class="">Book Genre</label>
+            <description html_class="">Please Select from the List</description>
+            <validation mandatory="true" />
+        </field>
+
+
+    </fields>
+
+
+
+</form>

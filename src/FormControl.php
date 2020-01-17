@@ -7,7 +7,7 @@ class FormControl {
         return $controlHtml;
     }
 
-    public function addVisibilityCriteria($criteriaType, $criteriaValue) {
+    public function AddVisibilityCriteria($criteriaType, $criteriaValue) {
         $this->visibilityCriterias_[$criteriaType] = $criteriaValue;
     }
 
@@ -24,7 +24,7 @@ class FormControl {
     /**
      * Get the value of type_
      */ 
-    public function getType()
+    public function GetType()
     {
         return $this->type_;
     }
@@ -34,7 +34,7 @@ class FormControl {
      *
      * @return  self
      */ 
-    public function setType($type)
+    public function SetType($type)
     {
         $this->type_ = $type;
 
@@ -44,7 +44,7 @@ class FormControl {
     /**
      * Get the value of name_
      */ 
-    public function getName()
+    public function GetName()
     {
         return $this->name_;
     }
@@ -54,7 +54,7 @@ class FormControl {
      *
      * @return  self
      */ 
-    public function setName($name)
+    public function SetName($name)
     {
         $this->name_ = $name;
 
@@ -64,7 +64,7 @@ class FormControl {
     /**
      * Get the value of htmlClass_
      */ 
-    public function getHtmlClass()
+    public function GetHtmlClass()
     {
         return $this->htmlClass_;
     }
@@ -74,7 +74,7 @@ class FormControl {
      *
      * @return  self
      */ 
-    public function setHtmlClass($htmlClass)
+    public function SetHtmlClass($htmlClass)
     {
         $this->htmlClass_ = $htmlClass;
 
@@ -84,7 +84,7 @@ class FormControl {
     /**
      * Get the value of icon_
      */ 
-    public function getIcon()
+    public function GetIcon()
     {
         return $this->icon_;
     }
@@ -94,7 +94,7 @@ class FormControl {
      *
      * @return  self
      */ 
-    public function setIcon($icon)
+    public function SetIcon($icon)
     {
         $this->icon_ = $icon;
 
@@ -104,7 +104,7 @@ class FormControl {
     /**
      * Get the value of availability_
      */ 
-    public function getAvailability()
+    public function GetAvailability()
     {
         return $this->availability_;
     }
@@ -114,7 +114,7 @@ class FormControl {
      *
      * @return  self
      */ 
-    public function setAvailability($availability)
+    public function SetAvailability($availability)
     {
         $this->availability_ = $availability;
 
@@ -124,7 +124,7 @@ class FormControl {
     /**
      * Get the value of title_
      */ 
-    public function getTitle()
+    public function GetTitle()
     {
         return $this->title_;
     }
@@ -134,7 +134,7 @@ class FormControl {
      *
      * @return  self
      */ 
-    public function setTitle($title)
+    public function SetTitle($title)
     {
         $this->title_ = $title;
 
@@ -144,7 +144,7 @@ class FormControl {
     /**
      * Get the value of description_
      */ 
-    public function getDescription()
+    public function GetDescription()
     {
         return $this->description_;
     }
@@ -154,7 +154,7 @@ class FormControl {
      *
      * @return  self
      */ 
-    public function setDescription($description)
+    public function SetDescription($description)
     {
         $this->description_ = $description;
 

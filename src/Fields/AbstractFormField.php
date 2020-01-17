@@ -18,7 +18,10 @@ abstract class AbstractFormField
 
     public function ToValue()
     {
-        return $this->fieldValue_;
+        if ($this->toValueProcessor_ === null)
+            return $this->fieldValue_;
+
+        return $this->toValueProcessor_->call($this, $this->fieldValue_);
     }
 
     protected $type_ = null;
@@ -48,10 +51,12 @@ abstract class AbstractFormField
     protected $fieldValue_ = null;
     protected $fieldTemplate_ = null;
 
+    protected $toValueProcessor_ = null;
+
     /**
      * Get the value of type_
      */
-    public function getType()
+    public function GetType()
     {
         return $this->type_;
     }
@@ -61,7 +66,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setType($type)
+    public function SetType($type)
     {
         $this->type_ = $type;
 
@@ -71,7 +76,7 @@ abstract class AbstractFormField
     /**
      * Get the value of name_
      */
-    public function getName()
+    public function GetName()
     {
         return $this->name_;
     }
@@ -81,7 +86,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setName($name)
+    public function SetName($name)
     {
         $this->name_ = $name;
 
@@ -91,7 +96,7 @@ abstract class AbstractFormField
     /**
      * Get the value of placeholder_
      */
-    public function getPlaceholder()
+    public function GetPlaceholder()
     {
         return $this->placeholder_;
     }
@@ -101,7 +106,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setPlaceholder($placeholder)
+    public function SetPlaceholder($placeholder)
     {
         $this->placeholder_ = $placeholder;
 
@@ -111,7 +116,7 @@ abstract class AbstractFormField
     /**
      * Get the value of label_
      */
-    public function getLabel()
+    public function GetLabel()
     {
         return $this->label_;
     }
@@ -121,7 +126,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setLabel($label)
+    public function SetLabel($label)
     {
         if (\is_array($label) && array_key_exists("text", $label)) {
             $this->label_ = $label;
@@ -134,7 +139,7 @@ abstract class AbstractFormField
     /**
      * Get the value of description_
      */
-    public function getDescription()
+    public function GetDescription()
     {
         return $this->description_;
     }
@@ -144,7 +149,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setDescription($description)
+    public function SetDescription($description)
     {
         if (\is_array($description) && array_key_exists("text", $description)) {
             $this->description_ = $description;
@@ -157,7 +162,7 @@ abstract class AbstractFormField
     /**
      * Get the value of readonly_
      */
-    public function getReadonly()
+    public function GetReadonly()
     {
         return $this->readonly_;
     }
@@ -167,7 +172,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setReadonly($readonly)
+    public function SetReadonly($readonly)
     {
         $this->readonly_ = $readonly;
 
@@ -177,7 +182,7 @@ abstract class AbstractFormField
     /**
      * Get the value of htmlClass_
      */
-    public function getHtmlClass()
+    public function GetHtmlClass()
     {
         return $this->htmlClass_;
     }
@@ -187,7 +192,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setHtmlClass($htmlClass)
+    public function SetHtmlClass($htmlClass)
     {
         $this->htmlClass_ = $htmlClass;
 
@@ -197,7 +202,7 @@ abstract class AbstractFormField
     /**
      * Get the value of availability_
      */
-    public function getAvailability()
+    public function GetAvailability()
     {
         return $this->availability_;
     }
@@ -207,7 +212,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setAvailability($availability)
+    public function SetAvailability($availability)
     {
         $this->availability_ = $availability;
 
@@ -217,7 +222,7 @@ abstract class AbstractFormField
     /**
      * Get the value of format_
      */
-    public function getFormat()
+    public function GetFormat()
     {
         return $this->format_;
     }
@@ -227,7 +232,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setFormat($format)
+    public function SetFormat($format)
     {
         $this->format_ = $format;
 
@@ -237,7 +242,7 @@ abstract class AbstractFormField
     /**
      * Get the value of size_
      */
-    public function getSize()
+    public function GetSize()
     {
         return $this->size_;
     }
@@ -247,7 +252,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setSize($size)
+    public function SetSize($size)
     {
         $this->size_ = $size;
 
@@ -257,7 +262,7 @@ abstract class AbstractFormField
     /**
      * Get the value of resizable_
      */
-    public function getResizable()
+    public function GetResizable()
     {
         return $this->resizable_;
     }
@@ -267,7 +272,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setResizable($resizable)
+    public function SetResizable($resizable)
     {
         $this->resizable_ = $resizable;
 
@@ -277,7 +282,7 @@ abstract class AbstractFormField
     /**
      * Get the value of sourceUrl_
      */
-    public function getSourceUrl()
+    public function GetSourceUrl()
     {
         return $this->sourceUrl_;
     }
@@ -287,7 +292,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setSourceUrl($sourceUrl)
+    public function SetSourceUrl($sourceUrl)
     {
         $this->sourceUrl_ = $sourceUrl;
 
@@ -297,7 +302,7 @@ abstract class AbstractFormField
     /**
      * Get the value of preloaded_
      */
-    public function getPreloaded()
+    public function GetPreloaded()
     {
         return $this->preloaded_;
     }
@@ -307,7 +312,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setPreloaded($preloaded)
+    public function SetPreloaded($preloaded)
     {
         $this->preloaded_ = $preloaded;
 
@@ -317,7 +322,7 @@ abstract class AbstractFormField
     /**
      * Get the value of multipleChoice_
      */
-    public function getMultipleChoice()
+    public function GetMultipleChoice()
     {
         return $this->multipleChoice_;
     }
@@ -327,7 +332,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setMultipleChoice($multipleChoice)
+    public function SetMultipleChoice($multipleChoice)
     {
         $this->multipleChoice_ = $multipleChoice;
 
@@ -337,7 +342,7 @@ abstract class AbstractFormField
     /**
      * Get the value of acceptTypes_
      */
-    public function getAcceptTypes()
+    public function GetAcceptTypes()
     {
         return $this->acceptTypes_;
     }
@@ -347,7 +352,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setAcceptTypes($acceptTypes)
+    public function SetAcceptTypes($acceptTypes)
     {
         $this->acceptTypes_ = $acceptTypes;
 
@@ -357,7 +362,7 @@ abstract class AbstractFormField
     /**
      * Get the value of precedingPartials_
      */
-    public function getPrecedingPartials()
+    public function GetPrecedingPartials()
     {
         return $this->precedingPartials_;
     }
@@ -367,7 +372,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setPrecedingPartials($precedingPartials)
+    public function SetPrecedingPartials($precedingPartials)
     {
         $this->precedingPartials_ = $precedingPartials;
 
@@ -377,7 +382,7 @@ abstract class AbstractFormField
     /**
      * Get the value of succeedingPartials_
      */
-    public function getSucceedingPartials()
+    public function GetSucceedingPartials()
     {
         return $this->succeedingPartials_;
     }
@@ -387,7 +392,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setSucceedingPartials($succeedingPartials)
+    public function SetSucceedingPartials($succeedingPartials)
     {
         $this->succeedingPartials_ = $succeedingPartials;
 
@@ -397,7 +402,7 @@ abstract class AbstractFormField
     /**
      * Get the value of fieldIcons_
      */
-    public function getFieldIcons()
+    public function GetFieldIcons()
     {
         return $this->fieldIcons_;
     }
@@ -407,7 +412,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setFieldIcons($fieldIcons)
+    public function SetFieldIcons($fieldIcons)
     {
         $this->fieldIcons_ = $fieldIcons;
 
@@ -417,7 +422,7 @@ abstract class AbstractFormField
     /**
      * Get the value of visibilityCriterias_
      */
-    public function getVisibilityCriterias()
+    public function GetVisibilityCriterias()
     {
         return $this->visibilityCriterias_;
     }
@@ -427,26 +432,33 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setVisibilityCriterias($visibilityCriterias)
+    public function SetVisibilityCriterias($visibilityCriterias)
     {
         $this->visibilityCriterias_ = $visibilityCriterias;
 
         return $this;
     }
 
-    public function addVisibilityCriteria($criteriaType, $criteriaValue)
+    public function AddVisibilityCriteria($criteriaType, $criteriaValue)
     {
         $this->visibilityCriterias_[$criteriaType] = $criteriaValue;
         return $this;
     }
 
-    public function addValidationCriteria($criteriaType, $criteriaValue)
+    public function AddValidationCriteria($criteriaType, $criteriaValue)
     {
         $this->validationCriterias_[$criteriaType] = $criteriaValue;
         return $this;
     }
 
-    public function addSucceedingPartial($partial)
+    public function RemoveValidationCriteria($criteriaType)
+    {
+        if (isset($this->validationCriterias_[$criteriaType]))
+            unset($this->validationCriterias_[$criteriaType]);
+        return $this;
+    }
+
+    public function AddSucceedingPartial($partial)
     {
         if (\is_array($partial) && array_key_exists("source", $partial)) {
             $this->succeedingPartials_[] = $partial;
@@ -456,7 +468,7 @@ abstract class AbstractFormField
         return $this;
     }
 
-    public function addPrecedingPartial($partial)
+    public function AddPrecedingPartial($partial)
     {
         if (\is_array($partial) && array_key_exists("source", $partial)) {
             $this->precedingPartials_[] = $partial;
@@ -469,7 +481,7 @@ abstract class AbstractFormField
     /**
      * Get the value of fieldValue_
      */
-    public function getFieldValue()
+    public function GetFieldValue()
     {
         return $this->fieldValue_;
     }
@@ -479,7 +491,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setFieldValue($fieldValue)
+    public function SetFieldValue($fieldValue)
     {
         $this->fieldValue_ = $fieldValue;
 
@@ -489,7 +501,7 @@ abstract class AbstractFormField
     /**
      * Get the value of validationCriterias_
      */
-    public function getValidationCriterias()
+    public function GetValidationCriterias()
     {
         return $this->validationCriterias_;
     }
@@ -499,14 +511,14 @@ abstract class AbstractFormField
      *
      * @return  self
      */
-    public function setValidationCriterias($validationCriterias)
+    public function SetValidationCriterias($validationCriterias)
     {
         $this->validationCriterias_ = $validationCriterias;
 
         return $this;
     }
 
-    public function getValidationCriteria($criteria)
+    public function GetValidationCriteria($criteria)
     {
         return $this->validationCriterias_[$criteria] ?? null;
     }
@@ -514,7 +526,7 @@ abstract class AbstractFormField
     /**
      * Get the value of optionValueColumn_
      */ 
-    public function getOptionValueColumn()
+    public function GetOptionValueColumn()
     {
         return $this->optionValueColumn_;
     }
@@ -524,7 +536,7 @@ abstract class AbstractFormField
      *
      * @return  self
      */ 
-    public function setOptionValueColumn($optionValueColumn)
+    public function SetOptionValueColumn($optionValueColumn)
     {
         $this->optionValueColumn_ = $optionValueColumn;
 
@@ -534,7 +546,7 @@ abstract class AbstractFormField
     /**
      * Get the value of optionLabelColumn_
      */ 
-    public function getOptionLabelColumn()
+    public function GetOptionLabelColumn()
     {
         return $this->optionLabelColumn_;
     }
@@ -544,10 +556,15 @@ abstract class AbstractFormField
      *
      * @return  self
      */ 
-    public function setOptionLabelColumn($optionLabelColumn)
+    public function SetOptionLabelColumn($optionLabelColumn)
     {
         $this->optionLabelColumn_ = $optionLabelColumn;
 
         return $this;
+    }
+
+    public function SetToValueProcessor($function)
+    {
+        $this->toValueProcessor_ = $function;
     }
 }

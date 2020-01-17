@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="nf_test" tablePrefix="nft__" defaultIdMethod="native" namespace="Test\Models" defaultPhpNamingMethod="underscore">
+
+
+    <table name="authors" idMethod="native" phpName="Author">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="crdate" phpName="Crdate" type="INTEGER" required="true" defaultValue="0"/>
+        <column name="tstamp" phpName="Tstamp" type="INTEGER" required="true" defaultValue="0"/>
+        <column name="title" phpName="Title" type="VARCHAR" size="128" required="true"/>
+
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+        </vendor>
+    </table>
+
+    <table name="books" idMethod="native" phpName="Book">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="crdate" phpName="Crdate" type="INTEGER" required="true" defaultValue="0"/>
+        <column name="tstamp" phpName="Tstamp" type="INTEGER" required="true" defaultValue="0"/>
+        <column name="title" phpName="Title" type="VARCHAR" size="128" required="true"/>
+        <column name="subtitle" phpName="Subtitle" type="VARCHAR" size="256" required="true"/>
+        <column name="total_pages" phpName="TotalPages" type="INTEGER" required="true" defaultValue="0"/>
+        <column name="publish_date" phpName="PublishDate" type="INTEGER" required="true" defaultValue="0"/>
+        <column name="abstract" phpName="Abstract" type="LONGVARCHAR"/>
+        <column name="genre" phpName="Genre" type="INTEGER" required="true" defaultValue="0"/>
+
+        <column name="author_id" phpName="AuthorId" type="INTEGER" required="true"/>
+        <foreign-key foreignTable="authors" phpName="Author">
+            <reference local="author_id" foreign="id"/>
+        </foreign-key>
+
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+        </vendor>
+    </table>
+
+</database>

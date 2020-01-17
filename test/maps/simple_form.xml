@@ -1,4 +1,4 @@
-<form entity="linestops" class_name="Linestop" type="standard" display_double_controls="true" action_uri="simple_form_be.php">
+<form entity="linestops" class_name="\APP\Models\Linestop" type="standard" display_double_controls="true" action_uri="simple_form_be.php">
 
 
 

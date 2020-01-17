@@ -18,13 +18,18 @@ class FieldGroup extends AbstractFormField
         return null;
     }
 
+    public function ListFields()
+    {
+        return $this->subfields_;
+    }
+
     private $subfields_ = [];
     
 
     /**
      * Get the value of subfields_
      */ 
-    public function getSubfields()
+    public function GetSubfields()
     {
         return $this->subfields_;
     }
@@ -34,27 +39,57 @@ class FieldGroup extends AbstractFormField
      *
      * @return  self
      */ 
-    public function setSubfields($subfields)
+    public function SetSubfields($subfields)
     {
         $this->subfields_ = $subfields;
         return $this;
     }
 
-    public function prependSubfield($subfieldObj)
+    public function GetSubfieldByName($subfieldName)
     {
-        if (!($subfieldObj instanceof \CookiesRevenge\NovoForm\Fields\AbstractFormField)) {
-            throw new \Exception("Invalid Subfield prepended in " . __CLASS__ . "::" . __FUNCTION__);
-        }
-
-        $this->subfields_ = [$subfieldObj->getName() => $subfieldObj] + $this->subfields_;
+        if (isset($this->subfields_[$subfieldName]))
+            return $this->subfields_[$subfieldName];
+        
+        return null;
     }
 
-    public function appendSubfield($subfieldObj)
+    public function PrependSubfield($fieldObj)
     {
-        if (!($subfieldObj instanceof \CookiesRevenge\NovoForm\Fields\AbstractFormField)) {
-            throw new \Exception("Invalid Subfield appended in " . __CLASS__ . "::" . __FUNCTION__);
+        if (!($fieldObj instanceof \CookiesRevenge\NovoForm\Fields\AbstractFormField)) {
+            throw new \Exception("Invalid Field prepended in " . __CLASS__ . "::" . __FUNCTION__);
         }
 
-        $this->subfields_[$subfieldObj->getName()] = $subfieldObj;
+        $this->subfields_ = [$fieldObj->getName() => $fieldObj] + $this->subfields_;
+    }
+
+    public function AppendSubfield($fieldObj)
+    {
+        if (!($fieldObj instanceof \CookiesRevenge\NovoForm\Fields\AbstractFormField)) {
+            throw new \Exception("Invalid Field appended in " . __CLASS__ . "::" . __FUNCTION__);
+        }
+
+        $this->subfields_[$fieldObj->getName()] = $fieldObj;
+    }
+
+    public function AddSubfieldBefore($name, $fieldObj) 
+    {
+        if (!($fieldObj instanceof \CookiesRevenge\NovoForm\Fields\AbstractFormField)) {
+            throw new \Exception("Invalid Field appended in " . __CLASS__ . "::" . __FUNCTION__);
+        }
+
+        $this->subfields_ = array_slice($this->subfields_, 0, array_search($name, array_keys($this->subfields_)), true)
+            + [$fieldObj->getName() => $fieldObj]
+            + array_slice($this->subfields_, array_search($name, array_keys($this->subfields_)), count($this->subfields_), true);
+    }
+
+    public function AddSubfieldAfter($name, $fieldObj) 
+    {
+        if (!($fieldObj instanceof \CookiesRevenge\NovoForm\Fields\AbstractFormField)) {
+            throw new \Exception("Invalid Field appended in " . __CLASS__ . "::" . __FUNCTION__);
+        }
+
+        $this->subfields_ = array_slice($this->subfields_, 0, array_search($name, array_keys($this->subfields_)) + 1, true)
+            + [$fieldObj->getName() => $fieldObj]
+            + array_slice($this->subfields_, array_search($name, array_keys($this->subfields_)) + 1, count($this->subfields_), true);
     }
 }

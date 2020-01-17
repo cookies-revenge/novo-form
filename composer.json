@@ -5,7 +5,8 @@
   "require": {
     "php": ">=5.5",
     "smarty/smarty": "^3.1",
-    "jeremeamia/superclosure": "^2.4"
+    "opis/closure": "^3.5",
+    "propel/propel": "2.0.0-alpha8"
   },
   "require-dev": {},
   "license": "mit",

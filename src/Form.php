@@ -1,8 +1,7 @@
 <?php
 namespace CookiesRevenge\NovoForm;
 
-use SuperClosure\Serializer;
-        use SuperClosure\Analyzer\TokenAnalyzer;
+use function Opis\Closure\{serialize as super_serialize, unserialize as super_unserialize};
 
 use CookiesRevenge\NovoForm\Builders\FormBuilder;
 use CookiesRevenge\NovoForm\Builders\Parsers\XmlParser;
@@ -31,13 +30,13 @@ class Form
 
         foreach ($defs["control_definitions"] as $controlDefinition) {
             $formControl = new FormControl();
-            $formControl->setType($controlDefinition["type"])
-                ->setName($controlDefinition["name"])
-                ->setHtmlClass($controlDefinition["html_class"])
-                ->setIcon($controlDefinition["icon"])
-                ->setAvailability($controlDefinition["availability"])
-                ->setTitle($controlDefinition["title"])
-                ->setDescription($controlDefinition["description"]);
+            $formControl->SetType($controlDefinition["type"])
+                ->SetName($controlDefinition["name"])
+                ->SetHtmlClass($controlDefinition["html_class"])
+                ->SetIcon($controlDefinition["icon"])
+                ->SetAvailability($controlDefinition["availability"])
+                ->SetTitle($controlDefinition["title"])
+                ->SetDescription($controlDefinition["description"]);
             $this->controlObjects_[$controlDefinition["name"]] = $formControl;
         }
 
@@ -57,13 +56,15 @@ class Form
         }
     }
 
-
     public function Unserialize($serializedForm) 
     {
-        $serializer = new Serializer(new TokenAnalyzer());
-        return $serializer->unserialize($serializedForm);
+        return super_unserialize($serializedForm);
     }
 
+    public function Serialize() 
+    {
+        return super_serialize($this);
+    }
 
     private function initForm($defs)
     {
@@ -95,6 +96,7 @@ class Form
                 break;
             case "date":
             case "datepicker":
+            case "timestamp":
                 $formField = new \CookiesRevenge\NovoForm\Fields\Date();
                 break;
             case "url":
@@ -137,59 +139,59 @@ class Form
 
     private function buildFormField($formField, $fieldDefinition)
     {
-        $formField->setType($fieldDefinition["type"])
-            ->setName($fieldDefinition["name"])
+        $formField->SetType($fieldDefinition["type"])
+            ->SetName($fieldDefinition["name"])
 
             // availability mode
-            ->setAvailability($fieldDefinition["availability"])
+            ->SetAvailability($fieldDefinition["availability"])
 
             // labels & descriptions
-            ->setLabel($fieldDefinition["label"])
-            ->setDescription($fieldDefinition["description"])
-            ->setPlaceholder($fieldDefinition["placeholder"])
+            ->SetLabel($fieldDefinition["label"])
+            ->SetDescription($fieldDefinition["description"])
+            ->SetPlaceholder($fieldDefinition["placeholder"])
 
             // partials
-            ->setPrecedingPartials($fieldDefinition["preceding_partial"] ?? [])
-            ->setSucceedingPartials($fieldDefinition["succeeding_partial"] ?? [])
+            ->SetPrecedingPartials($fieldDefinition["preceding_partial"] ?? [])
+            ->SetSucceedingPartials($fieldDefinition["succeeding_partial"] ?? [])
 
             // html attributes, classes & similar definitions
-            ->setHtmlClass($fieldDefinition["html_class"])
-            ->setReadonly($fieldDefinition["readonly"])
-            ->setFormat($fieldDefinition["format"])
-            ->setSize($fieldDefinition["size"])
-            ->setResizable($fieldDefinition["resizable"])
-            ->setMultipleChoice($fieldDefinition["multiple_choice"])
-            ->setAcceptTypes($fieldDefinition["accept_types"])
+            ->SetHtmlClass($fieldDefinition["html_class"])
+            ->SetReadonly($fieldDefinition["readonly"])
+            ->SetFormat($fieldDefinition["format"])
+            ->SetSize($fieldDefinition["size"])
+            ->SetResizable($fieldDefinition["resizable"])
+            ->SetMultipleChoice($fieldDefinition["multiple_choice"])
+            ->SetAcceptTypes($fieldDefinition["accept_types"])
 
             // dynamic load definitions
-            ->setPreloaded($fieldDefinition["preloaded"])
-            ->setSourceUrl($fieldDefinition["source_url"])
+            ->SetPreloaded($fieldDefinition["preloaded"])
+            ->SetSourceUrl($fieldDefinition["source_url"])
 
             // option config: id/value & label
-            ->setOptionValueColumn($fieldDefinition["option_value_column"])
-            ->setOptionLabelColumn($fieldDefinition["option_label_column"]);
+            ->SetOptionValueColumn($fieldDefinition["option_value_column"])
+            ->SetOptionLabelColumn($fieldDefinition["option_label_column"]);
 
         if (isset($fieldDefinition["icon"]) && $fieldDefinition["icon"] !== null) {
-            $formField->setFieldIcons([$fieldDefinition["icon"]]);
+            $formField->SetFieldIcons([$fieldDefinition["icon"]]);
         }
 
-        $formField->setValidationCriterias($fieldDefinition["validation"] ?? []);
+        $formField->SetValidationCriterias($fieldDefinition["validation"] ?? []);
     }
 
     private function buildFormGroup($formField, $fieldDefinition)
     {
-        $formField->setType($fieldDefinition["type"])
-            ->setName($fieldDefinition["name"])
-            ->setLabel($fieldDefinition["label"])
-            ->setDescription($fieldDefinition["description"])
-            ->setPrecedingPartials($fieldDefinition["preceding_partial"] ?? [])
-            ->setSucceedingPartials($fieldDefinition["succeeding_partial"] ?? [])
-            ->setHtmlClass($fieldDefinition["html_class"]);
+        $formField->SetType($fieldDefinition["type"])
+            ->SetName($fieldDefinition["name"])
+            ->SetLabel($fieldDefinition["label"])
+            ->SetDescription($fieldDefinition["description"])
+            ->SetPrecedingPartials($fieldDefinition["preceding_partial"] ?? [])
+            ->SetSucceedingPartials($fieldDefinition["succeeding_partial"] ?? [])
+            ->SetHtmlClass($fieldDefinition["html_class"]);
         
         foreach ($fieldDefinition["field_definitions"] as $subfieldDef) {
             $subfieldObj = $this->initFormField($subfieldDef);
             $this->buildFormField($subfieldObj, $subfieldDef);
-            $formField->appendSubfield($subfieldObj);
+            $formField->AppendSubfield($subfieldObj);
         }
     }
 
@@ -207,9 +209,47 @@ class Form
 
         // serialize form to session
         // will preserve dynamic types, custom types & their processors etc...
-        $_SESSION["NovoForms"][$this->guid_] = serialize($this);
+        $_SESSION["NovoForms"][$this->guid_] = $this->Serialize();
 
         return $formHtml;
+    }
+
+    public function ToValues()
+    {
+        $return = [];
+        $this->toValueRecursive($this, $return);
+        return $return;
+    }
+
+    public function ToEntity($orm = null, $id = null)
+    {
+        $entityBuilder = new \CookiesRevenge\NovoForm\Entities\EntityBuilder($orm ?? $this->orm_, $this->className_, $id);
+        $entity = $entityBuilder->Build();
+        foreach ($this->ToValues() as $name => $value) {
+            $entity->SetPropertyByName($name, $value);
+        }
+        return $entity;
+    }
+
+    public function ListFields()
+    {
+        return $this->fieldObjects_;
+    }
+
+    private function toValueRecursive($parent, &$return)
+    {
+        foreach ($parent->listFields() as $fieldKey => $fieldObj) {
+
+            if ($fieldObj->GetType() === "fieldgroup") {
+                $this->toValueRecursive($fieldObj, $return);
+                continue;
+            }
+
+            $processedValue = $fieldObj->ToValue();
+            $return[$fieldKey] = $processedValue;
+        }
+
+        return $return;
     }
 
     public function Validate()
@@ -223,14 +263,19 @@ class Form
 
     public function GetFieldByName($fieldName)
     {
-        return $this->fieldObjects_[$fieldName];
+        if (isset($this->fieldObjects_[$fieldName]))
+            return $this->fieldObjects_[$fieldName];
+        
+        foreach ($this->GetFieldsByType("fieldgroup") as $group) {
+            return $group->GetSubfieldByName($fieldName);
+        }
     }
 
     public function GetFieldsByType($fieldType)
     {
         $fields = [];
         foreach ($this->fieldObjects_ as $fieldObj) {
-            if ($fieldObj->getType() === $fieldType) {
+            if ($fieldObj->GetType() === $fieldType) {
                 $fields[] = $fieldObj;
             }
 
@@ -242,7 +287,7 @@ class Form
     {
         $fields = [];
         foreach ($this->fieldObjects_ as $fieldObj) {
-            if ($fieldObj->getType() !== $fieldType) {
+            if ($fieldObj->GetType() !== $fieldType) {
                 $fields[] = $fieldObj;
             }
 
@@ -256,7 +301,7 @@ class Form
             throw new \Exception("Invalid Field prepended in " . __CLASS__ . "::" . __FUNCTION__);
         }
 
-        $this->fieldObjects_ = [$fieldObj->getName() => $fieldObj] + $this->fieldObjects_;
+        $this->fieldObjects_ = [$fieldObj->GetName() => $fieldObj] + $this->fieldObjects_;
     }
 
     public function AppendField($fieldObj)
@@ -265,7 +310,7 @@ class Form
             throw new \Exception("Invalid Field appended in " . __CLASS__ . "::" . __FUNCTION__);
         }
 
-        $this->fieldObjects_[$fieldObj->getName()] = $fieldObj;
+        $this->fieldObjects_[$fieldObj->GetName()] = $fieldObj;
     }
 
     public function AddFieldBefore($name, $fieldObj) 
@@ -275,7 +320,7 @@ class Form
         }
 
         $this->fieldObjects_ = array_slice($this->fieldObjects_, 0, array_search($name, array_keys($this->fieldObjects_)), true)
-            + [$fieldObj->getName() => $fieldObj]
+            + [$fieldObj->GetName() => $fieldObj]
             + array_slice($this->fieldObjects_, array_search($name, array_keys($this->fieldObjects_)), count($this->fieldObjects_), true);
     }
 
@@ -286,7 +331,7 @@ class Form
         }
 
         $this->fieldObjects_ = array_slice($this->fieldObjects_, 0, array_search($name, array_keys($this->fieldObjects_)) + 1, true)
-            + [$fieldObj->getName() => $fieldObj]
+            + [$fieldObj->GetName() => $fieldObj]
             + array_slice($this->fieldObjects_, array_search($name, array_keys($this->fieldObjects_)) + 1, count($this->fieldObjects_), true);
     }
 
@@ -300,6 +345,7 @@ class Form
     private $mapParsed_ = [];
     private $mapParser_ = null;
     private $tplEngine_ = "smarty";
+    private $orm_ = "propel";
 
     /*
      * Field objects;
@@ -329,7 +375,7 @@ class Form
     /**
      * Get the value of precedingPartials_
      */
-    public function getPrecedingPartials()
+    public function GetPrecedingPartials()
     {
         return $this->precedingPartials_;
     }
@@ -339,14 +385,14 @@ class Form
      *
      * @return  self
      */
-    public function setPrecedingPartials($precedingPartials)
+    public function SetPrecedingPartials($precedingPartials)
     {
         $this->precedingPartials_ = $precedingPartials;
 
         return $this;
     }
 
-    public function addPrecedingPartial($partial)
+    public function AddPrecedingPartial($partial)
     {
         if (\is_array($partial) && array_key_exists("source", $partial)) {
             $this->precedingPartials_[] = $partial;
@@ -359,7 +405,7 @@ class Form
     /**
      * Get the value of succeedingPartials_
      */
-    public function getSucceedingPartials()
+    public function GetSucceedingPartials()
     {
         return $this->succeedingPartials_;
     }
@@ -369,14 +415,14 @@ class Form
      *
      * @return  self
      */
-    public function setSucceedingPartials($succeedingPartials)
+    public function SetSucceedingPartials($succeedingPartials)
     {
         $this->succeedingPartials_ = $succeedingPartials;
 
         return $this;
     }
 
-    public function addSucceedingPartial($partial)
+    public function AddSucceedingPartial($partial)
     {
         if (\is_array($partial) && array_key_exists("source", $partial)) {
             $this->succeedingPartials_[] = $partial;
@@ -389,7 +435,7 @@ class Form
     /**
      * Get the value of entity_
      */
-    public function getEntity()
+    public function GetEntity()
     {
         return $this->entity_;
     }
@@ -399,7 +445,7 @@ class Form
      *
      * @return  self
      */
-    public function setEntity($entity)
+    public function SetEntity($entity)
     {
         $this->entity_ = $entity;
 
@@ -409,7 +455,7 @@ class Form
     /**
      * Get the value of className_
      */
-    public function getClassName()
+    public function GetClassName()
     {
         return $this->className_;
     }
@@ -419,7 +465,7 @@ class Form
      *
      * @return  self
      */
-    public function setClassName($className)
+    public function SetClassName($className)
     {
         $this->className_ = $className;
 
@@ -429,7 +475,7 @@ class Form
     /**
      * Get the value of actionUri_
      */
-    public function getActionUri()
+    public function GetActionUri()
     {
         return $this->actionUri_;
     }
@@ -439,7 +485,7 @@ class Form
      *
      * @return  self
      */
-    public function setActionUri($actionUri)
+    public function SetActionUri($actionUri)
     {
         $this->actionUri_ = $actionUri;
 
@@ -449,7 +495,7 @@ class Form
     /**
      * Get the value of successUri_
      */
-    public function getSuccessUri()
+    public function GetSuccessUri()
     {
         return $this->successUri_;
     }
@@ -459,7 +505,7 @@ class Form
      *
      * @return  self
      */
-    public function setSuccessUri($successUri)
+    public function SetSuccessUri($successUri)
     {
         $this->successUri_ = $successUri;
 
@@ -469,7 +515,7 @@ class Form
     /**
      * Get the value of failureUri_
      */
-    public function getFailureUri()
+    public function GetFailureUri()
     {
         return $this->failureUri_;
     }
@@ -479,7 +525,7 @@ class Form
      *
      * @return  self
      */
-    public function setFailureUri($failureUri)
+    public function SetFailureUri($failureUri)
     {
         $this->failureUri_ = $failureUri;
 
@@ -489,7 +535,7 @@ class Form
     /**
      * Get the value of title_
      */
-    public function getTitle()
+    public function GetTitle()
     {
         return $this->title_;
     }
@@ -499,7 +545,7 @@ class Form
      *
      * @return  self
      */
-    public function setTitle($title)
+    public function SetTitle($title)
     {
         if (\is_array($title) && array_key_exists("text", $title)) {
             $this->title_ = $title;
@@ -512,7 +558,7 @@ class Form
     /**
      * Get the value of formType_
      */
-    public function getFormType()
+    public function GetFormType()
     {
         return $this->formType_;
     }
@@ -522,7 +568,7 @@ class Form
      *
      * @return  self
      */
-    public function setFormType($formType)
+    public function SetFormType($formType)
     {
         $this->formType_ = $formType;
 
@@ -532,7 +578,7 @@ class Form
     /**
      * Get the value of controlObjects_
      */
-    public function getControlObjects()
+    public function GetControlObjects()
     {
         return $this->controlObjects_;
     }
@@ -542,7 +588,7 @@ class Form
      *
      * @return  self
      */
-    public function setControlObjects($controlObjects)
+    public function SetControlObjects($controlObjects)
     {
         $this->controlObjects_ = $controlObjects;
 
@@ -552,7 +598,7 @@ class Form
     /**
      * Get the value of displayDoubleControls_
      */
-    public function getDisplayDoubleControls()
+    public function GetDisplayDoubleControls()
     {
         return $this->displayDoubleControls_;
     }
@@ -562,7 +608,7 @@ class Form
      *
      * @return  self
      */
-    public function setDisplayDoubleControls($displayDoubleControls)
+    public function SetDisplayDoubleControls($displayDoubleControls)
     {
         $this->displayDoubleControls_ = $displayDoubleControls;
 
@@ -572,7 +618,7 @@ class Form
     /**
      * Get /*
      */
-    public function getFieldObjects()
+    public function GetFieldObjects()
     {
         return $this->fieldObjects_;
     }
@@ -582,7 +628,7 @@ class Form
      *
      * @return  self
      */
-    public function setFieldObjects($fieldObjects)
+    public function SetFieldObjects($fieldObjects)
     {
         $this->fieldObjects_ = $fieldObjects;
 
@@ -592,7 +638,7 @@ class Form
     /**
      * Get the value of dataset_
      */
-    public function getDataset()
+    public function GetDataset()
     {
         return $this->dataset_;
     }
@@ -602,24 +648,24 @@ class Form
      *
      * @return  self
      */
-    public function setDataset($dataset)
+    public function SetDataset($dataset)
     {
         $this->dataset_ = $dataset;
 
         return $this;
     }
 
-    public function setRecord($entityObject)
+    public function SetRecord($entityObject)
     {
         $this->dataset_["record"] = $entityObject;
     }
 
-    public function setFieldItems($name, $collection)
+    public function SetFieldItems($name, $collection)
     {
         $this->dataset_["fieldDatasets"][$name] = $collection;
     }
 
-    public function setFieldPresetValue($name, $presetValue)
+    public function SetFieldPresetValue($name, $presetValue)
     {
         $this->dataset_["presets"][$name] = $presetValue;
     }
@@ -627,7 +673,7 @@ class Form
     /**
      * Get the value of guid_
      */ 
-    public function getGuid()
+    public function GetGuid()
     {
         return $this->guid_;
     }
@@ -637,7 +683,7 @@ class Form
      *
      * @return  self
      */ 
-    public function setGuid($guid)
+    public function SetGuid($guid)
     {
         $this->guid_ = $guid;
 
