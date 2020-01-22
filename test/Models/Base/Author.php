@@ -95,6 +95,14 @@ abstract class Author implements ActiveRecordInterface
     protected $title;
 
     /**
+     * The value for the upvotes field.
+     *
+     * Note: this column has a database default value of: 0
+     * @var        int
+     */
+    protected $upvotes;
+
+    /**
      * @var        ObjectCollection|ChildBook[] Collection to store aggregation of ChildBook objects.
      */
     protected $collBooks;
@@ -124,6 +132,7 @@ abstract class Author implements ActiveRecordInterface
     {
         $this->crdate = 0;
         $this->tstamp = 0;
+        $this->upvotes = 0;
     }
 
     /**
@@ -394,6 +403,16 @@ abstract class Author implements ActiveRecordInterface
     }
 
     /**
+     * Get the [upvotes] column value.
+     *
+     * @return int
+     */
+    public function getUpvotes()
+    {
+        return $this->upvotes;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param int $v new value
@@ -474,6 +493,26 @@ abstract class Author implements ActiveRecordInterface
     } // setTitle()
 
     /**
+     * Set the value of [upvotes] column.
+     *
+     * @param int $v new value
+     * @return $this|\Test\Models\Author The current object (for fluent API support)
+     */
+    public function setUpvotes($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->upvotes !== $v) {
+            $this->upvotes = $v;
+            $this->modifiedColumns[AuthorTableMap::COL_UPVOTES] = true;
+        }
+
+        return $this;
+    } // setUpvotes()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -488,6 +527,10 @@ abstract class Author implements ActiveRecordInterface
             }
 
             if ($this->tstamp !== 0) {
+                return false;
+            }
+
+            if ($this->upvotes !== 0) {
                 return false;
             }
 
@@ -528,6 +571,9 @@ abstract class Author implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : AuthorTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
             $this->title = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : AuthorTableMap::translateFieldName('Upvotes', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->upvotes = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -536,7 +582,7 @@ abstract class Author implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 4; // 4 = AuthorTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = AuthorTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException(sprintf('Error populating %s object', '\\Test\\Models\\Author'), 0, $e);
@@ -768,6 +814,9 @@ abstract class Author implements ActiveRecordInterface
         if ($this->isColumnModified(AuthorTableMap::COL_TITLE)) {
             $modifiedColumns[':p' . $index++]  = 'title';
         }
+        if ($this->isColumnModified(AuthorTableMap::COL_UPVOTES)) {
+            $modifiedColumns[':p' . $index++]  = 'upvotes';
+        }
 
         $sql = sprintf(
             'INSERT INTO nft__authors (%s) VALUES (%s)',
@@ -790,6 +839,9 @@ abstract class Author implements ActiveRecordInterface
                         break;
                     case 'title':
                         $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
+                        break;
+                    case 'upvotes':
+                        $stmt->bindValue($identifier, $this->upvotes, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -865,6 +917,9 @@ abstract class Author implements ActiveRecordInterface
             case 3:
                 return $this->getTitle();
                 break;
+            case 4:
+                return $this->getUpvotes();
+                break;
             default:
                 return null;
                 break;
@@ -899,6 +954,7 @@ abstract class Author implements ActiveRecordInterface
             $keys[1] => $this->getCrdate(),
             $keys[2] => $this->getTstamp(),
             $keys[3] => $this->getTitle(),
+            $keys[4] => $this->getUpvotes(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -967,6 +1023,9 @@ abstract class Author implements ActiveRecordInterface
             case 3:
                 $this->setTitle($value);
                 break;
+            case 4:
+                $this->setUpvotes($value);
+                break;
         } // switch()
 
         return $this;
@@ -1004,6 +1063,9 @@ abstract class Author implements ActiveRecordInterface
         }
         if (array_key_exists($keys[3], $arr)) {
             $this->setTitle($arr[$keys[3]]);
+        }
+        if (array_key_exists($keys[4], $arr)) {
+            $this->setUpvotes($arr[$keys[4]]);
         }
     }
 
@@ -1057,6 +1119,9 @@ abstract class Author implements ActiveRecordInterface
         }
         if ($this->isColumnModified(AuthorTableMap::COL_TITLE)) {
             $criteria->add(AuthorTableMap::COL_TITLE, $this->title);
+        }
+        if ($this->isColumnModified(AuthorTableMap::COL_UPVOTES)) {
+            $criteria->add(AuthorTableMap::COL_UPVOTES, $this->upvotes);
         }
 
         return $criteria;
@@ -1147,6 +1212,7 @@ abstract class Author implements ActiveRecordInterface
         $copyObj->setCrdate($this->getCrdate());
         $copyObj->setTstamp($this->getTstamp());
         $copyObj->setTitle($this->getTitle());
+        $copyObj->setUpvotes($this->getUpvotes());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1442,6 +1508,7 @@ abstract class Author implements ActiveRecordInterface
         $this->crdate = null;
         $this->tstamp = null;
         $this->title = null;
+        $this->upvotes = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();

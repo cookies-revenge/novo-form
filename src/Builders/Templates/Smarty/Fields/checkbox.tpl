@@ -2,29 +2,27 @@
 {if !empty($subfieldObj)}
    {$fieldObject =$subfieldObj}
 {/if}
-<div {if $fieldObject->getHtmlClass()}class="{$fieldObject->getHtmlClass()}"{/if}>
+<div {if $fieldObject->GetHtmlClass()}class="{$fieldObject->GetHtmlClass()}"{/if}>
 
-    {assign var="fieldName" value=$fieldObject->getName()}
-    <div class="input-group {if $fieldObject->getSize()}input-group-{$fieldObject->getSize()}{/if} novo-checkbox">
+    {assign var="fieldName" value=$fieldObject->GetName()}
+    <div class="input-group {if $fieldObject->GetSize()}input-group-{$fieldObject->GetSize()}{/if} novo-checkbox">
 
         {if isset($record)}
 
             <input type="hidden" 
                 name="{$fieldName}" 
-                vito-name="{$fieldName}"
 
-                {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
-                    vito-{$validationType}="{$value}"
+                {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                    data-validation-{$validationType}="{$value}"
                 {/foreach} 
 
                 value="{if null !== $record[$fieldName] && $record[$fieldName] != 0}1{else}0{/if}" />
 
             <input type="checkbox" 
                 name="{$fieldName}" 
-                vito-name="{$fieldName}-{$fieldIndex}"
 
-                {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
-                    vito-{$validationType}="{$value}"
+                {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                    data-validation-{$validationType}="{$value}"
                 {/foreach} 
 
                 {if !empty($record) && isset($record[$fieldName])}
@@ -38,24 +36,22 @@
         
             <input type="hidden" 
                 name="{$fieldName}" 
-                vito-name="{$fieldName}"
 
-                {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
-                    vito-{$validationType}="{$value}"
+                {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                    data-validation-{$validationType}="{$value}"
                 {/foreach} 
 
-                {if $fieldObject->getReadonly()}readonly{/if} 
+                {if $fieldObject->GetReadonly()}readonly{/if} 
                 value="0" />
 
             <input type="checkbox" 
                 name="{$fieldName}" 
-                vito-name="{$fieldName}-{$fieldIndex}"
 
-                {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
-                    vito-{$validationType}="{$value}"
+                {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                    data-validation-{$validationType}="{$value}"
                 {/foreach} 
 
-                {if $fieldObject->getReadonly()}readonly{/if} 
+                {if $fieldObject->GetReadonly()}readonly{/if} 
 
                 {if !empty($presets) && isset($presets[$fieldName])}
                     {if !empty($presets[$fieldName])}

@@ -11,104 +11,109 @@ use Propel\Runtime\ActiveQuery\ModelJoin;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
-use Test\Models\Author as ChildAuthor;
-use Test\Models\AuthorQuery as ChildAuthorQuery;
-use Test\Models\Map\AuthorTableMap;
+use Test\Models\Chapter as ChildChapter;
+use Test\Models\ChapterQuery as ChildChapterQuery;
+use Test\Models\Map\ChapterTableMap;
 
 /**
- * Base class that represents a query for the 'nft__authors' table.
+ * Base class that represents a query for the 'nft__chapter' table.
  *
  *
  *
- * @method     ChildAuthorQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildAuthorQuery orderByCrdate($order = Criteria::ASC) Order by the crdate column
- * @method     ChildAuthorQuery orderByTstamp($order = Criteria::ASC) Order by the tstamp column
- * @method     ChildAuthorQuery orderByTitle($order = Criteria::ASC) Order by the title column
- * @method     ChildAuthorQuery orderByUpvotes($order = Criteria::ASC) Order by the upvotes column
+ * @method     ChildChapterQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildChapterQuery orderByCrdate($order = Criteria::ASC) Order by the crdate column
+ * @method     ChildChapterQuery orderByTstamp($order = Criteria::ASC) Order by the tstamp column
+ * @method     ChildChapterQuery orderByTitle($order = Criteria::ASC) Order by the title column
+ * @method     ChildChapterQuery orderByTotalPages($order = Criteria::ASC) Order by the total_pages column
+ * @method     ChildChapterQuery orderByBookId($order = Criteria::ASC) Order by the book_id column
  *
- * @method     ChildAuthorQuery groupById() Group by the id column
- * @method     ChildAuthorQuery groupByCrdate() Group by the crdate column
- * @method     ChildAuthorQuery groupByTstamp() Group by the tstamp column
- * @method     ChildAuthorQuery groupByTitle() Group by the title column
- * @method     ChildAuthorQuery groupByUpvotes() Group by the upvotes column
+ * @method     ChildChapterQuery groupById() Group by the id column
+ * @method     ChildChapterQuery groupByCrdate() Group by the crdate column
+ * @method     ChildChapterQuery groupByTstamp() Group by the tstamp column
+ * @method     ChildChapterQuery groupByTitle() Group by the title column
+ * @method     ChildChapterQuery groupByTotalPages() Group by the total_pages column
+ * @method     ChildChapterQuery groupByBookId() Group by the book_id column
  *
- * @method     ChildAuthorQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method     ChildAuthorQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method     ChildAuthorQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method     ChildChapterQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method     ChildChapterQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method     ChildChapterQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildAuthorQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
- * @method     ChildAuthorQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
- * @method     ChildAuthorQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
+ * @method     ChildChapterQuery leftJoinWith($relation) Adds a LEFT JOIN clause and with to the query
+ * @method     ChildChapterQuery rightJoinWith($relation) Adds a RIGHT JOIN clause and with to the query
+ * @method     ChildChapterQuery innerJoinWith($relation) Adds a INNER JOIN clause and with to the query
  *
- * @method     ChildAuthorQuery leftJoinBook($relationAlias = null) Adds a LEFT JOIN clause to the query using the Book relation
- * @method     ChildAuthorQuery rightJoinBook($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Book relation
- * @method     ChildAuthorQuery innerJoinBook($relationAlias = null) Adds a INNER JOIN clause to the query using the Book relation
+ * @method     ChildChapterQuery leftJoinBook($relationAlias = null) Adds a LEFT JOIN clause to the query using the Book relation
+ * @method     ChildChapterQuery rightJoinBook($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Book relation
+ * @method     ChildChapterQuery innerJoinBook($relationAlias = null) Adds a INNER JOIN clause to the query using the Book relation
  *
- * @method     ChildAuthorQuery joinWithBook($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Book relation
+ * @method     ChildChapterQuery joinWithBook($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Book relation
  *
- * @method     ChildAuthorQuery leftJoinWithBook() Adds a LEFT JOIN clause and with to the query using the Book relation
- * @method     ChildAuthorQuery rightJoinWithBook() Adds a RIGHT JOIN clause and with to the query using the Book relation
- * @method     ChildAuthorQuery innerJoinWithBook() Adds a INNER JOIN clause and with to the query using the Book relation
+ * @method     ChildChapterQuery leftJoinWithBook() Adds a LEFT JOIN clause and with to the query using the Book relation
+ * @method     ChildChapterQuery rightJoinWithBook() Adds a RIGHT JOIN clause and with to the query using the Book relation
+ * @method     ChildChapterQuery innerJoinWithBook() Adds a INNER JOIN clause and with to the query using the Book relation
  *
  * @method     \Test\Models\BookQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
- * @method     ChildAuthor findOne(ConnectionInterface $con = null) Return the first ChildAuthor matching the query
- * @method     ChildAuthor findOneOrCreate(ConnectionInterface $con = null) Return the first ChildAuthor matching the query, or a new ChildAuthor object populated from the query conditions when no match is found
+ * @method     ChildChapter findOne(ConnectionInterface $con = null) Return the first ChildChapter matching the query
+ * @method     ChildChapter findOneOrCreate(ConnectionInterface $con = null) Return the first ChildChapter matching the query, or a new ChildChapter object populated from the query conditions when no match is found
  *
- * @method     ChildAuthor findOneById(int $id) Return the first ChildAuthor filtered by the id column
- * @method     ChildAuthor findOneByCrdate(int $crdate) Return the first ChildAuthor filtered by the crdate column
- * @method     ChildAuthor findOneByTstamp(int $tstamp) Return the first ChildAuthor filtered by the tstamp column
- * @method     ChildAuthor findOneByTitle(string $title) Return the first ChildAuthor filtered by the title column
- * @method     ChildAuthor findOneByUpvotes(int $upvotes) Return the first ChildAuthor filtered by the upvotes column *
+ * @method     ChildChapter findOneById(int $id) Return the first ChildChapter filtered by the id column
+ * @method     ChildChapter findOneByCrdate(int $crdate) Return the first ChildChapter filtered by the crdate column
+ * @method     ChildChapter findOneByTstamp(int $tstamp) Return the first ChildChapter filtered by the tstamp column
+ * @method     ChildChapter findOneByTitle(string $title) Return the first ChildChapter filtered by the title column
+ * @method     ChildChapter findOneByTotalPages(int $total_pages) Return the first ChildChapter filtered by the total_pages column
+ * @method     ChildChapter findOneByBookId(int $book_id) Return the first ChildChapter filtered by the book_id column *
 
- * @method     ChildAuthor requirePk($key, ConnectionInterface $con = null) Return the ChildAuthor by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAuthor requireOne(ConnectionInterface $con = null) Return the first ChildAuthor matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildChapter requirePk($key, ConnectionInterface $con = null) Return the ChildChapter by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildChapter requireOne(ConnectionInterface $con = null) Return the first ChildChapter matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildAuthor requireOneById(int $id) Return the first ChildAuthor filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAuthor requireOneByCrdate(int $crdate) Return the first ChildAuthor filtered by the crdate column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAuthor requireOneByTstamp(int $tstamp) Return the first ChildAuthor filtered by the tstamp column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAuthor requireOneByTitle(string $title) Return the first ChildAuthor filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildAuthor requireOneByUpvotes(int $upvotes) Return the first ChildAuthor filtered by the upvotes column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildChapter requireOneById(int $id) Return the first ChildChapter filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildChapter requireOneByCrdate(int $crdate) Return the first ChildChapter filtered by the crdate column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildChapter requireOneByTstamp(int $tstamp) Return the first ChildChapter filtered by the tstamp column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildChapter requireOneByTitle(string $title) Return the first ChildChapter filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildChapter requireOneByTotalPages(int $total_pages) Return the first ChildChapter filtered by the total_pages column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildChapter requireOneByBookId(int $book_id) Return the first ChildChapter filtered by the book_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
- * @method     ChildAuthor[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildAuthor objects based on current ModelCriteria
- * @method     ChildAuthor[]|ObjectCollection findById(int $id) Return ChildAuthor objects filtered by the id column
- * @method     ChildAuthor[]|ObjectCollection findByCrdate(int $crdate) Return ChildAuthor objects filtered by the crdate column
- * @method     ChildAuthor[]|ObjectCollection findByTstamp(int $tstamp) Return ChildAuthor objects filtered by the tstamp column
- * @method     ChildAuthor[]|ObjectCollection findByTitle(string $title) Return ChildAuthor objects filtered by the title column
- * @method     ChildAuthor[]|ObjectCollection findByUpvotes(int $upvotes) Return ChildAuthor objects filtered by the upvotes column
- * @method     ChildAuthor[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
+ * @method     ChildChapter[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildChapter objects based on current ModelCriteria
+ * @method     ChildChapter[]|ObjectCollection findById(int $id) Return ChildChapter objects filtered by the id column
+ * @method     ChildChapter[]|ObjectCollection findByCrdate(int $crdate) Return ChildChapter objects filtered by the crdate column
+ * @method     ChildChapter[]|ObjectCollection findByTstamp(int $tstamp) Return ChildChapter objects filtered by the tstamp column
+ * @method     ChildChapter[]|ObjectCollection findByTitle(string $title) Return ChildChapter objects filtered by the title column
+ * @method     ChildChapter[]|ObjectCollection findByTotalPages(int $total_pages) Return ChildChapter objects filtered by the total_pages column
+ * @method     ChildChapter[]|ObjectCollection findByBookId(int $book_id) Return ChildChapter objects filtered by the book_id column
+ * @method     ChildChapter[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
  */
-abstract class AuthorQuery extends ModelCriteria
+abstract class ChapterQuery extends ModelCriteria
 {
     protected $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**
-     * Initializes internal state of \Test\Models\Base\AuthorQuery object.
+     * Initializes internal state of \Test\Models\Base\ChapterQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'nf_test', $modelName = '\\Test\\Models\\Author', $modelAlias = null)
+    public function __construct($dbName = 'nf_test', $modelName = '\\Test\\Models\\Chapter', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new ChildAuthorQuery object.
+     * Returns a new ChildChapterQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
      * @param     Criteria $criteria Optional Criteria to build the query from
      *
-     * @return ChildAuthorQuery
+     * @return ChildChapterQuery
      */
     public static function create($modelAlias = null, Criteria $criteria = null)
     {
-        if ($criteria instanceof ChildAuthorQuery) {
+        if ($criteria instanceof ChildChapterQuery) {
             return $criteria;
         }
-        $query = new ChildAuthorQuery();
+        $query = new ChildChapterQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -131,7 +136,7 @@ abstract class AuthorQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param ConnectionInterface $con an optional connection object
      *
-     * @return ChildAuthor|array|mixed the result, formatted by the current formatter
+     * @return ChildChapter|array|mixed the result, formatted by the current formatter
      */
     public function findPk($key, ConnectionInterface $con = null)
     {
@@ -140,7 +145,7 @@ abstract class AuthorQuery extends ModelCriteria
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(AuthorTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(ChapterTableMap::DATABASE_NAME);
         }
 
         $this->basePreSelect($con);
@@ -153,7 +158,7 @@ abstract class AuthorQuery extends ModelCriteria
             return $this->findPkComplex($key, $con);
         }
 
-        if ((null !== ($obj = AuthorTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
+        if ((null !== ($obj = ChapterTableMap::getInstanceFromPool(null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key)))) {
             // the object is already in the instance pool
             return $obj;
         }
@@ -170,11 +175,11 @@ abstract class AuthorQuery extends ModelCriteria
      *
      * @throws \Propel\Runtime\Exception\PropelException
      *
-     * @return ChildAuthor A model object, or null if the key is not found
+     * @return ChildChapter A model object, or null if the key is not found
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, crdate, tstamp, title, upvotes FROM nft__authors WHERE id = :p0';
+        $sql = 'SELECT id, crdate, tstamp, title, total_pages, book_id FROM nft__chapter WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -185,10 +190,10 @@ abstract class AuthorQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(\PDO::FETCH_NUM)) {
-            /** @var ChildAuthor $obj */
-            $obj = new ChildAuthor();
+            /** @var ChildChapter $obj */
+            $obj = new ChildChapter();
             $obj->hydrate($row);
-            AuthorTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
+            ChapterTableMap::addInstanceToPool($obj, null === $key || is_scalar($key) || is_callable([$key, '__toString']) ? (string) $key : $key);
         }
         $stmt->closeCursor();
 
@@ -201,7 +206,7 @@ abstract class AuthorQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     ConnectionInterface $con A connection object
      *
-     * @return ChildAuthor|array|mixed the result, formatted by the current formatter
+     * @return ChildChapter|array|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, ConnectionInterface $con)
     {
@@ -243,12 +248,12 @@ abstract class AuthorQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return $this|ChildAuthorQuery The current query, for fluid interface
+     * @return $this|ChildChapterQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(AuthorTableMap::COL_ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(ChapterTableMap::COL_ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -256,12 +261,12 @@ abstract class AuthorQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return $this|ChildAuthorQuery The current query, for fluid interface
+     * @return $this|ChildChapterQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(AuthorTableMap::COL_ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(ChapterTableMap::COL_ID, $keys, Criteria::IN);
     }
 
     /**
@@ -280,18 +285,18 @@ abstract class AuthorQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAuthorQuery The current query, for fluid interface
+     * @return $this|ChildChapterQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(AuthorTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(ChapterTableMap::COL_ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(AuthorTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(ChapterTableMap::COL_ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -302,7 +307,7 @@ abstract class AuthorQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AuthorTableMap::COL_ID, $id, $comparison);
+        return $this->addUsingAlias(ChapterTableMap::COL_ID, $id, $comparison);
     }
 
     /**
@@ -321,18 +326,18 @@ abstract class AuthorQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAuthorQuery The current query, for fluid interface
+     * @return $this|ChildChapterQuery The current query, for fluid interface
      */
     public function filterByCrdate($crdate = null, $comparison = null)
     {
         if (is_array($crdate)) {
             $useMinMax = false;
             if (isset($crdate['min'])) {
-                $this->addUsingAlias(AuthorTableMap::COL_CRDATE, $crdate['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(ChapterTableMap::COL_CRDATE, $crdate['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($crdate['max'])) {
-                $this->addUsingAlias(AuthorTableMap::COL_CRDATE, $crdate['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(ChapterTableMap::COL_CRDATE, $crdate['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -343,7 +348,7 @@ abstract class AuthorQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AuthorTableMap::COL_CRDATE, $crdate, $comparison);
+        return $this->addUsingAlias(ChapterTableMap::COL_CRDATE, $crdate, $comparison);
     }
 
     /**
@@ -362,18 +367,18 @@ abstract class AuthorQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAuthorQuery The current query, for fluid interface
+     * @return $this|ChildChapterQuery The current query, for fluid interface
      */
     public function filterByTstamp($tstamp = null, $comparison = null)
     {
         if (is_array($tstamp)) {
             $useMinMax = false;
             if (isset($tstamp['min'])) {
-                $this->addUsingAlias(AuthorTableMap::COL_TSTAMP, $tstamp['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(ChapterTableMap::COL_TSTAMP, $tstamp['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($tstamp['max'])) {
-                $this->addUsingAlias(AuthorTableMap::COL_TSTAMP, $tstamp['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(ChapterTableMap::COL_TSTAMP, $tstamp['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -384,7 +389,7 @@ abstract class AuthorQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AuthorTableMap::COL_TSTAMP, $tstamp, $comparison);
+        return $this->addUsingAlias(ChapterTableMap::COL_TSTAMP, $tstamp, $comparison);
     }
 
     /**
@@ -399,7 +404,7 @@ abstract class AuthorQuery extends ModelCriteria
      * @param     string $title The value to use as filter.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAuthorQuery The current query, for fluid interface
+     * @return $this|ChildChapterQuery The current query, for fluid interface
      */
     public function filterByTitle($title = null, $comparison = null)
     {
@@ -409,37 +414,37 @@ abstract class AuthorQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AuthorTableMap::COL_TITLE, $title, $comparison);
+        return $this->addUsingAlias(ChapterTableMap::COL_TITLE, $title, $comparison);
     }
 
     /**
-     * Filter the query on the upvotes column
+     * Filter the query on the total_pages column
      *
      * Example usage:
      * <code>
-     * $query->filterByUpvotes(1234); // WHERE upvotes = 1234
-     * $query->filterByUpvotes(array(12, 34)); // WHERE upvotes IN (12, 34)
-     * $query->filterByUpvotes(array('min' => 12)); // WHERE upvotes > 12
+     * $query->filterByTotalPages(1234); // WHERE total_pages = 1234
+     * $query->filterByTotalPages(array(12, 34)); // WHERE total_pages IN (12, 34)
+     * $query->filterByTotalPages(array('min' => 12)); // WHERE total_pages > 12
      * </code>
      *
-     * @param     mixed $upvotes The value to use as filter.
+     * @param     mixed $totalPages The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return $this|ChildAuthorQuery The current query, for fluid interface
+     * @return $this|ChildChapterQuery The current query, for fluid interface
      */
-    public function filterByUpvotes($upvotes = null, $comparison = null)
+    public function filterByTotalPages($totalPages = null, $comparison = null)
     {
-        if (is_array($upvotes)) {
+        if (is_array($totalPages)) {
             $useMinMax = false;
-            if (isset($upvotes['min'])) {
-                $this->addUsingAlias(AuthorTableMap::COL_UPVOTES, $upvotes['min'], Criteria::GREATER_EQUAL);
+            if (isset($totalPages['min'])) {
+                $this->addUsingAlias(ChapterTableMap::COL_TOTAL_PAGES, $totalPages['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($upvotes['max'])) {
-                $this->addUsingAlias(AuthorTableMap::COL_UPVOTES, $upvotes['max'], Criteria::LESS_EQUAL);
+            if (isset($totalPages['max'])) {
+                $this->addUsingAlias(ChapterTableMap::COL_TOTAL_PAGES, $totalPages['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -450,27 +455,74 @@ abstract class AuthorQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(AuthorTableMap::COL_UPVOTES, $upvotes, $comparison);
+        return $this->addUsingAlias(ChapterTableMap::COL_TOTAL_PAGES, $totalPages, $comparison);
+    }
+
+    /**
+     * Filter the query on the book_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByBookId(1234); // WHERE book_id = 1234
+     * $query->filterByBookId(array(12, 34)); // WHERE book_id IN (12, 34)
+     * $query->filterByBookId(array('min' => 12)); // WHERE book_id > 12
+     * </code>
+     *
+     * @see       filterByBook()
+     *
+     * @param     mixed $bookId The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return $this|ChildChapterQuery The current query, for fluid interface
+     */
+    public function filterByBookId($bookId = null, $comparison = null)
+    {
+        if (is_array($bookId)) {
+            $useMinMax = false;
+            if (isset($bookId['min'])) {
+                $this->addUsingAlias(ChapterTableMap::COL_BOOK_ID, $bookId['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($bookId['max'])) {
+                $this->addUsingAlias(ChapterTableMap::COL_BOOK_ID, $bookId['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ChapterTableMap::COL_BOOK_ID, $bookId, $comparison);
     }
 
     /**
      * Filter the query by a related \Test\Models\Book object
      *
-     * @param \Test\Models\Book|ObjectCollection $book the related object to use as filter
+     * @param \Test\Models\Book|ObjectCollection $book The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return ChildAuthorQuery The current query, for fluid interface
+     * @throws \Propel\Runtime\Exception\PropelException
+     *
+     * @return ChildChapterQuery The current query, for fluid interface
      */
     public function filterByBook($book, $comparison = null)
     {
         if ($book instanceof \Test\Models\Book) {
             return $this
-                ->addUsingAlias(AuthorTableMap::COL_ID, $book->getAuthorId(), $comparison);
+                ->addUsingAlias(ChapterTableMap::COL_BOOK_ID, $book->getId(), $comparison);
         } elseif ($book instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
             return $this
-                ->useBookQuery()
-                ->filterByPrimaryKeys($book->getPrimaryKeys())
-                ->endUse();
+                ->addUsingAlias(ChapterTableMap::COL_BOOK_ID, $book->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterByBook() only accepts arguments of type \Test\Models\Book or Collection');
         }
@@ -482,7 +534,7 @@ abstract class AuthorQuery extends ModelCriteria
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return $this|ChildAuthorQuery The current query, for fluid interface
+     * @return $this|ChildChapterQuery The current query, for fluid interface
      */
     public function joinBook($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
@@ -529,21 +581,21 @@ abstract class AuthorQuery extends ModelCriteria
     /**
      * Exclude object from result
      *
-     * @param   ChildAuthor $author Object to remove from the list of results
+     * @param   ChildChapter $chapter Object to remove from the list of results
      *
-     * @return $this|ChildAuthorQuery The current query, for fluid interface
+     * @return $this|ChildChapterQuery The current query, for fluid interface
      */
-    public function prune($author = null)
+    public function prune($chapter = null)
     {
-        if ($author) {
-            $this->addUsingAlias(AuthorTableMap::COL_ID, $author->getId(), Criteria::NOT_EQUAL);
+        if ($chapter) {
+            $this->addUsingAlias(ChapterTableMap::COL_ID, $chapter->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;
     }
 
     /**
-     * Deletes all rows from the nft__authors table.
+     * Deletes all rows from the nft__chapter table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
@@ -551,7 +603,7 @@ abstract class AuthorQuery extends ModelCriteria
     public function doDeleteAll(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(AuthorTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(ChapterTableMap::DATABASE_NAME);
         }
 
         // use transaction because $criteria could contain info
@@ -562,8 +614,8 @@ abstract class AuthorQuery extends ModelCriteria
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            AuthorTableMap::clearInstancePool();
-            AuthorTableMap::clearRelatedInstancePool();
+            ChapterTableMap::clearInstancePool();
+            ChapterTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
@@ -581,26 +633,26 @@ abstract class AuthorQuery extends ModelCriteria
     public function delete(ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(AuthorTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(ChapterTableMap::DATABASE_NAME);
         }
 
         $criteria = $this;
 
         // Set the correct dbName
-        $criteria->setDbName(AuthorTableMap::DATABASE_NAME);
+        $criteria->setDbName(ChapterTableMap::DATABASE_NAME);
 
         // use transaction because $criteria could contain info
         // for more than one table or we could emulating ON DELETE CASCADE, etc.
         return $con->transaction(function () use ($con, $criteria) {
             $affectedRows = 0; // initialize var to track total num of affected rows
 
-            AuthorTableMap::removeInstanceFromPool($criteria);
+            ChapterTableMap::removeInstanceFromPool($criteria);
 
             $affectedRows += ModelCriteria::delete($con);
-            AuthorTableMap::clearRelatedInstancePool();
+            ChapterTableMap::clearRelatedInstancePool();
 
             return $affectedRows;
         });
     }
 
-} // AuthorQuery
+} // ChapterQuery

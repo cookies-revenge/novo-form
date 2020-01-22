@@ -16,19 +16,21 @@ foreach ($_REQUEST as $reqName => $reqValue) {
     if ($reqName === "novo-form-identifier")
         continue;
     
-    $novoFormObject->GetFieldByName($reqName)->SetFieldValue($reqValue);
+    $fieldObj = $novoFormObject->GetFieldByName($reqName);
+    if ($fieldObj === null) // this should never really happen, but still handle this case carefully
+        continue;
+    $fieldObj->SetFieldValue($reqValue);
 }
-
-var_dump($novoFormObject->ToValues());
-
 
 $tstamp = time();
 $book = $novoFormObject->ToEntity();
-$book->SetPropertyByName("Crdate", $tstamp);
+
+if ($book->GetPropertyByName("Id") === null)
+    $book->SetPropertyByName("Crdate", $tstamp);
+    
 $book->SetPropertyByName("Tstamp", $tstamp);
-
-var_dump($book->ToArray());
-
 $book->Save();
 
-//unset($_SESSION["NovoForms"][$_REQUEST["novo-form-identifier"]]);
+unset($_SESSION["NovoForms"][$_REQUEST["novo-form-identifier"]]);
+
+header("Location: /test/book_form.php?ID=". $book->GetObject()->getId() ."&SUCCESS");

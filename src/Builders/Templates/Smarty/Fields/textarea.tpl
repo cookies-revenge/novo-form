@@ -1,28 +1,33 @@
 {assign var="fieldObject" value=$fieldObj}
 {if !empty($subfieldObj)}
-   {$fieldObject =$subfieldObj}
+   {$fieldObject = $subfieldObj}
 {/if}
-<div {if $fieldObject->getHtmlClass()}class="{$fieldObject->getHtmlClass()}"{/if}>
 
-    <div class="input-group {if isset($fieldObject->getSize()) && null !== $fieldObject->getSize()}input-group-{$fieldObject->getSize()}{/if}">
+{assign var="fieldName" value=$fieldObject->GetName()}
+{if $fieldObj->GetType() === "relation"}
+   {$fieldName = "{$fieldObj->GetName()}[{$subfieldObj->GetName()}][]"}
+{/if}
+
+<div {if $fieldObject->GetHtmlClass()}class="{$fieldObject->GetHtmlClass()}"{/if}>
+
+    <div class="input-group {if isset($fieldObject->GetSize()) && null !== $fieldObject->GetSize()}input-group-{$fieldObject->GetSize()}{/if}">
 
         {assign var="iconPosition" value="L"}
         {include file="Partials/field_icon.tpl"}
 
 		<textarea class="form-control" rows="5" 
-            {if isset($fieldObject->getResizable()) && !$fieldObject->getResizable()}
+            {if isset($fieldObject->GetResizable()) && !$fieldObject->GetResizable()}
                 style="resize: none;" 
             {/if}
-            name="{$fieldObject->getName()}" 
-            placeholder="{if isset($fieldObject->getPlaceholder()) && $fieldObject->getPlaceholder()}{$fieldObject->getPlaceholder()}{/if}"
-            vito-name="{$fieldObject->getName()}-{$fieldIndex}"
+            name="{$fieldName}" 
+            placeholder="{if isset($fieldObject->GetPlaceholder()) && $fieldObject->GetPlaceholder()}{$fieldObject->GetPlaceholder()}{/if}"
 
-	        {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
-                vito-{$validationType}="{$value}"
+	        {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                data-validation-{$validationType}="{$value}"
             {/foreach} 
 
-	        {if $fieldObject->getReadonly()}readonly{/if}
-        >{assign var="fieldName" value=$fieldObject->getName()}{if !empty($record) && isset($record[$fieldName])}{$record[$fieldName]}{elseif !empty($presets) && isset($presets[$fieldName])}{$presets[$fieldName]}{/if}</textarea>
+	        {if $fieldObject->GetReadonly()}readonly{/if}
+        >{if $fieldObj->GetType() === "relation"}{assign var="fName" value=$fieldObj->GetName()}{assign var="sfName" value=$subfieldObj->GetName()}{if !empty($record) && isset($record.$fName.$relIndex)}{$record.$fName.$relIndex.$sfName}{elseif !empty($presets) && isset($presets.$fName.$relIndex)}{$presets.$fName.$relIndex.$sfName}{/if}{else}{if !empty($record) && isset($record[$fieldName])}{$record[$fieldName]}{elseif !empty($presets) && isset($presets[$fieldName])}{$presets[$fieldName]}{/if}{/if}</textarea>
 
         {assign var="iconPosition" value="R"}
         {include file="Partials/field_icon.tpl"}

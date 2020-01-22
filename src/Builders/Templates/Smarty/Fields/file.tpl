@@ -2,7 +2,7 @@
 {if !empty($subfieldObj)}
    {$fieldObject =$subfieldObj}
 {/if}
-<div {if $fieldObject->getHtmlClass()}class="{$fieldObject->getHtmlClass()}"{/if}>
+<div {if $fieldObject->GetHtmlClass()}class="{$fieldObject->GetHtmlClass()}"{/if}>
 
    <div class="custom-file">
 
@@ -10,19 +10,18 @@
         {include file="Partials/field_icon.tpl"}
 
 		<input class="custom-file-input js__file-input" type="file" 
-            name="{$fieldObject->getName()}{if $fieldObject->getMultipleChoice()}[]{/if}" 
-            vito-name="{$fieldObject->getName()}-{$fieldIndex}"
+            name="{$fieldObject->GetName()}{if $fieldObject->GetMultipleChoice()}[]{/if}" 
 
-            {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
-                vito-{$validationType}="{$value}"
+            {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                data-validation-{$validationType}="{$value}"
             {/foreach} 
 
-            {if isset($fieldObject->getReadonly()) && $fieldObject->getReadonly()}readonly{/if}
-            {if isset($fieldObject->getAcceptTypes()) && $fieldObject->getAcceptTypes()}
-                accept="{$fieldObject->getAcceptTypes()}"
+            {if isset($fieldObject->GetReadonly()) && $fieldObject->GetReadonly()}readonly{/if}
+            {if isset($fieldObject->GetAcceptTypes()) && $fieldObject->GetAcceptTypes()}
+                accept="{$fieldObject->GetAcceptTypes()}"
             {/if}
-            {if isset($fieldObject->getMultipleChoice()) && $fieldObject->getMultipleChoice()}
-                multiple="{$fieldObject->getMultipleChoice()}"
+            {if isset($fieldObject->GetMultipleChoice()) && $fieldObject->GetMultipleChoice()}
+                multiple="{$fieldObject->GetMultipleChoice()}"
             {/if}
         />
 

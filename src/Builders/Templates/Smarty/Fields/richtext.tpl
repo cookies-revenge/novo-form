@@ -1,28 +1,33 @@
 {assign var="fieldObject" value=$fieldObj}
 {if !empty($subfieldObj)}
-   {$fieldObject =$subfieldObj}
+   {$fieldObject = $subfieldObj}
 {/if}
-<div {if $fieldObject->getHtmlClass()}class="{$fieldObject->getHtmlClass()}"{/if}>
+
+{assign var="fieldName" value=$fieldObject->GetName()}
+{if $fieldObj->GetType() === "relation"}
+   {$fieldName = "{$fieldObj->GetName()}[{$subfieldObj->GetName()}][]"}
+{/if}
+
+<div {if $fieldObject->GetHtmlClass()}class="{$fieldObject->GetHtmlClass()}"{/if}>
 
     <textarea class="form-control novo-richtext js__richtext" rows="5" 
-        {if isset($fieldObject->getResizable()) && !$fieldObject->getResizable()}
+        {if isset($fieldObject->GetResizable()) && !$fieldObject->GetResizable()}
             style="resize:false;"
         {/if}
-        name="{$fieldObject->getName()}" 
-        placeholder="{if $fieldObject->getPlaceholder()}{$fieldObject->getPlaceholder()}{/if}"
-        vito-name="{$fieldObject->getName()}-{$fieldIndex}"
+        name="{$fieldName}" 
+        placeholder="{if $fieldObject->GetPlaceholder()}{$fieldObject->GetPlaceholder()}{/if}"
 
-        {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
-            vito-{$validationType}="{$value}"
+        {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+            data-validation-{$validationType}="{$value}"
         {/foreach}
 
-        {if isset($fieldObject->getReadonly()) && $fieldObject->getReadonly()}readonly{/if}
-    >{assign var="fieldName" value=$fieldObject->getName()}{if !empty($record) && isset($record[$fieldName])}{$record[$fieldName]}{elseif !empty($presets) && isset($presets[$fieldName])}{$presets[$fieldName]}{/if}</textarea>
+        {if isset($fieldObject->GetReadonly()) && $fieldObject->GetReadonly()}readonly{/if}
+    >{if $fieldObj->GetType() === "relation"}{assign var="fName" value=$fieldObj->GetName()}{assign var="sfName" value=$subfieldObj->GetName()}{if !empty($record) && isset($record.$fName.$relIndex)}{$record.$fName.$relIndex.$sfName}{elseif !empty($presets) && isset($presets.$fName.$relIndex)}{$presets.$fName.$relIndex.$sfName}{/if}{else}{if !empty($record) && isset($record[$fieldName])}{$record[$fieldName]}{elseif !empty($presets) && isset($presets[$fieldName])}{$presets[$fieldName]}{/if}{/if}</textarea>
 
-    {if $fieldObject->getValidationCriteria("max-length") !== null}
+    {if $fieldObject->GetValidationCriteria("max-length") !== null}
         <span class="text-gray-600 w-100 novo-richtext-counter-notification js__richtext-counter" 
-            data-default-counter-limit="{$fieldObject->getValidationCriteria("max-length")}">
-            Remaining: <i>{$fieldObject->getValidationCriteria("max-length")}</i>
+            data-default-counter-limit="{$fieldObject->GetValidationCriteria("max-length")}">
+            Remaining: <i>{$fieldObject->GetValidationCriteria("max-length")}</i>
         </span>
     {/if}
       

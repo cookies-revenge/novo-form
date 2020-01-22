@@ -1,28 +1,35 @@
-
-########## implement XML definition maps
-
-########## make missing attrs default to null (xml -> php)
-
-########## set a standard for definition maps
-
 write docs for definition maps (*****)
 
 comment php code (*)
 
 refactor php code (*)
-
-########## napravi preprocesor za save_service... koji ce na bazi iste mape iz koje je izgradjena forma
-########## da uradi sanitizaciju/formatiranje vrednosti... na primer da odradi checkbox-eve, da vrati datum u timestamp...
-########## da izlaz bude preradjen array, koji moze direktno da se upuca u model kao
-########## ->setByName($colName, $value) (****)
-
-support za custom types (****)
+proveri ima li suvisnih funkcija i reorganizuj redosled fja po klasama
 
 make a built-in debugger (*)
 
-########## default styles (description, label, input, dropdown... )
-
 file validations (filesize, max-width, min-width, max-height, min-height, aspect-ratio...) (**)
 
-complex type treba da bude isti kao field group, ali da ima definisan class_name.
-na Save strani treba formirati povezane (complex) entitete, pa im uraditi save nakon parent entiteta. (****)
+
+
+
+
+
+
+
+
+
+napravi dodatak za select/multiselect
+1. property db_multiple
+1.1. ako ga nema, u polje cuvaj json_encode($value)
+1.2. ako ga ima i ako je true, uradi entity->addSubentities(entityQuery->create()->filterById($value kao array)->find())
+na taj nacin mozes imati multiple choice samo u polju, ili multiple choice kao pravi DB mm/agregirani/crossref
+
+
+doradi input types vezano za field name i relations
+
+
+ukida se vito validacija i propertiji su prebaceni na data-validation-validationType
+1. uradi procesiranje ovih vrednosti na BE kao predkorak na save
+2. setuj greske u novo form session i nemoj ga unsetovati!
+3. vrati nazad na formu, prepopulisi presetima iz sesije ili stogod (ovde ne moras relations na prvu loptu, moze i posle)
+4. prikazi greske

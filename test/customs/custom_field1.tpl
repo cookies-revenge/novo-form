@@ -9,10 +9,9 @@
         <input class="form-control" type="color" 
             name="{$fieldObject->getName()}" 
             placeholder="{if $fieldObject->getPlaceholder() !== null}{$fieldObject->getPlaceholder()}{/if}"
-            vito-name="{$fieldObject->getName()}-{$fieldIndex}"
 
             {foreach $fieldObject->getValidationCriterias() as $validationType => $value}
-                vito-{$validationType}="{$value}"
+                data-validation-{$validationType}="{$value}"
             {/foreach} 
 
             {if $fieldObject->getReadonly() === true}readonly{/if}

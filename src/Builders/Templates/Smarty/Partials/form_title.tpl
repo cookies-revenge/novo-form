@@ -1,4 +1,4 @@
-{assign var="formTitle" value=$formObj->getTitle()}
+{assign var="formTitle" value=$formObj->GetTitle()}
 {if $formTitle !== null}
     <div class="novo-form-title">
         <{$formTitle.type} class="text-gray-800 {$formTitle.type}

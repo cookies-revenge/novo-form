@@ -45,7 +45,6 @@
 
         </field>
 
-
         <fieldgroup html_class="bg-light rounded rounded-lg" name="fieldgroup1">
 
             <label html_class="font-weight-bold text-uppercase text-info">Field Group</label>
@@ -53,29 +52,60 @@
             <preceding_partial source="/vagrant/NovoForm/test/partials/preceding_fieldgroup.tpl" />
             <succeeding_partial source="/vagrant/NovoForm/test/partials/succeeding_fieldgroup.tpl" />
 
-            <field name="email" type="email" readonly="false" html_class="js__field2-class" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
+            <fields>
 
-                <placeholder>Add email here... (placeholder)</placeholder>
-                <label html_class="">Email (Email, field 2)</label>
-                <description html_class="">This is field 2 description</description>
-                <icon position="R">
-                    <description>SOMETHING</description>
-                </icon>
-                <validation mandatory="true" />
+                <field name="email" type="email" readonly="false" html_class="js__field2-class" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
 
-            </field>
+                    <placeholder>Add email here... (placeholder)</placeholder>
+                    <label html_class="">Email (Email, field 2)</label>
+                    <description html_class="">This is field 2 description</description>
+                    <icon position="R">
+                        <description>SOMETHING</description>
+                    </icon>
+                    <validation mandatory="true" />
+
+                </field>
 
 
-            <field name="password" type="password" readonly="false" html_class="js__field3-class" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
+                <field name="password" type="password" readonly="false" html_class="js__field3-class" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
 
-                <placeholder>Password (placeholder)</placeholder>
-                <label html_class="">Password (Password, field 3)</label>
-                <description html_class=""><![CDATA[Minimum 1 uppercase, minimum length 8, minimum 1 special char & min 1 numeric]]></description>
-                <validation mandatory="true" />
+                    <placeholder>Password (placeholder)</placeholder>
+                    <label html_class="">Password (Password, field 3)</label>
+                    <description html_class=""><![CDATA[Minimum 1 uppercase, minimum length 8, minimum 1 special char & min 1 numeric]]></description>
+                    <validation mandatory="true" />
 
-            </field>
+                </field>
+
+            </fields>
 
         </fieldgroup>
+
+
+        <relation html_class="" name="Person" class_name="\APP\Models\Person">
+
+            <label html_class="font-weight-bold text-uppercase text-info">Child Type</label>
+            <description html_class="">This is child/complex type.</description>
+
+            <fields>
+
+                <field name="email" type="email" readonly="false" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
+                    <placeholder>Add email here... (placeholder)</placeholder>
+                    <label html_class="">Email (Email, field 2)</label>
+                    <description html_class="">This is field 2 description</description>
+                    <validation mandatory="true" />
+                </field>
+
+
+                <field name="number" type="numeric" availability="*" resizable="" preloaded="true">
+                    <placeholder>Numeric</placeholder>
+                    <label html_class="">Numeric</label>
+                    <description html_class="">This is Numeric description. Max val = 5000.</description>
+                    <validation max-value="5000" />
+                </field>
+
+            </fields>
+
+        </relation>
 
 
         <field name="closing-date" type="date" readonly="false" html_class="js__closing-date" availability="*" format="Y-m-d H:i:s" size="default" resizable="" preloaded="" source_url="" multiple_choice="">
@@ -90,13 +120,11 @@
 
         </field>
 
-
         <field name="comment" type="textarea" availability="*" resizable="false">
             <placeholder>Comment (optional)</placeholder>
             <label html_class="">Comment (Textarea, field 5)</label>
             <description html_class="">This is field 5 description</description>
         </field>
-
 
         <field name="avatar" type="file" availability="*" multiple_choice="true" accept_types=".jpg,.jpeg,.png">
             <placeholder>Avatar File (optional)</placeholder>
@@ -107,7 +135,6 @@
             </icon>
             <validation mandatory="true" max-filesize="64" />
         </field>
-
 
         <field name="number" type="numeric" availability="*" resizable="" preloaded="true">
             <placeholder>Numeric</placeholder>

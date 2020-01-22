@@ -59,7 +59,7 @@ class AuthorTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -69,7 +69,7 @@ class AuthorTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /**
      * the column name for the id field
@@ -92,6 +92,11 @@ class AuthorTableMap extends TableMap
     const COL_TITLE = 'nft__authors.title';
 
     /**
+     * the column name for the upvotes field
+     */
+    const COL_UPVOTES = 'nft__authors.upvotes';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -103,11 +108,11 @@ class AuthorTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Crdate', 'Tstamp', 'Title', ),
-        self::TYPE_CAMELNAME     => array('id', 'crdate', 'tstamp', 'title', ),
-        self::TYPE_COLNAME       => array(AuthorTableMap::COL_ID, AuthorTableMap::COL_CRDATE, AuthorTableMap::COL_TSTAMP, AuthorTableMap::COL_TITLE, ),
-        self::TYPE_FIELDNAME     => array('id', 'crdate', 'tstamp', 'title', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id', 'Crdate', 'Tstamp', 'Title', 'Upvotes', ),
+        self::TYPE_CAMELNAME     => array('id', 'crdate', 'tstamp', 'title', 'upvotes', ),
+        self::TYPE_COLNAME       => array(AuthorTableMap::COL_ID, AuthorTableMap::COL_CRDATE, AuthorTableMap::COL_TSTAMP, AuthorTableMap::COL_TITLE, AuthorTableMap::COL_UPVOTES, ),
+        self::TYPE_FIELDNAME     => array('id', 'crdate', 'tstamp', 'title', 'upvotes', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -117,11 +122,11 @@ class AuthorTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Crdate' => 1, 'Tstamp' => 2, 'Title' => 3, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'crdate' => 1, 'tstamp' => 2, 'title' => 3, ),
-        self::TYPE_COLNAME       => array(AuthorTableMap::COL_ID => 0, AuthorTableMap::COL_CRDATE => 1, AuthorTableMap::COL_TSTAMP => 2, AuthorTableMap::COL_TITLE => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'crdate' => 1, 'tstamp' => 2, 'title' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Crdate' => 1, 'Tstamp' => 2, 'Title' => 3, 'Upvotes' => 4, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'crdate' => 1, 'tstamp' => 2, 'title' => 3, 'upvotes' => 4, ),
+        self::TYPE_COLNAME       => array(AuthorTableMap::COL_ID => 0, AuthorTableMap::COL_CRDATE => 1, AuthorTableMap::COL_TSTAMP => 2, AuthorTableMap::COL_TITLE => 3, AuthorTableMap::COL_UPVOTES => 4, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'crdate' => 1, 'tstamp' => 2, 'title' => 3, 'upvotes' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -145,6 +150,7 @@ class AuthorTableMap extends TableMap
         $this->addColumn('crdate', 'Crdate', 'INTEGER', true, null, 0);
         $this->addColumn('tstamp', 'Tstamp', 'INTEGER', true, null, 0);
         $this->addColumn('title', 'Title', 'VARCHAR', true, 128, null);
+        $this->addColumn('upvotes', 'Upvotes', 'INTEGER', true, null, 0);
     } // initialize()
 
     /**
@@ -306,11 +312,13 @@ class AuthorTableMap extends TableMap
             $criteria->addSelectColumn(AuthorTableMap::COL_CRDATE);
             $criteria->addSelectColumn(AuthorTableMap::COL_TSTAMP);
             $criteria->addSelectColumn(AuthorTableMap::COL_TITLE);
+            $criteria->addSelectColumn(AuthorTableMap::COL_UPVOTES);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.crdate');
             $criteria->addSelectColumn($alias . '.tstamp');
             $criteria->addSelectColumn($alias . '.title');
+            $criteria->addSelectColumn($alias . '.upvotes');
         }
     }
 

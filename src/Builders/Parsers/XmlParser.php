@@ -16,6 +16,7 @@ class XmlParser
     {
         $this->metadata_["entity"] = (string) $this->xml_["entity"] ?? null;
         $this->metadata_["class_name"] = (string) $this->xml_["class_name"] ?? null;
+        $this->metadata_["id_column_name"] = (string) $this->xml_["id_column_name"] ?? "Id";
         $this->metadata_["form_type"] = (string) $this->xml_["form_type"] ?? null;
         $this->metadata_["action_uri"] = (string) $this->xml_["action_uri"] ?? null;
         $this->metadata_["success_uri"] = (string) $this->xml_["success_uri"] ?? null;
@@ -60,37 +61,46 @@ class XmlParser
         $this->metadata_["field_definitions"] = [];
         foreach ($this->xml_->fields->children() as $field) {
             
-            if ($field->getName() === "fieldgroup") {
-                $fieldDefinition = [
-                    "type" => "fieldgroup",
-                    "name" => (string) $field["name"] ?? null,
-                    "html_class" => (string) $field["html_class"] ?? null,
-                    "label" => [
-                        "text" => (string) $field->label ?? null,
-                        "html_class" => (string) $field->label["html_class"] ?? null
-                    ],
-                    "description" => [
-                        "text" => (string) $field->description ?? null,
-                        "html_class" => (string) $field->description["html_class"] ?? null
-                    ]
-                ];
-                foreach ($field->preceding_partial as $preceding) {
-                    $fieldDefinition["preceding_partial"][] = ["source" => (string) $preceding["source"] ?? null];
-                }
-                foreach ($field->succeeding_partial as $succeeding) {
-                    $fieldDefinition["succeeding_partial"][] = ["source" => (string) $succeeding["source"] ?? null];
-                }
-                foreach ($field->children() as $subfield) {
-                    if ($subfield->getName() !== "field")
-                        continue;
-                    $fieldDefinition["field_definitions"][] = $this->processFieldTagDefinitions($subfield);
-                }
-                $this->metadata_["field_definitions"][] = $fieldDefinition;
+            if ($field->getName() === "fieldgroup" || $field->getName() === "relation") {
+                $this->processComplexTypeDefinitions($field);
                 continue;
             }
+
             $this->metadata_["field_definitions"][] = $this->processFieldTagDefinitions($field);
         }
         return $this->metadata_;
+    }
+
+    private function processComplexTypeDefinitions($field)
+    {
+        $fieldDefinition = [
+            "type" => $field->getName(),
+            "name" => (string) $field["name"] ?? null,
+            "html_class" => (string) $field["html_class"] ?? null,
+            "class_name" => (string) $field["class_name"] ?? null,
+            "relation_type" => (string) $field["relation_type"] ?? null,
+            "option_value_column" => (string) $field["option_value_column"] ?? "Id",
+            "label" => [
+                "text" => (string) $field->label ?? null,
+                "html_class" => (string) $field->label["html_class"] ?? null
+            ],
+            "description" => [
+                "text" => (string) $field->description ?? null,
+                "html_class" => (string) $field->description["html_class"] ?? null
+            ]
+        ];
+        foreach ($field->preceding_partial as $preceding) {
+            $fieldDefinition["preceding_partial"][] = ["source" => (string) $preceding["source"] ?? null];
+        }
+        foreach ($field->succeeding_partial as $succeeding) {
+            $fieldDefinition["succeeding_partial"][] = ["source" => (string) $succeeding["source"] ?? null];
+        }
+        if (isset($field->fields)) {
+            foreach ($field->fields->children() as $subfield) {
+                $fieldDefinition["field_definitions"][] = $this->processFieldTagDefinitions($subfield);
+            }
+        }
+        $this->metadata_["field_definitions"][] = $fieldDefinition;
     }
 
     private function processFieldTagDefinitions($field) 

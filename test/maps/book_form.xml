@@ -1,4 +1,4 @@
-<form entity="books" class_name="\Test\Models\Book" type="standard" display_double_controls="true" action_uri="simple_form_be.php">
+<form entity="books" class_name="\Test\Models\Book" id_column_name="Id" type="standard" display_double_controls="true" action_uri="simple_form_be.php">
 
 
 
@@ -25,42 +25,80 @@
 
     <fields>
 
+        <field name="Id" type="hidden" html_class="" readonly="true" availability="edit" format="" size="" resizable="" preloaded="" source_url="" multiple_choice="">
+            <validation mandatory="true" />
+        </field>
+
 
         <fieldgroup html_class="bg-light rounded rounded-lg" name="fieldgroup1">
 
             <label html_class="font-weight-bold text-uppercase text-info">Title &amp; Subtitle</label>
             <description html_class="">Please fill mandatory data in this box</description>
 
-            <field name="Title" type="input" readonly="false" html_class="" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
+            <fields>
+                <field name="Title" type="input" readonly="false" html_class="" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
+                    <placeholder>Book Title...</placeholder>
+                    <label html_class="">Book Title</label>
+                    <description html_class="">Enter a Book Title (max 128 characters)</description>
+                    <validation mandatory="true" max-length="128" />
+                </field>
 
-                <placeholder>Book Title...</placeholder>
-                <label html_class="">Book Title</label>
-                <description html_class="">Enter a Book Title (max 128 characters)</description>
-                <validation mandatory="true" max-length="128" />
+                <field name="Subtitle" type="input" readonly="false" html_class="" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
+                    <placeholder>Book Subtitle...</placeholder>
+                    <label html_class="">Book Subtitle</label>
+                    <description html_class="">Enter a Book Subtitle (max 256 characters)</description>
+                    <validation mandatory="true" max-length="256" />
+                </field>
 
-            </field>
-
-
-            <field name="Subtitle" type="input" readonly="false" html_class="" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
-
-                <placeholder>Book Subtitle...</placeholder>
-                <label html_class="">Book Subtitle</label>
-                <description html_class="">Enter a Book Subtitle (max 256 characters)</description>
-                <validation mandatory="true" max-length="256" />
-
-            </field>
-
-            <field name="AuthorId" type="select" availability="*" resizable="" preloaded="true">
-                <placeholder>Book Author...</placeholder>
-                <label html_class="">Book Author</label>
-                <description html_class="">Please Select from the List</description>
-                <validation mandatory="true" />
-            </field>
+                <field name="AuthorId" type="select" availability="*" resizable="" preloaded="true">
+                    <placeholder>Book Author...</placeholder>
+                    <label html_class="">Book Author</label>
+                    <description html_class="">Please Select from the List</description>
+                    <validation mandatory="true" />
+                </field>
+            </fields>
 
         </fieldgroup>
 
 
-        <field name="PublishDate" type="timestamp" readonly="false" availability="*" format="Y-m-d H:i:s" size="default" resizable="" preloaded="" source_url="" multiple_choice="">
+        <relation html_class="bg-secondary text-white" relation_type="Child" option_value_column="Id" name="Chapter" class_name="\Test\Models\Chapter">
+
+            <label html_class="font-weight-bold text-uppercase text-info">Chapters</label>
+            <description html_class="">Manage below Chapter child entities.</description>
+
+            <fields>
+                <field name="Id" type="hidden" html_class="" readonly="true" availability="edit" format="" size="" resizable="" preloaded="" source_url="" multiple_choice="">
+                    <validation mandatory="true" />
+                </field>
+                <field name="Title" type="input" html_class="mb-2" readonly="false" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
+                    <placeholder>Chapter Title...</placeholder>
+                    <label html_class="">Title</label>
+                    <description html_class=""></description>
+                    <validation mandatory="true" />
+                </field>
+                <field name="TotalPages" type="numeric" availability="*" resizable="" preloaded="true">
+                    <placeholder>Chapter Pages...</placeholder>
+                    <label html_class="">Total Pages</label>
+                    <description html_class=""></description>
+                    <validation max-value="2000" />
+                </field>
+            </fields>
+
+        </relation>
+
+        <!--<relation html_class="bg-secondary text-white" relation_type="Parent" option_value_column="Id" name="Author" class_name="\Test\Models\Author">
+            <fields>
+                <field name="Title" type="input" html_class="mb-2" readonly="false" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
+                    <placeholder>Author Name...</placeholder>
+                    <label html_class="">Name</label>
+                    <description html_class=""></description>
+                    <validation mandatory="true" />
+                </field>
+            </fields>
+        </relation>-->
+
+
+        <field name="PublishDate" type="timestamp" readonly="false" availability="*" format="Y-m-d" size="default" resizable="" preloaded="" source_url="" multiple_choice="">
 
             <placeholder>Publish Date...</placeholder>
             <label html_class="">Publish Date</label>
@@ -88,7 +126,7 @@
             <validation max-value="2000" />
         </field>
 
-        <field name="Genre" type="select" availability="*" resizable="" preloaded="true">
+        <field name="GenreId" type="select" availability="*" resizable="" preloaded="true">
             <placeholder>Book Genre...</placeholder>
             <label html_class="">Book Genre</label>
             <description html_class="">Please Select from the List</description>

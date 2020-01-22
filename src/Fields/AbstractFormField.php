@@ -11,6 +11,12 @@ abstract class AbstractFormField
         return true;
     }
 
+    public function SetTemplate($fieldTemplate)
+    {
+        $this->fieldTemplate_ = $fieldTemplate;
+        return $this;
+    }
+
     public function GetTemplate()
     {
         return $this->fieldTemplate_;
@@ -132,7 +138,9 @@ abstract class AbstractFormField
             $this->label_ = $label;
             return $this;
         }
-        $this->label_ = ["text" => $label, "html_class" => null];
+        if (!empty($label)) {
+            $this->label_ = ["text" => $label, "html_class" => null];
+        }
         return $this;
     }
 
@@ -155,7 +163,9 @@ abstract class AbstractFormField
             $this->description_ = $description;
             return $this;
         }
-        $this->description_ = ["text" => $description, "html_class" => null];
+        if (!empty($description)) {
+            $this->description_ = ["text" => $description, "html_class" => null];
+        }
         return $this;
     }
 

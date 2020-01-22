@@ -15,6 +15,7 @@ CREATE TABLE `nft__authors`
     `crdate` INTEGER DEFAULT 0 NOT NULL,
     `tstamp` INTEGER DEFAULT 0 NOT NULL,
     `title` VARCHAR(128) NOT NULL,
+    `upvotes` INTEGER DEFAULT 0 NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 
@@ -34,13 +35,34 @@ CREATE TABLE `nft__books`
     `total_pages` INTEGER DEFAULT 0 NOT NULL,
     `publish_date` INTEGER DEFAULT 0 NOT NULL,
     `abstract` TEXT,
-    `genre` INTEGER DEFAULT 0 NOT NULL,
+    `genre_id` INTEGER DEFAULT 0 NOT NULL,
     `author_id` INTEGER NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `nft__books_fi_043ea7` (`author_id`),
     CONSTRAINT `nft__books_fk_043ea7`
         FOREIGN KEY (`author_id`)
         REFERENCES `nft__authors` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- nft__chapter
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nft__chapter`;
+
+CREATE TABLE `nft__chapter`
+(
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `crdate` INTEGER DEFAULT 0 NOT NULL,
+    `tstamp` INTEGER DEFAULT 0 NOT NULL,
+    `title` VARCHAR(128) NOT NULL,
+    `total_pages` INTEGER DEFAULT 0 NOT NULL,
+    `book_id` INTEGER NOT NULL,
+    PRIMARY KEY (`id`),
+    INDEX `nft__chapter_fi_0b213b` (`book_id`),
+    CONSTRAINT `nft__chapter_fk_0b213b`
+        FOREIGN KEY (`book_id`)
+        REFERENCES `nft__books` (`id`)
 ) ENGINE=InnoDB;
 
 # This restores the fkey checks, after having unset them earlier

@@ -17,10 +17,31 @@ echo "</head>";
 
 $novoFormObject = new Form("./maps/book_form.xml");
 
+foreach ($novoFormObject->GetFieldsByType("relation") as $rel) {
+    
+}
+if (isset($_GET["ID"])) {
+    $book = \Test\Models\BookQuery::create()->findPk($_GET["ID"]);
+    $record = $book->toArray();
+    foreach ($novoFormObject->GetFieldsByType("relation") as $rel) {
+
+        $getter = "get{$rel->GetName()}";
+        if ($rel->GetRelationType() === "Child")
+            $getter .= "s";
+
+        $record[$rel->GetName()] = $book->$getter()->toArray();
+    }
+    $novoFormObject->SetRecord($record);
+}
+
+if (isset($_GET["SUCCESS"])) {
+    $novoFormObject->AddPrecedingPartial("partials/form_success.tpl");
+}
+
 $novoFormObject->SetFieldItems("AuthorId", [
     ["Id" => 1, "Title" => "Leo Tolstoy"],
-    ["Id" => 2, "Title" => "Fyodor Mikhailovich Dostoevsky"],
-    ["Id" => 3, "Title" => "Charles Bukowski"],
+    ["Id" => 2, "Title" => "Charles Bukowski"],
+    ["Id" => 3, "Title" => "Fyodor Mikhailovich Dostoevsky"],
     ["Id" => 4, "Title" => "Knut Hamsun"]
 ]);
 

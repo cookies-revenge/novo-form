@@ -7,6 +7,7 @@
         <column name="crdate" phpName="Crdate" type="INTEGER" required="true" defaultValue="0"/>
         <column name="tstamp" phpName="Tstamp" type="INTEGER" required="true" defaultValue="0"/>
         <column name="title" phpName="Title" type="VARCHAR" size="128" required="true"/>
+        <column name="upvotes" phpName="Upvotes" type="INTEGER" required="true" defaultValue="0"/>
 
         <vendor type="mysql">
             <parameter name="Engine" value="InnoDB"/>
@@ -22,11 +23,28 @@
         <column name="total_pages" phpName="TotalPages" type="INTEGER" required="true" defaultValue="0"/>
         <column name="publish_date" phpName="PublishDate" type="INTEGER" required="true" defaultValue="0"/>
         <column name="abstract" phpName="Abstract" type="LONGVARCHAR"/>
-        <column name="genre" phpName="Genre" type="INTEGER" required="true" defaultValue="0"/>
+        <column name="genre_id" phpName="GenreId" type="INTEGER" required="true" defaultValue="0"/>
 
         <column name="author_id" phpName="AuthorId" type="INTEGER" required="true"/>
         <foreign-key foreignTable="authors" phpName="Author">
             <reference local="author_id" foreign="id"/>
+        </foreign-key>
+
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+        </vendor>
+    </table>
+
+    <table name="chapter" idMethod="native" phpName="Chapter">
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="crdate" phpName="Crdate" type="INTEGER" required="true" defaultValue="0"/>
+        <column name="tstamp" phpName="Tstamp" type="INTEGER" required="true" defaultValue="0"/>
+        <column name="title" phpName="Title" type="VARCHAR" size="128" required="true"/>
+        <column name="total_pages" phpName="TotalPages" type="INTEGER" required="true" defaultValue="0"/>
+
+        <column name="book_id" phpName="BookId" type="INTEGER" required="true"/>
+        <foreign-key foreignTable="books" phpName="Book">
+            <reference local="book_id" foreign="id"/>
         </foreign-key>
 
         <vendor type="mysql">

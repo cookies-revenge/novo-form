@@ -48,6 +48,8 @@ class Form
 
             if ($fieldDefinition["type"] === "fieldgroup") {
                 $this->buildFormGroup($formField, $fieldDefinition);
+            } else if ($fieldDefinition["type"] === "relation") {
+                $this->buildRelation($formField, $fieldDefinition);
             } else {
                 $this->buildFormField($formField, $fieldDefinition);
             }
@@ -78,6 +80,7 @@ class Form
         $this->failureUri_ = $defs["failure_uri"];
         $this->precedingPartials_ = $defs["preceding_partial"];
         $this->succeedingPartials_ = $defs["succeeding_partial"];
+        $this->idColumnName_ = $defs["id_column_name"];
     }
 
 
@@ -85,6 +88,14 @@ class Form
     {
         $formField = null;
         switch ($fieldDefinition["type"]) {
+            // complex types
+            case "fieldgroup":
+                $formField = new \CookiesRevenge\NovoForm\Fields\FieldGroup();
+                break;
+            case "relation":
+                $formField = new \CookiesRevenge\NovoForm\Fields\Relation();
+                break;
+            // litoral types
             case "input":
                 $formField = new \CookiesRevenge\NovoForm\Fields\Input();
                 break;
@@ -120,16 +131,11 @@ class Form
                 $formField = new \CookiesRevenge\NovoForm\Fields\Richtext();
                 break;
             case "select":
-                $formField = new \CookiesRevenge\NovoForm\Fields\Select();
-                break;
             case "dropdown":
-                $formField = new \CookiesRevenge\NovoForm\Fields\Dropdown();
+                $formField = new \CookiesRevenge\NovoForm\Fields\Select();
                 break;
             case "checkbox":
                 $formField = new \CookiesRevenge\NovoForm\Fields\Checkbox();
-                break;
-            case "fieldgroup":
-                $formField = new \CookiesRevenge\NovoForm\Fields\FieldGroup();
                 break;
             default:break;
         }
@@ -140,10 +146,10 @@ class Form
     private function buildFormField($formField, $fieldDefinition)
     {
         $formField->SetType($fieldDefinition["type"])
-            ->SetName($fieldDefinition["name"])
+            ->SetName($fieldDefinition["name"]);
 
             // availability mode
-            ->SetAvailability($fieldDefinition["availability"])
+        $formField->SetAvailability($fieldDefinition["availability"])
 
             // labels & descriptions
             ->SetLabel($fieldDefinition["label"])
@@ -188,10 +194,34 @@ class Form
             ->SetSucceedingPartials($fieldDefinition["succeeding_partial"] ?? [])
             ->SetHtmlClass($fieldDefinition["html_class"]);
         
-        foreach ($fieldDefinition["field_definitions"] as $subfieldDef) {
-            $subfieldObj = $this->initFormField($subfieldDef);
-            $this->buildFormField($subfieldObj, $subfieldDef);
-            $formField->AppendSubfield($subfieldObj);
+        if (isset($fieldDefinition["field_definitions"])) {
+            foreach ($fieldDefinition["field_definitions"] as $subfieldDef) {
+                $subfieldObj = $this->initFormField($subfieldDef);
+                $this->buildFormField($subfieldObj, $subfieldDef);
+                $formField->AppendSubfield($subfieldObj);
+            }
+        }
+    }
+
+    private function buildRelation($formField, $fieldDefinition)
+    {
+        $formField->SetRelationType($fieldDefinition["relation_type"])
+            ->SetClassName($fieldDefinition["class_name"])
+            ->SetOptionValueColumn($fieldDefinition["option_value_column"])
+            ->SetType($fieldDefinition["type"])
+            ->SetName($fieldDefinition["name"])
+            ->SetLabel($fieldDefinition["label"])
+            ->SetDescription($fieldDefinition["description"])
+            ->SetPrecedingPartials($fieldDefinition["preceding_partial"] ?? [])
+            ->SetSucceedingPartials($fieldDefinition["succeeding_partial"] ?? [])
+            ->SetHtmlClass($fieldDefinition["html_class"]);
+        
+        if (isset($fieldDefinition["field_definitions"])) {
+            foreach ($fieldDefinition["field_definitions"] as $subfieldDef) {
+                $subfieldObj = $this->initFormField($subfieldDef);
+                $this->buildFormField($subfieldObj, $subfieldDef);
+                $formField->AppendSubfield($subfieldObj);
+            }
         }
     }
 
@@ -214,18 +244,44 @@ class Form
         return $formHtml;
     }
 
-    public function ToValues()
+    public function ToValue()
     {
         $return = [];
         $this->toValueRecursive($this, $return);
         return $return;
     }
 
-    public function ToEntity($orm = null, $id = null)
+    public function ToEntity($orm = null)
     {
-        $entityBuilder = new \CookiesRevenge\NovoForm\Entities\EntityBuilder($orm ?? $this->orm_, $this->className_, $id);
+        $orm = $orm ?? $this->orm_;
+        $entityValues = $this->ToValue();
+        $entityId = null;
+        if (array_key_exists($this->idColumnName_, $entityValues))
+            $entityId = $entityValues[$this->idColumnName_];
+
+        $entityBuilder = new \CookiesRevenge\NovoForm\Entities\EntityBuilder($orm, $this->className_, $entityId);
         $entity = $entityBuilder->Build();
-        foreach ($this->ToValues() as $name => $value) {
+
+        foreach ($entityValues as $name => $value) {
+
+            if ($this->GetFieldByName($name)->GetAvailability() === "edit" && $entityId === null)
+                continue;
+
+            $fieldObj = $this->GetFieldByName($name);
+
+            if ($fieldObj->GetType() === "relation") {
+                $relObjs = $fieldObj->ToEntity($orm);
+
+                if ($fieldObj->GetRelationType() === "Child")
+                    foreach ($relObjs as $relObj)
+                        $entity->AddChild($fieldObj->GetName(), $relObj->GetObject());
+
+                else if ($fieldObj->GetRelationType() === "Parent")
+                    $entity->SetParent($fieldObj->GetName(), $relObjs[0]->GetObject());
+
+                continue;
+            }
+
             $entity->SetPropertyByName($name, $value);
         }
         return $entity;
@@ -238,7 +294,7 @@ class Form
 
     private function toValueRecursive($parent, &$return)
     {
-        foreach ($parent->listFields() as $fieldKey => $fieldObj) {
+        foreach ($parent->ListFields() as $fieldKey => $fieldObj) {
 
             if ($fieldObj->GetType() === "fieldgroup") {
                 $this->toValueRecursive($fieldObj, $return);
@@ -265,6 +321,20 @@ class Form
     {
         if (isset($this->fieldObjects_[$fieldName]))
             return $this->fieldObjects_[$fieldName];
+        
+        /*
+        * Check if field name like "Owner.FirstName"
+        *
+        * If so, fetch Relation (child relation) called "Owner",
+        * and then fetch Owner's property "FirstName"
+        */
+        if (strpos($fieldName, ".") > 0) {
+            $parts = explode(".", $fieldName);
+            if (isset($this->fieldObjects_[$parts[0]])) {
+                $relation = $this->fieldObjects_[$parts[0]];
+                return $relation->GetSubfieldByName($parts[1]);
+            }
+        }
         
         foreach ($this->GetFieldsByType("fieldgroup") as $group) {
             return $group->GetSubfieldByName($fieldName);
@@ -363,6 +433,7 @@ class Form
 
     private $entity_ = null;
     private $className_ = null;
+    private $idColumnName_ = null;
     private $actionUri_ = null;
     private $successUri_ = null;
     private $failureUri_ = null;
@@ -687,6 +758,27 @@ class Form
     {
         $this->guid_ = $guid;
 
+        return $this;
+    }
+
+    public function GetIdColumnName()
+    {
+        return $this->idColumnName_;
+    }
+
+    public function GetEntityId()
+    {
+        $entityValues = $this->ToValue();
+        if (array_key_exists($this->idColumnName_, $entityValues)) {
+            return $entityValues[$this->idColumnName_];
+        }
+
+        return null;
+    }
+
+    public function SetIdColumnName($icn)
+    {
+        $this->idColumnName_ = $icn;
         return $this;
     }
 }

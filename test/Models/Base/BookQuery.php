@@ -28,7 +28,7 @@ use Test\Models\Map\BookTableMap;
  * @method     ChildBookQuery orderByTotalPages($order = Criteria::ASC) Order by the total_pages column
  * @method     ChildBookQuery orderByPublishDate($order = Criteria::ASC) Order by the publish_date column
  * @method     ChildBookQuery orderByAbstract($order = Criteria::ASC) Order by the abstract column
- * @method     ChildBookQuery orderByGenre($order = Criteria::ASC) Order by the genre column
+ * @method     ChildBookQuery orderByGenreId($order = Criteria::ASC) Order by the genre_id column
  * @method     ChildBookQuery orderByAuthorId($order = Criteria::ASC) Order by the author_id column
  *
  * @method     ChildBookQuery groupById() Group by the id column
@@ -39,7 +39,7 @@ use Test\Models\Map\BookTableMap;
  * @method     ChildBookQuery groupByTotalPages() Group by the total_pages column
  * @method     ChildBookQuery groupByPublishDate() Group by the publish_date column
  * @method     ChildBookQuery groupByAbstract() Group by the abstract column
- * @method     ChildBookQuery groupByGenre() Group by the genre column
+ * @method     ChildBookQuery groupByGenreId() Group by the genre_id column
  * @method     ChildBookQuery groupByAuthorId() Group by the author_id column
  *
  * @method     ChildBookQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -60,7 +60,17 @@ use Test\Models\Map\BookTableMap;
  * @method     ChildBookQuery rightJoinWithAuthor() Adds a RIGHT JOIN clause and with to the query using the Author relation
  * @method     ChildBookQuery innerJoinWithAuthor() Adds a INNER JOIN clause and with to the query using the Author relation
  *
- * @method     \Test\Models\AuthorQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     ChildBookQuery leftJoinChapter($relationAlias = null) Adds a LEFT JOIN clause to the query using the Chapter relation
+ * @method     ChildBookQuery rightJoinChapter($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Chapter relation
+ * @method     ChildBookQuery innerJoinChapter($relationAlias = null) Adds a INNER JOIN clause to the query using the Chapter relation
+ *
+ * @method     ChildBookQuery joinWithChapter($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the Chapter relation
+ *
+ * @method     ChildBookQuery leftJoinWithChapter() Adds a LEFT JOIN clause and with to the query using the Chapter relation
+ * @method     ChildBookQuery rightJoinWithChapter() Adds a RIGHT JOIN clause and with to the query using the Chapter relation
+ * @method     ChildBookQuery innerJoinWithChapter() Adds a INNER JOIN clause and with to the query using the Chapter relation
+ *
+ * @method     \Test\Models\AuthorQuery|\Test\Models\ChapterQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildBook findOne(ConnectionInterface $con = null) Return the first ChildBook matching the query
  * @method     ChildBook findOneOrCreate(ConnectionInterface $con = null) Return the first ChildBook matching the query, or a new ChildBook object populated from the query conditions when no match is found
@@ -73,7 +83,7 @@ use Test\Models\Map\BookTableMap;
  * @method     ChildBook findOneByTotalPages(int $total_pages) Return the first ChildBook filtered by the total_pages column
  * @method     ChildBook findOneByPublishDate(int $publish_date) Return the first ChildBook filtered by the publish_date column
  * @method     ChildBook findOneByAbstract(string $abstract) Return the first ChildBook filtered by the abstract column
- * @method     ChildBook findOneByGenre(int $genre) Return the first ChildBook filtered by the genre column
+ * @method     ChildBook findOneByGenreId(int $genre_id) Return the first ChildBook filtered by the genre_id column
  * @method     ChildBook findOneByAuthorId(int $author_id) Return the first ChildBook filtered by the author_id column *
 
  * @method     ChildBook requirePk($key, ConnectionInterface $con = null) Return the ChildBook by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -87,7 +97,7 @@ use Test\Models\Map\BookTableMap;
  * @method     ChildBook requireOneByTotalPages(int $total_pages) Return the first ChildBook filtered by the total_pages column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBook requireOneByPublishDate(int $publish_date) Return the first ChildBook filtered by the publish_date column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBook requireOneByAbstract(string $abstract) Return the first ChildBook filtered by the abstract column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildBook requireOneByGenre(int $genre) Return the first ChildBook filtered by the genre column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildBook requireOneByGenreId(int $genre_id) Return the first ChildBook filtered by the genre_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBook requireOneByAuthorId(int $author_id) Return the first ChildBook filtered by the author_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildBook[]|ObjectCollection find(ConnectionInterface $con = null) Return ChildBook objects based on current ModelCriteria
@@ -99,7 +109,7 @@ use Test\Models\Map\BookTableMap;
  * @method     ChildBook[]|ObjectCollection findByTotalPages(int $total_pages) Return ChildBook objects filtered by the total_pages column
  * @method     ChildBook[]|ObjectCollection findByPublishDate(int $publish_date) Return ChildBook objects filtered by the publish_date column
  * @method     ChildBook[]|ObjectCollection findByAbstract(string $abstract) Return ChildBook objects filtered by the abstract column
- * @method     ChildBook[]|ObjectCollection findByGenre(int $genre) Return ChildBook objects filtered by the genre column
+ * @method     ChildBook[]|ObjectCollection findByGenreId(int $genre_id) Return ChildBook objects filtered by the genre_id column
  * @method     ChildBook[]|ObjectCollection findByAuthorId(int $author_id) Return ChildBook objects filtered by the author_id column
  * @method     ChildBook[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  *
@@ -199,7 +209,7 @@ abstract class BookQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, crdate, tstamp, title, subtitle, total_pages, publish_date, abstract, genre, author_id FROM nft__books WHERE id = :p0';
+        $sql = 'SELECT id, crdate, tstamp, title, subtitle, total_pages, publish_date, abstract, genre_id, author_id FROM nft__books WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -570,16 +580,16 @@ abstract class BookQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the genre column
+     * Filter the query on the genre_id column
      *
      * Example usage:
      * <code>
-     * $query->filterByGenre(1234); // WHERE genre = 1234
-     * $query->filterByGenre(array(12, 34)); // WHERE genre IN (12, 34)
-     * $query->filterByGenre(array('min' => 12)); // WHERE genre > 12
+     * $query->filterByGenreId(1234); // WHERE genre_id = 1234
+     * $query->filterByGenreId(array(12, 34)); // WHERE genre_id IN (12, 34)
+     * $query->filterByGenreId(array('min' => 12)); // WHERE genre_id > 12
      * </code>
      *
-     * @param     mixed $genre The value to use as filter.
+     * @param     mixed $genreId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -587,16 +597,16 @@ abstract class BookQuery extends ModelCriteria
      *
      * @return $this|ChildBookQuery The current query, for fluid interface
      */
-    public function filterByGenre($genre = null, $comparison = null)
+    public function filterByGenreId($genreId = null, $comparison = null)
     {
-        if (is_array($genre)) {
+        if (is_array($genreId)) {
             $useMinMax = false;
-            if (isset($genre['min'])) {
-                $this->addUsingAlias(BookTableMap::COL_GENRE, $genre['min'], Criteria::GREATER_EQUAL);
+            if (isset($genreId['min'])) {
+                $this->addUsingAlias(BookTableMap::COL_GENRE_ID, $genreId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($genre['max'])) {
-                $this->addUsingAlias(BookTableMap::COL_GENRE, $genre['max'], Criteria::LESS_EQUAL);
+            if (isset($genreId['max'])) {
+                $this->addUsingAlias(BookTableMap::COL_GENRE_ID, $genreId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -607,7 +617,7 @@ abstract class BookQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(BookTableMap::COL_GENRE, $genre, $comparison);
+        return $this->addUsingAlias(BookTableMap::COL_GENRE_ID, $genreId, $comparison);
     }
 
     /**
@@ -728,6 +738,79 @@ abstract class BookQuery extends ModelCriteria
         return $this
             ->joinAuthor($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Author', '\Test\Models\AuthorQuery');
+    }
+
+    /**
+     * Filter the query by a related \Test\Models\Chapter object
+     *
+     * @param \Test\Models\Chapter|ObjectCollection $chapter the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBookQuery The current query, for fluid interface
+     */
+    public function filterByChapter($chapter, $comparison = null)
+    {
+        if ($chapter instanceof \Test\Models\Chapter) {
+            return $this
+                ->addUsingAlias(BookTableMap::COL_ID, $chapter->getBookId(), $comparison);
+        } elseif ($chapter instanceof ObjectCollection) {
+            return $this
+                ->useChapterQuery()
+                ->filterByPrimaryKeys($chapter->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByChapter() only accepts arguments of type \Test\Models\Chapter or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Chapter relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildBookQuery The current query, for fluid interface
+     */
+    public function joinChapter($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Chapter');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Chapter');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Chapter relation Chapter object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \Test\Models\ChapterQuery A secondary query class using the current class as primary query
+     */
+    public function useChapterQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinChapter($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Chapter', '\Test\Models\ChapterQuery');
     }
 
     /**

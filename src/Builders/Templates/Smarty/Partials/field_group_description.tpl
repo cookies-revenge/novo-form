@@ -1,4 +1,4 @@
-{assign var="fieldGroupDescription" value=$fieldObj->getDescription()}
+{assign var="fieldGroupDescription" value=$fieldObj->GetDescription()}
 {if $fieldGroupDescription}
     <p class="novo-field-group-description 
     {if $fieldGroupDescription.html_class}

@@ -10,6 +10,9 @@ abstract class AbstractEntity implements EntityInterface
     public abstract function SetPropertyByName($name, $value);
     public abstract function SetProperies($values);
     public abstract function GetPropertyByName($name);
+    public abstract function SetParent($name, $parent);
+    public abstract function AddChild($name, $child);
+    public abstract function IsModified();
     public abstract function Save();
     public abstract function Delete();
 
@@ -18,6 +21,6 @@ abstract class AbstractEntity implements EntityInterface
         return $this->object_;
     }
 
-    private $object_ = null;
+    protected $object_ = null;
 
 }

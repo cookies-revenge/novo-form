@@ -8,7 +8,7 @@ class PropelEntity extends AbstractEntity
     {
         if ($id === null) {
             $this->object_ = new $className();
-            return $this;
+            return;
         }
 
         $className .= "Query";
@@ -33,7 +33,12 @@ class PropelEntity extends AbstractEntity
 
     public function SetPropertyByName($name, $value)
     {
-        $this->object_->setByName($name, $value);
+        $getter = "get{$name}";        
+        $setter = "set{$name}";
+
+        if ($this->object_->$getter() != $value)
+            $this->object_->$setter($value);
+
         return $this;
     }
 
@@ -45,6 +50,25 @@ class PropelEntity extends AbstractEntity
     public function GetPropertyByName($name)
     {
         return $this->object_->getByName($name);
+    }
+
+    public function SetParent($name, $parent)
+    {
+        $setter = "set{$name}";
+        $this->object_->$setter($parent);
+        return $this;
+    }
+
+    public function AddChild($name, $child)
+    {
+        $setter = "add{$name}";
+        $this->object_->$setter($child);
+        return $this;
+    }
+
+    public function IsModified()
+    {
+        return $this->object_->isModified();
     }
 
     public function Save()
