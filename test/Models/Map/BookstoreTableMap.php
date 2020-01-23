@@ -11,12 +11,12 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\RelationMap;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Map\TableMapTrait;
-use Test\Models\Chapter;
-use Test\Models\ChapterQuery;
+use Test\Models\Bookstore;
+use Test\Models\BookstoreQuery;
 
 
 /**
- * This class defines the structure of the 'nft__chapters' table.
+ * This class defines the structure of the 'nft__bookstores' table.
  *
  *
  *
@@ -26,7 +26,7 @@ use Test\Models\ChapterQuery;
  * (i.e. if it's a text column type).
  *
  */
-class ChapterTableMap extends TableMap
+class BookstoreTableMap extends TableMap
 {
     use InstancePoolTrait;
     use TableMapTrait;
@@ -34,7 +34,7 @@ class ChapterTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'Test.Models.Map.ChapterTableMap';
+    const CLASS_NAME = 'Test.Models.Map.BookstoreTableMap';
 
     /**
      * The default database name for this class
@@ -44,17 +44,17 @@ class ChapterTableMap extends TableMap
     /**
      * The table name for this class
      */
-    const TABLE_NAME = 'nft__chapters';
+    const TABLE_NAME = 'nft__bookstores';
 
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\Test\\Models\\Chapter';
+    const OM_CLASS = '\\Test\\Models\\Bookstore';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'Test.Models.Chapter';
+    const CLASS_DEFAULT = 'Test.Models.Bookstore';
 
     /**
      * The total number of columns
@@ -74,32 +74,32 @@ class ChapterTableMap extends TableMap
     /**
      * the column name for the id field
      */
-    const COL_ID = 'nft__chapters.id';
+    const COL_ID = 'nft__bookstores.id';
 
     /**
      * the column name for the crdate field
      */
-    const COL_CRDATE = 'nft__chapters.crdate';
+    const COL_CRDATE = 'nft__bookstores.crdate';
 
     /**
      * the column name for the tstamp field
      */
-    const COL_TSTAMP = 'nft__chapters.tstamp';
+    const COL_TSTAMP = 'nft__bookstores.tstamp';
 
     /**
      * the column name for the title field
      */
-    const COL_TITLE = 'nft__chapters.title';
+    const COL_TITLE = 'nft__bookstores.title';
 
     /**
-     * the column name for the total_pages field
+     * the column name for the city field
      */
-    const COL_TOTAL_PAGES = 'nft__chapters.total_pages';
+    const COL_CITY = 'nft__bookstores.city';
 
     /**
-     * the column name for the book_id field
+     * the column name for the address field
      */
-    const COL_BOOK_ID = 'nft__chapters.book_id';
+    const COL_ADDRESS = 'nft__bookstores.address';
 
     /**
      * The default string format for model objects of the related table
@@ -113,10 +113,10 @@ class ChapterTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Crdate', 'Tstamp', 'Title', 'TotalPages', 'BookId', ),
-        self::TYPE_CAMELNAME     => array('id', 'crdate', 'tstamp', 'title', 'totalPages', 'bookId', ),
-        self::TYPE_COLNAME       => array(ChapterTableMap::COL_ID, ChapterTableMap::COL_CRDATE, ChapterTableMap::COL_TSTAMP, ChapterTableMap::COL_TITLE, ChapterTableMap::COL_TOTAL_PAGES, ChapterTableMap::COL_BOOK_ID, ),
-        self::TYPE_FIELDNAME     => array('id', 'crdate', 'tstamp', 'title', 'total_pages', 'book_id', ),
+        self::TYPE_PHPNAME       => array('Id', 'Crdate', 'Tstamp', 'Title', 'City', 'Address', ),
+        self::TYPE_CAMELNAME     => array('id', 'crdate', 'tstamp', 'title', 'city', 'address', ),
+        self::TYPE_COLNAME       => array(BookstoreTableMap::COL_ID, BookstoreTableMap::COL_CRDATE, BookstoreTableMap::COL_TSTAMP, BookstoreTableMap::COL_TITLE, BookstoreTableMap::COL_CITY, BookstoreTableMap::COL_ADDRESS, ),
+        self::TYPE_FIELDNAME     => array('id', 'crdate', 'tstamp', 'title', 'city', 'address', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
@@ -127,10 +127,10 @@ class ChapterTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Crdate' => 1, 'Tstamp' => 2, 'Title' => 3, 'TotalPages' => 4, 'BookId' => 5, ),
-        self::TYPE_CAMELNAME     => array('id' => 0, 'crdate' => 1, 'tstamp' => 2, 'title' => 3, 'totalPages' => 4, 'bookId' => 5, ),
-        self::TYPE_COLNAME       => array(ChapterTableMap::COL_ID => 0, ChapterTableMap::COL_CRDATE => 1, ChapterTableMap::COL_TSTAMP => 2, ChapterTableMap::COL_TITLE => 3, ChapterTableMap::COL_TOTAL_PAGES => 4, ChapterTableMap::COL_BOOK_ID => 5, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'crdate' => 1, 'tstamp' => 2, 'title' => 3, 'total_pages' => 4, 'book_id' => 5, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Crdate' => 1, 'Tstamp' => 2, 'Title' => 3, 'City' => 4, 'Address' => 5, ),
+        self::TYPE_CAMELNAME     => array('id' => 0, 'crdate' => 1, 'tstamp' => 2, 'title' => 3, 'city' => 4, 'address' => 5, ),
+        self::TYPE_COLNAME       => array(BookstoreTableMap::COL_ID => 0, BookstoreTableMap::COL_CRDATE => 1, BookstoreTableMap::COL_TSTAMP => 2, BookstoreTableMap::COL_TITLE => 3, BookstoreTableMap::COL_CITY => 4, BookstoreTableMap::COL_ADDRESS => 5, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'crdate' => 1, 'tstamp' => 2, 'title' => 3, 'city' => 4, 'address' => 5, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
@@ -144,10 +144,10 @@ class ChapterTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('nft__chapters');
-        $this->setPhpName('Chapter');
+        $this->setName('nft__bookstores');
+        $this->setPhpName('Bookstore');
         $this->setIdentifierQuoting(false);
-        $this->setClassName('\\Test\\Models\\Chapter');
+        $this->setClassName('\\Test\\Models\\Bookstore');
         $this->setPackage('Test.Models');
         $this->setUseIdGenerator(true);
         // columns
@@ -155,8 +155,8 @@ class ChapterTableMap extends TableMap
         $this->addColumn('crdate', 'Crdate', 'INTEGER', true, null, 0);
         $this->addColumn('tstamp', 'Tstamp', 'INTEGER', true, null, 0);
         $this->addColumn('title', 'Title', 'VARCHAR', true, 128, null);
-        $this->addColumn('total_pages', 'TotalPages', 'INTEGER', true, null, 0);
-        $this->addForeignKey('book_id', 'BookId', 'INTEGER', 'nft__books', 'id', true, null, null);
+        $this->addColumn('city', 'City', 'VARCHAR', true, 128, null);
+        $this->addColumn('address', 'Address', 'VARCHAR', true, 128, null);
     } // initialize()
 
     /**
@@ -164,13 +164,13 @@ class ChapterTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Book', '\\Test\\Models\\Book', RelationMap::MANY_TO_ONE, array (
+        $this->addRelation('BookstoreBook', '\\Test\\Models\\BookstoreBook', RelationMap::ONE_TO_MANY, array (
   0 =>
   array (
-    0 => ':book_id',
+    0 => ':bookstore_id',
     1 => ':id',
   ),
-), null, null, null, false);
+), null, null, 'BookstoreBooks', false);
     } // buildRelations()
 
     /**
@@ -230,7 +230,7 @@ class ChapterTableMap extends TableMap
      */
     public static function getOMClass($withPrefix = true)
     {
-        return $withPrefix ? ChapterTableMap::CLASS_DEFAULT : ChapterTableMap::OM_CLASS;
+        return $withPrefix ? BookstoreTableMap::CLASS_DEFAULT : BookstoreTableMap::OM_CLASS;
     }
 
     /**
@@ -244,22 +244,22 @@ class ChapterTableMap extends TableMap
      *
      * @throws PropelException Any exceptions caught during processing will be
      *                         rethrown wrapped into a PropelException.
-     * @return array           (Chapter object, last column rank)
+     * @return array           (Bookstore object, last column rank)
      */
     public static function populateObject($row, $offset = 0, $indexType = TableMap::TYPE_NUM)
     {
-        $key = ChapterTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
-        if (null !== ($obj = ChapterTableMap::getInstanceFromPool($key))) {
+        $key = BookstoreTableMap::getPrimaryKeyHashFromRow($row, $offset, $indexType);
+        if (null !== ($obj = BookstoreTableMap::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $offset, true); // rehydrate
-            $col = $offset + ChapterTableMap::NUM_HYDRATE_COLUMNS;
+            $col = $offset + BookstoreTableMap::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = ChapterTableMap::OM_CLASS;
-            /** @var Chapter $obj */
+            $cls = BookstoreTableMap::OM_CLASS;
+            /** @var Bookstore $obj */
             $obj = new $cls();
             $col = $obj->hydrate($row, $offset, false, $indexType);
-            ChapterTableMap::addInstanceToPool($obj, $key);
+            BookstoreTableMap::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -282,18 +282,18 @@ class ChapterTableMap extends TableMap
         $cls = static::getOMClass(false);
         // populate the object(s)
         while ($row = $dataFetcher->fetch()) {
-            $key = ChapterTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
-            if (null !== ($obj = ChapterTableMap::getInstanceFromPool($key))) {
+            $key = BookstoreTableMap::getPrimaryKeyHashFromRow($row, 0, $dataFetcher->getIndexType());
+            if (null !== ($obj = BookstoreTableMap::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
                 $results[] = $obj;
             } else {
-                /** @var Chapter $obj */
+                /** @var Bookstore $obj */
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                ChapterTableMap::addInstanceToPool($obj, $key);
+                BookstoreTableMap::addInstanceToPool($obj, $key);
             } // if key exists
         }
 
@@ -314,19 +314,19 @@ class ChapterTableMap extends TableMap
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(ChapterTableMap::COL_ID);
-            $criteria->addSelectColumn(ChapterTableMap::COL_CRDATE);
-            $criteria->addSelectColumn(ChapterTableMap::COL_TSTAMP);
-            $criteria->addSelectColumn(ChapterTableMap::COL_TITLE);
-            $criteria->addSelectColumn(ChapterTableMap::COL_TOTAL_PAGES);
-            $criteria->addSelectColumn(ChapterTableMap::COL_BOOK_ID);
+            $criteria->addSelectColumn(BookstoreTableMap::COL_ID);
+            $criteria->addSelectColumn(BookstoreTableMap::COL_CRDATE);
+            $criteria->addSelectColumn(BookstoreTableMap::COL_TSTAMP);
+            $criteria->addSelectColumn(BookstoreTableMap::COL_TITLE);
+            $criteria->addSelectColumn(BookstoreTableMap::COL_CITY);
+            $criteria->addSelectColumn(BookstoreTableMap::COL_ADDRESS);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.crdate');
             $criteria->addSelectColumn($alias . '.tstamp');
             $criteria->addSelectColumn($alias . '.title');
-            $criteria->addSelectColumn($alias . '.total_pages');
-            $criteria->addSelectColumn($alias . '.book_id');
+            $criteria->addSelectColumn($alias . '.city');
+            $criteria->addSelectColumn($alias . '.address');
         }
     }
 
@@ -339,7 +339,7 @@ class ChapterTableMap extends TableMap
      */
     public static function getTableMap()
     {
-        return Propel::getServiceContainer()->getDatabaseMap(ChapterTableMap::DATABASE_NAME)->getTable(ChapterTableMap::TABLE_NAME);
+        return Propel::getServiceContainer()->getDatabaseMap(BookstoreTableMap::DATABASE_NAME)->getTable(BookstoreTableMap::TABLE_NAME);
     }
 
     /**
@@ -347,16 +347,16 @@ class ChapterTableMap extends TableMap
      */
     public static function buildTableMap()
     {
-        $dbMap = Propel::getServiceContainer()->getDatabaseMap(ChapterTableMap::DATABASE_NAME);
-        if (!$dbMap->hasTable(ChapterTableMap::TABLE_NAME)) {
-            $dbMap->addTableObject(new ChapterTableMap());
+        $dbMap = Propel::getServiceContainer()->getDatabaseMap(BookstoreTableMap::DATABASE_NAME);
+        if (!$dbMap->hasTable(BookstoreTableMap::TABLE_NAME)) {
+            $dbMap->addTableObject(new BookstoreTableMap());
         }
     }
 
     /**
-     * Performs a DELETE on the database, given a Chapter or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Bookstore or Criteria object OR a primary key value.
      *
-     * @param mixed               $values Criteria or Chapter object or primary key or array of primary keys
+     * @param mixed               $values Criteria or Bookstore object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param  ConnectionInterface $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -367,27 +367,27 @@ class ChapterTableMap extends TableMap
      public static function doDelete($values, ConnectionInterface $con = null)
      {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(ChapterTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(BookstoreTableMap::DATABASE_NAME);
         }
 
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \Test\Models\Chapter) { // it's a model object
+        } elseif ($values instanceof \Test\Models\Bookstore) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(ChapterTableMap::DATABASE_NAME);
-            $criteria->add(ChapterTableMap::COL_ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(BookstoreTableMap::DATABASE_NAME);
+            $criteria->add(BookstoreTableMap::COL_ID, (array) $values, Criteria::IN);
         }
 
-        $query = ChapterQuery::create()->mergeWith($criteria);
+        $query = BookstoreQuery::create()->mergeWith($criteria);
 
         if ($values instanceof Criteria) {
-            ChapterTableMap::clearInstancePool();
+            BookstoreTableMap::clearInstancePool();
         } elseif (!is_object($values)) { // it's a primary key, or an array of pks
             foreach ((array) $values as $singleval) {
-                ChapterTableMap::removeInstanceFromPool($singleval);
+                BookstoreTableMap::removeInstanceFromPool($singleval);
             }
         }
 
@@ -395,20 +395,20 @@ class ChapterTableMap extends TableMap
     }
 
     /**
-     * Deletes all rows from the nft__chapters table.
+     * Deletes all rows from the nft__bookstores table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).
      */
     public static function doDeleteAll(ConnectionInterface $con = null)
     {
-        return ChapterQuery::create()->doDeleteAll($con);
+        return BookstoreQuery::create()->doDeleteAll($con);
     }
 
     /**
-     * Performs an INSERT on the database, given a Chapter or Criteria object.
+     * Performs an INSERT on the database, given a Bookstore or Criteria object.
      *
-     * @param mixed               $criteria Criteria or Chapter object containing data that is used to create the INSERT statement.
+     * @param mixed               $criteria Criteria or Bookstore object containing data that is used to create the INSERT statement.
      * @param ConnectionInterface $con the ConnectionInterface connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -417,22 +417,22 @@ class ChapterTableMap extends TableMap
     public static function doInsert($criteria, ConnectionInterface $con = null)
     {
         if (null === $con) {
-            $con = Propel::getServiceContainer()->getWriteConnection(ChapterTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(BookstoreTableMap::DATABASE_NAME);
         }
 
         if ($criteria instanceof Criteria) {
             $criteria = clone $criteria; // rename for clarity
         } else {
-            $criteria = $criteria->buildCriteria(); // build Criteria from Chapter object
+            $criteria = $criteria->buildCriteria(); // build Criteria from Bookstore object
         }
 
-        if ($criteria->containsKey(ChapterTableMap::COL_ID) && $criteria->keyContainsValue(ChapterTableMap::COL_ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.ChapterTableMap::COL_ID.')');
+        if ($criteria->containsKey(BookstoreTableMap::COL_ID) && $criteria->keyContainsValue(BookstoreTableMap::COL_ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.BookstoreTableMap::COL_ID.')');
         }
 
 
         // Set the correct dbName
-        $query = ChapterQuery::create()->mergeWith($criteria);
+        $query = BookstoreQuery::create()->mergeWith($criteria);
 
         // use transaction because $criteria could contain info
         // for more than one table (I guess, conceivably)
@@ -441,7 +441,7 @@ class ChapterTableMap extends TableMap
         });
     }
 
-} // ChapterTableMap
+} // BookstoreTableMap
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-ChapterTableMap::buildTableMap();
+BookstoreTableMap::buildTableMap();

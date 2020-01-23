@@ -70,7 +70,17 @@ use Test\Models\Map\BookTableMap;
  * @method     ChildBookQuery rightJoinWithChapter() Adds a RIGHT JOIN clause and with to the query using the Chapter relation
  * @method     ChildBookQuery innerJoinWithChapter() Adds a INNER JOIN clause and with to the query using the Chapter relation
  *
- * @method     \Test\Models\AuthorQuery|\Test\Models\ChapterQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
+ * @method     ChildBookQuery leftJoinBookstoreBook($relationAlias = null) Adds a LEFT JOIN clause to the query using the BookstoreBook relation
+ * @method     ChildBookQuery rightJoinBookstoreBook($relationAlias = null) Adds a RIGHT JOIN clause to the query using the BookstoreBook relation
+ * @method     ChildBookQuery innerJoinBookstoreBook($relationAlias = null) Adds a INNER JOIN clause to the query using the BookstoreBook relation
+ *
+ * @method     ChildBookQuery joinWithBookstoreBook($joinType = Criteria::INNER_JOIN) Adds a join clause and with to the query using the BookstoreBook relation
+ *
+ * @method     ChildBookQuery leftJoinWithBookstoreBook() Adds a LEFT JOIN clause and with to the query using the BookstoreBook relation
+ * @method     ChildBookQuery rightJoinWithBookstoreBook() Adds a RIGHT JOIN clause and with to the query using the BookstoreBook relation
+ * @method     ChildBookQuery innerJoinWithBookstoreBook() Adds a INNER JOIN clause and with to the query using the BookstoreBook relation
+ *
+ * @method     \Test\Models\AuthorQuery|\Test\Models\ChapterQuery|\Test\Models\BookstoreBookQuery endUse() Finalizes a secondary criteria and merges it with its primary Criteria
  *
  * @method     ChildBook findOne(ConnectionInterface $con = null) Return the first ChildBook matching the query
  * @method     ChildBook findOneOrCreate(ConnectionInterface $con = null) Return the first ChildBook matching the query, or a new ChildBook object populated from the query conditions when no match is found
@@ -811,6 +821,79 @@ abstract class BookQuery extends ModelCriteria
         return $this
             ->joinChapter($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Chapter', '\Test\Models\ChapterQuery');
+    }
+
+    /**
+     * Filter the query by a related \Test\Models\BookstoreBook object
+     *
+     * @param \Test\Models\BookstoreBook|ObjectCollection $bookstoreBook the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBookQuery The current query, for fluid interface
+     */
+    public function filterByBookstoreBook($bookstoreBook, $comparison = null)
+    {
+        if ($bookstoreBook instanceof \Test\Models\BookstoreBook) {
+            return $this
+                ->addUsingAlias(BookTableMap::COL_ID, $bookstoreBook->getBookId(), $comparison);
+        } elseif ($bookstoreBook instanceof ObjectCollection) {
+            return $this
+                ->useBookstoreBookQuery()
+                ->filterByPrimaryKeys($bookstoreBook->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByBookstoreBook() only accepts arguments of type \Test\Models\BookstoreBook or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the BookstoreBook relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return $this|ChildBookQuery The current query, for fluid interface
+     */
+    public function joinBookstoreBook($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('BookstoreBook');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'BookstoreBook');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the BookstoreBook relation BookstoreBook object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return \Test\Models\BookstoreBookQuery A secondary query class using the current class as primary query
+     */
+    public function useBookstoreBookQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinBookstoreBook($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'BookstoreBook', '\Test\Models\BookstoreBookQuery');
     }
 
     /**

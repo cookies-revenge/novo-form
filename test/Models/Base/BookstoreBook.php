@@ -17,22 +17,24 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 use Test\Models\Book as ChildBook;
 use Test\Models\BookQuery as ChildBookQuery;
-use Test\Models\ChapterQuery as ChildChapterQuery;
-use Test\Models\Map\ChapterTableMap;
+use Test\Models\Bookstore as ChildBookstore;
+use Test\Models\BookstoreBookQuery as ChildBookstoreBookQuery;
+use Test\Models\BookstoreQuery as ChildBookstoreQuery;
+use Test\Models\Map\BookstoreBookTableMap;
 
 /**
- * Base class that represents a row from the 'nft__chapters' table.
+ * Base class that represents a row from the 'nft__bookstore_books_mm' table.
  *
  *
  *
  * @package    propel.generator.Test.Models.Base
  */
-abstract class Chapter implements ActiveRecordInterface
+abstract class BookstoreBook implements ActiveRecordInterface
 {
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\Test\\Models\\Map\\ChapterTableMap';
+    const TABLE_MAP = '\\Test\\Models\\Map\\BookstoreBookTableMap';
 
 
     /**
@@ -62,42 +64,11 @@ abstract class Chapter implements ActiveRecordInterface
     protected $virtualColumns = array();
 
     /**
-     * The value for the id field.
+     * The value for the bookstore_id field.
      *
      * @var        int
      */
-    protected $id;
-
-    /**
-     * The value for the crdate field.
-     *
-     * Note: this column has a database default value of: 0
-     * @var        int
-     */
-    protected $crdate;
-
-    /**
-     * The value for the tstamp field.
-     *
-     * Note: this column has a database default value of: 0
-     * @var        int
-     */
-    protected $tstamp;
-
-    /**
-     * The value for the title field.
-     *
-     * @var        string
-     */
-    protected $title;
-
-    /**
-     * The value for the total_pages field.
-     *
-     * Note: this column has a database default value of: 0
-     * @var        int
-     */
-    protected $total_pages;
+    protected $bookstore_id;
 
     /**
      * The value for the book_id field.
@@ -105,6 +76,11 @@ abstract class Chapter implements ActiveRecordInterface
      * @var        int
      */
     protected $book_id;
+
+    /**
+     * @var        ChildBookstore
+     */
+    protected $aBookstore;
 
     /**
      * @var        ChildBook
@@ -120,25 +96,10 @@ abstract class Chapter implements ActiveRecordInterface
     protected $alreadyInSave = false;
 
     /**
-     * Applies default values to this object.
-     * This method should be called from the object's constructor (or
-     * equivalent initialization method).
-     * @see __construct()
-     */
-    public function applyDefaultValues()
-    {
-        $this->crdate = 0;
-        $this->tstamp = 0;
-        $this->total_pages = 0;
-    }
-
-    /**
-     * Initializes internal state of Test\Models\Base\Chapter object.
-     * @see applyDefaults()
+     * Initializes internal state of Test\Models\Base\BookstoreBook object.
      */
     public function __construct()
     {
-        $this->applyDefaultValues();
     }
 
     /**
@@ -230,9 +191,9 @@ abstract class Chapter implements ActiveRecordInterface
     }
 
     /**
-     * Compares this with another <code>Chapter</code> instance.  If
-     * <code>obj</code> is an instance of <code>Chapter</code>, delegates to
-     * <code>equals(Chapter)</code>.  Otherwise, returns <code>false</code>.
+     * Compares this with another <code>BookstoreBook</code> instance.  If
+     * <code>obj</code> is an instance of <code>BookstoreBook</code>, delegates to
+     * <code>equals(BookstoreBook)</code>.  Otherwise, returns <code>false</code>.
      *
      * @param  mixed   $obj The object to compare to.
      * @return boolean Whether equal to the object specified.
@@ -298,7 +259,7 @@ abstract class Chapter implements ActiveRecordInterface
      * @param string $name  The virtual column name
      * @param mixed  $value The value to give to the virtual column
      *
-     * @return $this|Chapter The current object, for fluid interface
+     * @return $this|BookstoreBook The current object, for fluid interface
      */
     public function setVirtualColumn($name, $value)
     {
@@ -360,53 +321,13 @@ abstract class Chapter implements ActiveRecordInterface
     }
 
     /**
-     * Get the [id] column value.
+     * Get the [bookstore_id] column value.
      *
      * @return int
      */
-    public function getId()
+    public function getBookstoreId()
     {
-        return $this->id;
-    }
-
-    /**
-     * Get the [crdate] column value.
-     *
-     * @return int
-     */
-    public function getCrdate()
-    {
-        return $this->crdate;
-    }
-
-    /**
-     * Get the [tstamp] column value.
-     *
-     * @return int
-     */
-    public function getTstamp()
-    {
-        return $this->tstamp;
-    }
-
-    /**
-     * Get the [title] column value.
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Get the [total_pages] column value.
-     *
-     * @return int
-     */
-    public function getTotalPages()
-    {
-        return $this->total_pages;
+        return $this->bookstore_id;
     }
 
     /**
@@ -420,110 +341,34 @@ abstract class Chapter implements ActiveRecordInterface
     }
 
     /**
-     * Set the value of [id] column.
+     * Set the value of [bookstore_id] column.
      *
      * @param int $v new value
-     * @return $this|\Test\Models\Chapter The current object (for fluent API support)
+     * @return $this|\Test\Models\BookstoreBook The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setBookstoreId($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->id !== $v) {
-            $this->id = $v;
-            $this->modifiedColumns[ChapterTableMap::COL_ID] = true;
+        if ($this->bookstore_id !== $v) {
+            $this->bookstore_id = $v;
+            $this->modifiedColumns[BookstoreBookTableMap::COL_BOOKSTORE_ID] = true;
+        }
+
+        if ($this->aBookstore !== null && $this->aBookstore->getId() !== $v) {
+            $this->aBookstore = null;
         }
 
         return $this;
-    } // setId()
-
-    /**
-     * Set the value of [crdate] column.
-     *
-     * @param int $v new value
-     * @return $this|\Test\Models\Chapter The current object (for fluent API support)
-     */
-    public function setCrdate($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->crdate !== $v) {
-            $this->crdate = $v;
-            $this->modifiedColumns[ChapterTableMap::COL_CRDATE] = true;
-        }
-
-        return $this;
-    } // setCrdate()
-
-    /**
-     * Set the value of [tstamp] column.
-     *
-     * @param int $v new value
-     * @return $this|\Test\Models\Chapter The current object (for fluent API support)
-     */
-    public function setTstamp($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->tstamp !== $v) {
-            $this->tstamp = $v;
-            $this->modifiedColumns[ChapterTableMap::COL_TSTAMP] = true;
-        }
-
-        return $this;
-    } // setTstamp()
-
-    /**
-     * Set the value of [title] column.
-     *
-     * @param string $v new value
-     * @return $this|\Test\Models\Chapter The current object (for fluent API support)
-     */
-    public function setTitle($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->title !== $v) {
-            $this->title = $v;
-            $this->modifiedColumns[ChapterTableMap::COL_TITLE] = true;
-        }
-
-        return $this;
-    } // setTitle()
-
-    /**
-     * Set the value of [total_pages] column.
-     *
-     * @param int $v new value
-     * @return $this|\Test\Models\Chapter The current object (for fluent API support)
-     */
-    public function setTotalPages($v)
-    {
-        if ($v !== null) {
-            $v = (int) $v;
-        }
-
-        if ($this->total_pages !== $v) {
-            $this->total_pages = $v;
-            $this->modifiedColumns[ChapterTableMap::COL_TOTAL_PAGES] = true;
-        }
-
-        return $this;
-    } // setTotalPages()
+    } // setBookstoreId()
 
     /**
      * Set the value of [book_id] column.
      *
      * @param int $v new value
-     * @return $this|\Test\Models\Chapter The current object (for fluent API support)
+     * @return $this|\Test\Models\BookstoreBook The current object (for fluent API support)
      */
     public function setBookId($v)
     {
@@ -533,7 +378,7 @@ abstract class Chapter implements ActiveRecordInterface
 
         if ($this->book_id !== $v) {
             $this->book_id = $v;
-            $this->modifiedColumns[ChapterTableMap::COL_BOOK_ID] = true;
+            $this->modifiedColumns[BookstoreBookTableMap::COL_BOOK_ID] = true;
         }
 
         if ($this->aBook !== null && $this->aBook->getId() !== $v) {
@@ -553,18 +398,6 @@ abstract class Chapter implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
-            if ($this->crdate !== 0) {
-                return false;
-            }
-
-            if ($this->tstamp !== 0) {
-                return false;
-            }
-
-            if ($this->total_pages !== 0) {
-                return false;
-            }
-
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -591,22 +424,10 @@ abstract class Chapter implements ActiveRecordInterface
     {
         try {
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : ChapterTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->id = (null !== $col) ? (int) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : BookstoreBookTableMap::translateFieldName('BookstoreId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->bookstore_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : ChapterTableMap::translateFieldName('Crdate', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->crdate = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ChapterTableMap::translateFieldName('Tstamp', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->tstamp = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ChapterTableMap::translateFieldName('Title', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->title = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ChapterTableMap::translateFieldName('TotalPages', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->total_pages = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : ChapterTableMap::translateFieldName('BookId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : BookstoreBookTableMap::translateFieldName('BookId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->book_id = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -616,10 +437,10 @@ abstract class Chapter implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 6; // 6 = ChapterTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 2; // 2 = BookstoreBookTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException(sprintf('Error populating %s object', '\\Test\\Models\\Chapter'), 0, $e);
+            throw new PropelException(sprintf('Error populating %s object', '\\Test\\Models\\BookstoreBook'), 0, $e);
         }
     }
 
@@ -638,6 +459,9 @@ abstract class Chapter implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
+        if ($this->aBookstore !== null && $this->bookstore_id !== $this->aBookstore->getId()) {
+            $this->aBookstore = null;
+        }
         if ($this->aBook !== null && $this->book_id !== $this->aBook->getId()) {
             $this->aBook = null;
         }
@@ -664,13 +488,13 @@ abstract class Chapter implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getReadConnection(ChapterTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getReadConnection(BookstoreBookTableMap::DATABASE_NAME);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $dataFetcher = ChildChapterQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
+        $dataFetcher = ChildBookstoreBookQuery::create(null, $this->buildPkeyCriteria())->setFormatter(ModelCriteria::FORMAT_STATEMENT)->find($con);
         $row = $dataFetcher->fetch();
         $dataFetcher->close();
         if (!$row) {
@@ -680,6 +504,7 @@ abstract class Chapter implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aBookstore = null;
             $this->aBook = null;
         } // if (deep)
     }
@@ -690,8 +515,8 @@ abstract class Chapter implements ActiveRecordInterface
      * @param      ConnectionInterface $con
      * @return void
      * @throws PropelException
-     * @see Chapter::setDeleted()
-     * @see Chapter::isDeleted()
+     * @see BookstoreBook::setDeleted()
+     * @see BookstoreBook::isDeleted()
      */
     public function delete(ConnectionInterface $con = null)
     {
@@ -700,11 +525,11 @@ abstract class Chapter implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(ChapterTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(BookstoreBookTableMap::DATABASE_NAME);
         }
 
         $con->transaction(function () use ($con) {
-            $deleteQuery = ChildChapterQuery::create()
+            $deleteQuery = ChildBookstoreBookQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -739,7 +564,7 @@ abstract class Chapter implements ActiveRecordInterface
         }
 
         if ($con === null) {
-            $con = Propel::getServiceContainer()->getWriteConnection(ChapterTableMap::DATABASE_NAME);
+            $con = Propel::getServiceContainer()->getWriteConnection(BookstoreBookTableMap::DATABASE_NAME);
         }
 
         return $con->transaction(function () use ($con) {
@@ -758,7 +583,7 @@ abstract class Chapter implements ActiveRecordInterface
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                ChapterTableMap::addInstanceToPool($this);
+                BookstoreBookTableMap::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -788,6 +613,13 @@ abstract class Chapter implements ActiveRecordInterface
             // were passed to this object by their corresponding set
             // method.  This object relates to these object(s) by a
             // foreign key reference.
+
+            if ($this->aBookstore !== null) {
+                if ($this->aBookstore->isModified() || $this->aBookstore->isNew()) {
+                    $affectedRows += $this->aBookstore->save($con);
+                }
+                $this->setBookstore($this->aBookstore);
+            }
 
             if ($this->aBook !== null) {
                 if ($this->aBook->isModified() || $this->aBook->isNew()) {
@@ -827,33 +659,17 @@ abstract class Chapter implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[ChapterTableMap::COL_ID] = true;
-        if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ChapterTableMap::COL_ID . ')');
-        }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(ChapterTableMap::COL_ID)) {
-            $modifiedColumns[':p' . $index++]  = 'id';
+        if ($this->isColumnModified(BookstoreBookTableMap::COL_BOOKSTORE_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'bookstore_id';
         }
-        if ($this->isColumnModified(ChapterTableMap::COL_CRDATE)) {
-            $modifiedColumns[':p' . $index++]  = 'crdate';
-        }
-        if ($this->isColumnModified(ChapterTableMap::COL_TSTAMP)) {
-            $modifiedColumns[':p' . $index++]  = 'tstamp';
-        }
-        if ($this->isColumnModified(ChapterTableMap::COL_TITLE)) {
-            $modifiedColumns[':p' . $index++]  = 'title';
-        }
-        if ($this->isColumnModified(ChapterTableMap::COL_TOTAL_PAGES)) {
-            $modifiedColumns[':p' . $index++]  = 'total_pages';
-        }
-        if ($this->isColumnModified(ChapterTableMap::COL_BOOK_ID)) {
+        if ($this->isColumnModified(BookstoreBookTableMap::COL_BOOK_ID)) {
             $modifiedColumns[':p' . $index++]  = 'book_id';
         }
 
         $sql = sprintf(
-            'INSERT INTO nft__chapters (%s) VALUES (%s)',
+            'INSERT INTO nft__bookstore_books_mm (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -862,20 +678,8 @@ abstract class Chapter implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'id':
-                        $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
-                        break;
-                    case 'crdate':
-                        $stmt->bindValue($identifier, $this->crdate, PDO::PARAM_INT);
-                        break;
-                    case 'tstamp':
-                        $stmt->bindValue($identifier, $this->tstamp, PDO::PARAM_INT);
-                        break;
-                    case 'title':
-                        $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
-                        break;
-                    case 'total_pages':
-                        $stmt->bindValue($identifier, $this->total_pages, PDO::PARAM_INT);
+                    case 'bookstore_id':
+                        $stmt->bindValue($identifier, $this->bookstore_id, PDO::PARAM_INT);
                         break;
                     case 'book_id':
                         $stmt->bindValue($identifier, $this->book_id, PDO::PARAM_INT);
@@ -887,13 +691,6 @@ abstract class Chapter implements ActiveRecordInterface
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), 0, $e);
         }
-
-        try {
-            $pk = $con->lastInsertId();
-        } catch (Exception $e) {
-            throw new PropelException('Unable to get autoincrement id.', 0, $e);
-        }
-        $this->setId($pk);
 
         $this->setNew(false);
     }
@@ -926,7 +723,7 @@ abstract class Chapter implements ActiveRecordInterface
      */
     public function getByName($name, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = ChapterTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = BookstoreBookTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -943,21 +740,9 @@ abstract class Chapter implements ActiveRecordInterface
     {
         switch ($pos) {
             case 0:
-                return $this->getId();
+                return $this->getBookstoreId();
                 break;
             case 1:
-                return $this->getCrdate();
-                break;
-            case 2:
-                return $this->getTstamp();
-                break;
-            case 3:
-                return $this->getTitle();
-                break;
-            case 4:
-                return $this->getTotalPages();
-                break;
-            case 5:
                 return $this->getBookId();
                 break;
             default:
@@ -984,18 +769,14 @@ abstract class Chapter implements ActiveRecordInterface
     public function toArray($keyType = TableMap::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
 
-        if (isset($alreadyDumpedObjects['Chapter'][$this->hashCode()])) {
+        if (isset($alreadyDumpedObjects['BookstoreBook'][$this->hashCode()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Chapter'][$this->hashCode()] = true;
-        $keys = ChapterTableMap::getFieldNames($keyType);
+        $alreadyDumpedObjects['BookstoreBook'][$this->hashCode()] = true;
+        $keys = BookstoreBookTableMap::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getId(),
-            $keys[1] => $this->getCrdate(),
-            $keys[2] => $this->getTstamp(),
-            $keys[3] => $this->getTitle(),
-            $keys[4] => $this->getTotalPages(),
-            $keys[5] => $this->getBookId(),
+            $keys[0] => $this->getBookstoreId(),
+            $keys[1] => $this->getBookId(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1003,6 +784,21 @@ abstract class Chapter implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
+            if (null !== $this->aBookstore) {
+
+                switch ($keyType) {
+                    case TableMap::TYPE_CAMELNAME:
+                        $key = 'bookstore';
+                        break;
+                    case TableMap::TYPE_FIELDNAME:
+                        $key = 'nft__bookstores';
+                        break;
+                    default:
+                        $key = 'Bookstore';
+                }
+
+                $result[$key] = $this->aBookstore->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
             if (null !== $this->aBook) {
 
                 switch ($keyType) {
@@ -1032,11 +828,11 @@ abstract class Chapter implements ActiveRecordInterface
      *                one of the class type constants TableMap::TYPE_PHPNAME, TableMap::TYPE_CAMELNAME
      *                TableMap::TYPE_COLNAME, TableMap::TYPE_FIELDNAME, TableMap::TYPE_NUM.
      *                Defaults to TableMap::TYPE_PHPNAME.
-     * @return $this|\Test\Models\Chapter
+     * @return $this|\Test\Models\BookstoreBook
      */
     public function setByName($name, $value, $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = ChapterTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = BookstoreBookTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         return $this->setByPosition($pos, $value);
     }
@@ -1047,27 +843,15 @@ abstract class Chapter implements ActiveRecordInterface
      *
      * @param  int $pos position in xml schema
      * @param  mixed $value field value
-     * @return $this|\Test\Models\Chapter
+     * @return $this|\Test\Models\BookstoreBook
      */
     public function setByPosition($pos, $value)
     {
         switch ($pos) {
             case 0:
-                $this->setId($value);
+                $this->setBookstoreId($value);
                 break;
             case 1:
-                $this->setCrdate($value);
-                break;
-            case 2:
-                $this->setTstamp($value);
-                break;
-            case 3:
-                $this->setTitle($value);
-                break;
-            case 4:
-                $this->setTotalPages($value);
-                break;
-            case 5:
                 $this->setBookId($value);
                 break;
         } // switch()
@@ -1094,25 +878,13 @@ abstract class Chapter implements ActiveRecordInterface
      */
     public function fromArray($arr, $keyType = TableMap::TYPE_PHPNAME)
     {
-        $keys = ChapterTableMap::getFieldNames($keyType);
+        $keys = BookstoreBookTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) {
-            $this->setId($arr[$keys[0]]);
+            $this->setBookstoreId($arr[$keys[0]]);
         }
         if (array_key_exists($keys[1], $arr)) {
-            $this->setCrdate($arr[$keys[1]]);
-        }
-        if (array_key_exists($keys[2], $arr)) {
-            $this->setTstamp($arr[$keys[2]]);
-        }
-        if (array_key_exists($keys[3], $arr)) {
-            $this->setTitle($arr[$keys[3]]);
-        }
-        if (array_key_exists($keys[4], $arr)) {
-            $this->setTotalPages($arr[$keys[4]]);
-        }
-        if (array_key_exists($keys[5], $arr)) {
-            $this->setBookId($arr[$keys[5]]);
+            $this->setBookId($arr[$keys[1]]);
         }
     }
 
@@ -1133,7 +905,7 @@ abstract class Chapter implements ActiveRecordInterface
      * @param string $data The source data to import from
      * @param string $keyType The type of keys the array uses.
      *
-     * @return $this|\Test\Models\Chapter The current object, for fluid interface
+     * @return $this|\Test\Models\BookstoreBook The current object, for fluid interface
      */
     public function importFrom($parser, $data, $keyType = TableMap::TYPE_PHPNAME)
     {
@@ -1153,25 +925,13 @@ abstract class Chapter implements ActiveRecordInterface
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(ChapterTableMap::DATABASE_NAME);
+        $criteria = new Criteria(BookstoreBookTableMap::DATABASE_NAME);
 
-        if ($this->isColumnModified(ChapterTableMap::COL_ID)) {
-            $criteria->add(ChapterTableMap::COL_ID, $this->id);
+        if ($this->isColumnModified(BookstoreBookTableMap::COL_BOOKSTORE_ID)) {
+            $criteria->add(BookstoreBookTableMap::COL_BOOKSTORE_ID, $this->bookstore_id);
         }
-        if ($this->isColumnModified(ChapterTableMap::COL_CRDATE)) {
-            $criteria->add(ChapterTableMap::COL_CRDATE, $this->crdate);
-        }
-        if ($this->isColumnModified(ChapterTableMap::COL_TSTAMP)) {
-            $criteria->add(ChapterTableMap::COL_TSTAMP, $this->tstamp);
-        }
-        if ($this->isColumnModified(ChapterTableMap::COL_TITLE)) {
-            $criteria->add(ChapterTableMap::COL_TITLE, $this->title);
-        }
-        if ($this->isColumnModified(ChapterTableMap::COL_TOTAL_PAGES)) {
-            $criteria->add(ChapterTableMap::COL_TOTAL_PAGES, $this->total_pages);
-        }
-        if ($this->isColumnModified(ChapterTableMap::COL_BOOK_ID)) {
-            $criteria->add(ChapterTableMap::COL_BOOK_ID, $this->book_id);
+        if ($this->isColumnModified(BookstoreBookTableMap::COL_BOOK_ID)) {
+            $criteria->add(BookstoreBookTableMap::COL_BOOK_ID, $this->book_id);
         }
 
         return $criteria;
@@ -1189,8 +949,7 @@ abstract class Chapter implements ActiveRecordInterface
      */
     public function buildPkeyCriteria()
     {
-        $criteria = ChildChapterQuery::create();
-        $criteria->add(ChapterTableMap::COL_ID, $this->id);
+        throw new LogicException('The BookstoreBook object has no primary key');
 
         return $criteria;
     }
@@ -1203,7 +962,7 @@ abstract class Chapter implements ActiveRecordInterface
      */
     public function hashCode()
     {
-        $validPk = null !== $this->getId();
+        $validPk = false;
 
         $validPrimaryKeyFKs = 0;
         $primaryKeyFKs = [];
@@ -1218,23 +977,27 @@ abstract class Chapter implements ActiveRecordInterface
     }
 
     /**
-     * Returns the primary key for this object (row).
-     * @return int
+     * Returns NULL since this table doesn't have a primary key.
+     * This method exists only for BC and is deprecated!
+     * @return null
      */
     public function getPrimaryKey()
     {
-        return $this->getId();
+        return null;
     }
 
     /**
-     * Generic method to set the primary key (id column).
+     * Dummy primary key setter.
      *
-     * @param       int $key Primary key.
-     * @return void
+     * This function only exists to preserve backwards compatibility.  It is no longer
+     * needed or required by the Persistent interface.  It will be removed in next BC-breaking
+     * release of Propel.
+     *
+     * @deprecated
      */
-    public function setPrimaryKey($key)
+    public function setPrimaryKey($pk)
     {
-        $this->setId($key);
+        // do nothing, because this object doesn't have any primary keys
     }
 
     /**
@@ -1243,7 +1006,7 @@ abstract class Chapter implements ActiveRecordInterface
      */
     public function isPrimaryKeyNull()
     {
-        return null === $this->getId();
+        return ;
     }
 
     /**
@@ -1252,21 +1015,17 @@ abstract class Chapter implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \Test\Models\Chapter (or compatible) type.
+     * @param      object $copyObj An object of \Test\Models\BookstoreBook (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setCrdate($this->getCrdate());
-        $copyObj->setTstamp($this->getTstamp());
-        $copyObj->setTitle($this->getTitle());
-        $copyObj->setTotalPages($this->getTotalPages());
+        $copyObj->setBookstoreId($this->getBookstoreId());
         $copyObj->setBookId($this->getBookId());
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1279,7 +1038,7 @@ abstract class Chapter implements ActiveRecordInterface
      * objects.
      *
      * @param  boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return \Test\Models\Chapter Clone of current object.
+     * @return \Test\Models\BookstoreBook Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1293,10 +1052,61 @@ abstract class Chapter implements ActiveRecordInterface
     }
 
     /**
+     * Declares an association between this object and a ChildBookstore object.
+     *
+     * @param  ChildBookstore $v
+     * @return $this|\Test\Models\BookstoreBook The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setBookstore(ChildBookstore $v = null)
+    {
+        if ($v === null) {
+            $this->setBookstoreId(NULL);
+        } else {
+            $this->setBookstoreId($v->getId());
+        }
+
+        $this->aBookstore = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildBookstore object, it will not be re-added.
+        if ($v !== null) {
+            $v->addBookstoreBook($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildBookstore object
+     *
+     * @param  ConnectionInterface $con Optional Connection object.
+     * @return ChildBookstore The associated ChildBookstore object.
+     * @throws PropelException
+     */
+    public function getBookstore(ConnectionInterface $con = null)
+    {
+        if ($this->aBookstore === null && ($this->bookstore_id != 0)) {
+            $this->aBookstore = ChildBookstoreQuery::create()->findPk($this->bookstore_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aBookstore->addBookstoreBooks($this);
+             */
+        }
+
+        return $this->aBookstore;
+    }
+
+    /**
      * Declares an association between this object and a ChildBook object.
      *
      * @param  ChildBook $v
-     * @return $this|\Test\Models\Chapter The current object (for fluent API support)
+     * @return $this|\Test\Models\BookstoreBook The current object (for fluent API support)
      * @throws PropelException
      */
     public function setBook(ChildBook $v = null)
@@ -1312,7 +1122,7 @@ abstract class Chapter implements ActiveRecordInterface
         // Add binding for other direction of this n:n relationship.
         // If this object has already been added to the ChildBook object, it will not be re-added.
         if ($v !== null) {
-            $v->addChapter($this);
+            $v->addBookstoreBook($this);
         }
 
 
@@ -1336,7 +1146,7 @@ abstract class Chapter implements ActiveRecordInterface
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aBook->addChapters($this);
+                $this->aBook->addBookstoreBooks($this);
              */
         }
 
@@ -1350,18 +1160,16 @@ abstract class Chapter implements ActiveRecordInterface
      */
     public function clear()
     {
-        if (null !== $this->aBook) {
-            $this->aBook->removeChapter($this);
+        if (null !== $this->aBookstore) {
+            $this->aBookstore->removeBookstoreBook($this);
         }
-        $this->id = null;
-        $this->crdate = null;
-        $this->tstamp = null;
-        $this->title = null;
-        $this->total_pages = null;
+        if (null !== $this->aBook) {
+            $this->aBook->removeBookstoreBook($this);
+        }
+        $this->bookstore_id = null;
         $this->book_id = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
-        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);
@@ -1380,6 +1188,7 @@ abstract class Chapter implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
+        $this->aBookstore = null;
         $this->aBook = null;
     }
 
@@ -1390,7 +1199,7 @@ abstract class Chapter implements ActiveRecordInterface
      */
     public function __toString()
     {
-        return (string) $this->exportTo(ChapterTableMap::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(BookstoreBookTableMap::DEFAULT_STRING_FORMAT);
     }
 
     /**

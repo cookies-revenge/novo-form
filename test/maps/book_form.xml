@@ -2,18 +2,18 @@
 
 
 
-    <title html_class="text-danger" type="h1">BOOK FORM</title>
+    <title html_class="text-danger pt-2 pb-2" type="h1">BOOK FORM</title>
 
 
     <controls>
 
-        <control type="button" html_class="btn btn-primary js__special-button-class" icon="far fa-check" availability="*">
+        <control type="button" html_class="btn btn-primary btn-sm js__special-button-class" icon="far fa-check" availability="*">
             <name>Button1</name>
             <title>Button 1</title>
             <description>Button with no action</description>
         </control>
 
-        <control type="submit" html_class="btn btn-success" icon="far fa-check" availability="*">
+        <control type="submit" html_class="btn btn-success btn-sm" icon="far fa-check" availability="*">
             <name>Submit</name>
             <title>Submit</title>
             <description>Button Submit</description>
@@ -64,7 +64,15 @@
         <relation html_class="bg-secondary text-white" relation_type="Child" option_value_column="Id" name="Chapter" class_name="\Test\Models\Chapter">
 
             <label html_class="font-weight-bold text-uppercase text-info">Chapters</label>
-            <description html_class="">Manage below Chapter child entities.</description>
+            <description html_class=""><![CDATA[Manage below Chapter child entities.<br />This Section is optional; Chapters may also be managed separately later on.]]></description>
+
+            <controls>
+                <control type="button" html_class="btn btn-info btn-sm js__add-relation" icon="far fa-plus" availability="*">
+                    <name>Add New Chapter</name>
+                    <title>Add New Chapter</title>
+                    <description>Add a new chapter</description>
+                </control>
+            </controls>
 
             <fields>
                 <field name="Id" type="hidden" html_class="" readonly="true" availability="edit" format="" size="" resizable="" preloaded="" source_url="" multiple_choice="">
@@ -86,17 +94,6 @@
 
         </relation>
 
-        <!--<relation html_class="bg-secondary text-white" relation_type="Parent" option_value_column="Id" name="Author" class_name="\Test\Models\Author">
-            <fields>
-                <field name="Title" type="input" html_class="mb-2" readonly="false" availability="*" format="null" size="sm" resizable="" preloaded="" source_url="" multiple_choice="">
-                    <placeholder>Author Name...</placeholder>
-                    <label html_class="">Name</label>
-                    <description html_class=""></description>
-                    <validation mandatory="true" />
-                </field>
-            </fields>
-        </relation>-->
-
 
         <field name="PublishDate" type="timestamp" readonly="false" availability="*" format="Y-m-d" size="default" resizable="" preloaded="" source_url="" multiple_choice="">
 
@@ -116,7 +113,6 @@
             <label html_class="">Book Abstract</label>
             <description html_class="">Please input a few paragraphs here</description>
         </field>
-
 
 
         <field name="TotalPages" type="numeric" availability="*" resizable="" preloaded="true">

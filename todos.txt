@@ -5,14 +5,8 @@ comment php code (*)
 refactor php code (*)
 proveri ima li suvisnih funkcija i reorganizuj redosled fja po klasama
 
-make a built-in debugger (*)
 
 file validations (filesize, max-width, min-width, max-height, min-height, aspect-ratio...) (**)
-
-
-
-
-
 
 
 
@@ -33,3 +27,10 @@ ukida se vito validacija i propertiji su prebaceni na data-validation-validation
 2. setuj greske u novo form session i nemoj ga unsetovati!
 3. vrati nazad na formu, prepopulisi presetima iz sesije ili stogod (ovde ne moras relations na prvu loptu, moze i posle)
 4. prikazi greske
+
+
+
+KNOWN ISSUE: Checkbox u Relation-u.
+input hidden ima name="RelationName[SubfieldName][]"
+checkbox iza input ima name="RelationName[SubfieldName][]"
+oba name-a su ista, ali imaju [] na kraju, pa se ne desi override (!!!)

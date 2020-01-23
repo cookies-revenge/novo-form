@@ -1,7 +1,13 @@
 {assign var="fieldObject" value=$fieldObj}
 {if !empty($subfieldObj)}
-   {$fieldObject =$subfieldObj}
+   {$fieldObject = $subfieldObj}
 {/if}
+
+{assign var="fieldName" value=$fieldObject->GetName()}
+{if $fieldObj->GetType() === "relation"}
+   {$fieldName = "{$fieldObj->GetName()}[{$subfieldObj->GetName()}][]"}
+{/if}
+
 <div {if $fieldObject->GetHtmlClass()}class="{$fieldObject->GetHtmlClass()}"{/if}>
 
    <div class="input-group {if $fieldObject->GetSize()}input-group-{$fieldObject->GetSize()}{/if}">
@@ -22,7 +28,7 @@
         {/if}
 
 		<select class="form-control custom-select"  
-            name="{$fieldObject->GetName()}" 
+            name="{$fieldName}" 
             data-preloaded="{if isset($fieldObject->GetPreloaded()) && $fieldObject->GetPreloaded()}true{else}false{/if}" 
             {if isset($fieldObject->GetSourceUrl()) && null !== $fieldObject->GetSourceUrl()}
                 data-source-url="{$fieldObject->GetSourceUrl()}"
@@ -32,14 +38,14 @@
                 data-validation-{$validationType}="{$value}"
             {/foreach}
 
-            {if $fieldObject->GetReadonly()}readonly{/if}>
+            {if $fieldObject->GetReadonly()}readonly{/if}
             {if $fieldObject->GetMultipleChoice()}multiple{/if}
+        >
 
             {if $fieldObject->GetPlaceholder()}
                 <option selected value disabled>{$fieldObject->GetPlaceholder()}</option>
             {/if}
 
-            {assign var="fieldName" value=$fieldObject->GetName()}
             {if $fieldObject->GetPreloaded()}
                 {if isset($fieldDatasets[$fieldName])}
                     {foreach $fieldDatasets[$fieldName] as $datasetRecord}

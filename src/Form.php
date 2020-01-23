@@ -223,6 +223,24 @@ class Form
                 $formField->AppendSubfield($subfieldObj);
             }
         }
+
+        if (!isset($fieldDefinition["control_definitions"]) ||
+            empty($fieldDefinition["control_definitions"]))
+            return;
+
+        $controls = [];
+        foreach ($fieldDefinition["control_definitions"] as $controlDefinition) {
+            $formControl = new FormControl();
+            $formControl->SetType($controlDefinition["type"])
+                ->SetName($controlDefinition["name"])
+                ->SetHtmlClass($controlDefinition["html_class"])
+                ->SetIcon($controlDefinition["icon"])
+                ->SetAvailability($controlDefinition["availability"])
+                ->SetTitle($controlDefinition["title"])
+                ->SetDescription($controlDefinition["description"]);
+            $controls[$controlDefinition["name"]] = $formControl;
+        }
+        $formField->SetControlObjects($controls);
     }
 
     public function ToHtml($templatingEngine = null)

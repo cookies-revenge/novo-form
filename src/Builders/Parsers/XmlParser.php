@@ -100,6 +100,22 @@ class XmlParser
                 $fieldDefinition["field_definitions"][] = $this->processFieldTagDefinitions($subfield);
             }
         }
+
+        $fieldDefinition["control_definitions"] = [];
+        foreach ($field->controls as $controls) {
+            foreach ($controls as $control) {
+                $fieldDefinition["control_definitions"][] = [
+                    "type" => (string) $control["type"] ?? "button",
+                    "name" => (string) $control->name ?? "na_button",
+                    "html_class" => (string) $control["html_class"] ?? null,
+                    "icon" => (string) $control["icon"] ?? null,
+                    "availability" => (string) $control["availability"] ?? "*",
+                    "title" => (string) $control->title ?? "Untitled Control",
+                    "description" => (string) $control->description ?? "N/A Control",
+                ];
+            }
+        }
+        
         $this->metadata_["field_definitions"][] = $fieldDefinition;
     }
 

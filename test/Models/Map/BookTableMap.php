@@ -202,6 +202,13 @@ class BookTableMap extends TableMap
     1 => ':id',
   ),
 ), null, null, 'Chapters', false);
+        $this->addRelation('BookstoreBook', '\\Test\\Models\\BookstoreBook', RelationMap::ONE_TO_MANY, array (
+  0 =>
+  array (
+    0 => ':book_id',
+    1 => ':id',
+  ),
+), null, null, 'BookstoreBooks', false);
     } // buildRelations()
 
     /**

@@ -45,12 +45,12 @@ CREATE TABLE `nft__books`
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
--- nft__chapter
+-- nft__chapters
 -- ---------------------------------------------------------------------
 
-DROP TABLE IF EXISTS `nft__chapter`;
+DROP TABLE IF EXISTS `nft__chapters`;
 
-CREATE TABLE `nft__chapter`
+CREATE TABLE `nft__chapters`
 (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `crdate` INTEGER DEFAULT 0 NOT NULL,
@@ -59,8 +59,45 @@ CREATE TABLE `nft__chapter`
     `total_pages` INTEGER DEFAULT 0 NOT NULL,
     `book_id` INTEGER NOT NULL,
     PRIMARY KEY (`id`),
-    INDEX `nft__chapter_fi_0b213b` (`book_id`),
-    CONSTRAINT `nft__chapter_fk_0b213b`
+    INDEX `nft__chapters_fi_0b213b` (`book_id`),
+    CONSTRAINT `nft__chapters_fk_0b213b`
+        FOREIGN KEY (`book_id`)
+        REFERENCES `nft__books` (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- nft__bookstores
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nft__bookstores`;
+
+CREATE TABLE `nft__bookstores`
+(
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `crdate` INTEGER DEFAULT 0 NOT NULL,
+    `tstamp` INTEGER DEFAULT 0 NOT NULL,
+    `title` VARCHAR(128) NOT NULL,
+    `city` VARCHAR(128) NOT NULL,
+    `address` VARCHAR(128) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- nft__bookstore_books_mm
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `nft__bookstore_books_mm`;
+
+CREATE TABLE `nft__bookstore_books_mm`
+(
+    `bookstore_id` INTEGER NOT NULL,
+    `book_id` INTEGER NOT NULL,
+    INDEX `nft__bookstore_books_mm_fi_93351f` (`bookstore_id`),
+    INDEX `nft__bookstore_books_mm_fi_0b213b` (`book_id`),
+    CONSTRAINT `nft__bookstore_books_mm_fk_93351f`
+        FOREIGN KEY (`bookstore_id`)
+        REFERENCES `nft__bookstores` (`id`),
+    CONSTRAINT `nft__bookstore_books_mm_fk_0b213b`
         FOREIGN KEY (`book_id`)
         REFERENCES `nft__books` (`id`)
 ) ENGINE=InnoDB;

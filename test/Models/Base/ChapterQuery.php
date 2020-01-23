@@ -16,7 +16,7 @@ use Test\Models\ChapterQuery as ChildChapterQuery;
 use Test\Models\Map\ChapterTableMap;
 
 /**
- * Base class that represents a query for the 'nft__chapter' table.
+ * Base class that represents a query for the 'nft__chapters' table.
  *
  *
  *
@@ -179,7 +179,7 @@ abstract class ChapterQuery extends ModelCriteria
      */
     protected function findPkSimple($key, ConnectionInterface $con)
     {
-        $sql = 'SELECT id, crdate, tstamp, title, total_pages, book_id FROM nft__chapter WHERE id = :p0';
+        $sql = 'SELECT id, crdate, tstamp, title, total_pages, book_id FROM nft__chapters WHERE id = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -595,7 +595,7 @@ abstract class ChapterQuery extends ModelCriteria
     }
 
     /**
-     * Deletes all rows from the nft__chapter table.
+     * Deletes all rows from the nft__chapters table.
      *
      * @param ConnectionInterface $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).

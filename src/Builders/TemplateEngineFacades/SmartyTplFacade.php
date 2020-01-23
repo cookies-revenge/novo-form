@@ -11,12 +11,14 @@ class SmartyTplFacade extends AbstractTplFacade
 		$this->templateDir_ = $root ."/Templates/Smarty";
 		$this->cacheDir_ = $root ."/Templates/SmartyCache";
 		
-		$this->tplEngineObject_ = new \Smarty();
+        $this->tplEngineObject_ = new \Smarty();
 
         $this->tplEngineObject_->setTemplateDir($this->templateDir_);
         $this->tplEngineObject_->setCompileDir($this->cacheDir_);
         $this->tplEngineObject_->setConfigDir($this->configDir_);
         $this->tplEngineObject_->setCacheDir($this->cacheDir_);
+
+        $this->tplEngineObject_->loadFilter("output", "trimwhitespace");
 
         $this->tplEngineObject_->caching = (int) $this->isCachingOn_;
         $this->tplEngineObject_->debugging = $this->isDebuggingOn_;

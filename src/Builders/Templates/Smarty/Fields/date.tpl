@@ -1,8 +1,14 @@
 {assign var="fieldObject" value=$fieldObj}
 {if !empty($subfieldObj)}
-   {$fieldObject =$subfieldObj}
+   {$fieldObject = $subfieldObj}
 {/if}
-<div {if $fieldObject->GetHtmlClass() !== null}class="{$fieldObject->GetHtmlClass()}"{/if}>
+
+{assign var="fieldName" value=$fieldObject->GetName()}
+{if $fieldObj->GetType() === "relation"}
+   {$fieldName = "{$fieldObj->GetName()}[{$subfieldObj->GetName()}][]"}
+{/if}
+
+<div {if $fieldObject->GetHtmlClass()}class="{$fieldObject->GetHtmlClass()}"{/if}>
 
     <div class="input-group novo-date-input {if $fieldObject->GetSize()}input-group-{$fieldObject->GetSize()}{/if}">
 
@@ -17,8 +23,8 @@
         {/if}
 
         <input type="date" class="form-control" 
-            name="{$fieldObject->GetName()}" 
-            id="input-{$fieldObject->GetName()}" 
+            name="{$fieldName}" 
+            id="input-{$fieldName}" 
             data-date-format="{$dateFormat}"
             placeholder="{if $fieldObject->GetPlaceholder()}{$fieldObject->GetPlaceholder()}{else}Pick a date{/if}" 
             {if $fieldObject->GetReadonly()}readonly{/if}
@@ -33,14 +39,20 @@
                 data-validation-{$validationType}="{$value}"
             {/foreach} 
 
-
-            {assign var="fieldName" value=$fieldObject->GetName()}
-            {if !empty($record) && isset($record[$fieldName])}
-                value="{date($dateFormat, $record[$fieldName])}"
-            {elseif !empty($presets) && isset($presets[$fieldName])}
-                value="{date($dateFormat, $presets[$fieldName])}"
+            {if $fieldObj->GetType() === "relation"}
+                {assign var="fName" value=$fieldObj->GetName()}
+                {assign var="sfName" value=$subfieldObj->GetName()}
+                {if !empty($record) && isset($record.$fName.$relIndex)}
+                    value="{date($dateFormat, $record.$fName.$relIndex.$sfName)}"
+                {elseif !empty($presets) && isset($presets.$fName.$relIndex)}
+                    value="{date($dateFormat, $presets.$fName.$relIndex.$sfName)}"
+                {/if}
             {else}
-                value="{date($dateFormat, time())}"
+                {if !empty($record) && isset($record[$fieldName])}
+                    value="{date($dateFormat, $record[$fieldName])}"
+                {elseif !empty($presets) && isset($presets[$fieldName])}
+                    value="{date($dateFormat, $presets[$fieldName])}"
+                {/if}
             {/if} />
 
         {assign var="iconPosition" value="R"}

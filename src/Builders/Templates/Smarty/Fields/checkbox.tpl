@@ -1,64 +1,137 @@
 {assign var="fieldObject" value=$fieldObj}
 {if !empty($subfieldObj)}
-   {$fieldObject =$subfieldObj}
+   {$fieldObject = $subfieldObj}
 {/if}
+
+{assign var="fieldName" value=$fieldObject->GetName()}
+{if $fieldObj->GetType() === "relation"}
+   {$fieldName = "{$fieldObj->GetName()}[{$subfieldObj->GetName()}][]"}
+{/if}
+
 <div {if $fieldObject->GetHtmlClass()}class="{$fieldObject->GetHtmlClass()}"{/if}>
 
-    {assign var="fieldName" value=$fieldObject->GetName()}
     <div class="input-group {if $fieldObject->GetSize()}input-group-{$fieldObject->GetSize()}{/if} novo-checkbox">
 
-        {if isset($record)}
+        {if $fieldObj->GetType() === "relation"}
 
-            <input type="hidden" 
-                name="{$fieldName}" 
+            {assign var="fName" value=$fieldObj->GetName()}
+            {assign var="sfName" value=$subfieldObj->GetName()}
 
-                {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
-                    data-validation-{$validationType}="{$value}"
-                {/foreach} 
+            {if isset($record)}
 
-                value="{if null !== $record[$fieldName] && $record[$fieldName] != 0}1{else}0{/if}" />
+                <input type="hidden" 
+                    name="{$fieldName}" 
 
-            <input type="checkbox" 
-                name="{$fieldName}" 
+                    {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                        data-validation-{$validationType}="{$value}"
+                    {/foreach} 
 
-                {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
-                    data-validation-{$validationType}="{$value}"
-                {/foreach} 
+                    value="0" />
 
-                {if !empty($record) && isset($record[$fieldName])}
-                    {if !empty($record[$fieldName])}
-                        checked
+                <input type="checkbox" 
+                    name="{$fieldName}" 
+                    class="form-control"
+
+                    {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                        data-validation-{$validationType}="{$value}"
+                    {/foreach} 
+
+                    {if !empty($record) && isset($record.$fName.$relIndex.$sfName)}
+                        {if !empty($record.$fName.$relIndex.$sfName)}
+                            checked
+                        {/if}
+                    {/if} 
+                    value="1" />
+
+            {else}
+
+                <input type="hidden" 
+                    name="{$fieldName}" 
+
+                    {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                        data-validation-{$validationType}="{$value}"
+                    {/foreach} 
+
+                    {if $fieldObject->GetReadonly()}readonly{/if} 
+                    value="0" />
+
+                <input type="checkbox" 
+                    name="{$fieldName}" 
+                    class="form-control"
+
+                    {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                        data-validation-{$validationType}="{$value}"
+                    {/foreach} 
+
+                    {if $fieldObject->GetReadonly()}readonly{/if} 
+
+                    {if !empty($presets) && isset($presets.$fName.$relIndex.$sfName)}
+                        {if !empty($presets.$fName.$relIndex.$sfName)}
+                            checked
+                        {/if}
                     {/if}
-                {/if} 
-                value="1" />
+                    value="1" />
+
+            {/if}
 
         {else}
-        
-            <input type="hidden" 
-                name="{$fieldName}" 
 
-                {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
-                    data-validation-{$validationType}="{$value}"
-                {/foreach} 
+            {if isset($record)}
 
-                {if $fieldObject->GetReadonly()}readonly{/if} 
-                value="0" />
+                <input type="hidden" 
+                    name="{$fieldName}" 
 
-            <input type="checkbox" 
-                name="{$fieldName}" 
+                    {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                        data-validation-{$validationType}="{$value}"
+                    {/foreach} 
 
-                {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
-                    data-validation-{$validationType}="{$value}"
-                {/foreach} 
+                    value="0" />
 
-                {if $fieldObject->GetReadonly()}readonly{/if} 
+                <input type="checkbox" 
+                    name="{$fieldName}" 
+                    class="form-control"
 
-                {if !empty($presets) && isset($presets[$fieldName])}
-                    {if !empty($presets[$fieldName])}
-                        checked
+                    {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                        data-validation-{$validationType}="{$value}"
+                    {/foreach} 
+
+                    {if !empty($record) && isset($record[$fieldName])}
+                        {if !empty($record[$fieldName])}
+                            checked
+                        {/if}
+                    {/if} 
+                    value="1" />
+
+            {else}
+            
+                <input type="hidden" 
+                    name="{$fieldName}" 
+
+                    {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                        data-validation-{$validationType}="{$value}"
+                    {/foreach} 
+
+                    {if $fieldObject->GetReadonly()}readonly{/if} 
+                    value="0" />
+
+                <input type="checkbox" 
+                    name="{$fieldName}" 
+                    class="form-control"
+
+                    {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
+                        data-validation-{$validationType}="{$value}"
+                    {/foreach} 
+
+                    {if $fieldObject->GetReadonly()}readonly{/if} 
+
+                    {if !empty($presets) && isset($presets[$fieldName])}
+                        {if !empty($presets[$fieldName])}
+                            checked
+                        {/if}
                     {/if}
-                {/if}
-                value="1" />
+                    value="1" />
+
+            {/if}
 
         {/if}
 

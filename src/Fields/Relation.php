@@ -41,6 +41,8 @@ class Relation extends AbstractFormField
             if ($relObject->IsModified())
                 $return[] = $relObject;
 
+            var_dump($relObject->ToArray());
+
         }
 
         return $return;
@@ -162,6 +164,19 @@ class Relation extends AbstractFormField
         return $this->className_;
     }
 
+    public function GetControlObjects()
+    {
+        return $this->controlObjects_;
+    }
+
+    public function SetControlObjects($controlObjects)
+    {
+        $this->controlObjects_ = $controlObjects;
+
+        return $this;
+    }
+
     private $relationType_ = null;
     private $className_ = null;
+    private $controlObjects_ = null;
 }

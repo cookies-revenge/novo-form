@@ -1,7 +1,13 @@
 {assign var="fieldObject" value=$fieldObj}
 {if !empty($subfieldObj)}
-   {$fieldObject =$subfieldObj}
+   {$fieldObject = $subfieldObj}
 {/if}
+
+{assign var="fieldName" value=$fieldObject->GetName()}
+{if $fieldObj->GetType() === "relation"}
+   {$fieldName = "{$fieldObj->GetName()}[{$subfieldObj->GetName()}][]"}
+{/if}
+
 <div {if $fieldObject->GetHtmlClass()}class="{$fieldObject->GetHtmlClass()}"{/if}>
 
    <div class="custom-file">
@@ -10,7 +16,7 @@
         {include file="Partials/field_icon.tpl"}
 
 		<input class="custom-file-input js__file-input" type="file" 
-            name="{$fieldObject->GetName()}{if $fieldObject->GetMultipleChoice()}[]{/if}" 
+            name="{$fieldName}{if $fieldObject->GetMultipleChoice()}[]{/if}" 
 
             {foreach $fieldObject->GetValidationCriterias() as $validationType => $value}
                 data-validation-{$validationType}="{$value}"

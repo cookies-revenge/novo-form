@@ -11,6 +11,8 @@
     {assign var="partials" value=$fieldObject->GetPrecedingPartials()}
     {include file="file:Partials/partial.tpl"}
 
+    {include file="file:Partials/field_group_controls.tpl"}
+
     {assign var="relIndex" value=0}
     {assign var="relationName" value=$fieldObj->GetName()}
     {if !empty($record) && isset($record[$relationName])}
@@ -32,7 +34,7 @@
         {/foreach}
         
     {else}
-        {include file="file:Util/relation_inner.tpl"}
+        {*include file="file:Util/relation_inner.tpl"*}
     {/if}
 
     {$subfieldObj = null}

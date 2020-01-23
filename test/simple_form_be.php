@@ -23,14 +23,15 @@ foreach ($_REQUEST as $reqName => $reqValue) {
 }
 
 $tstamp = time();
-$book = $novoFormObject->ToEntity();
+$entity = $novoFormObject->ToEntity();
 
-if ($book->GetPropertyByName("Id") === null)
-    $book->SetPropertyByName("Crdate", $tstamp);
+if ($entity->GetPropertyByName("Id") === null)
+    // set crdate only if new entity
+    $entity->SetPropertyByName("Crdate", $tstamp);
     
-$book->SetPropertyByName("Tstamp", $tstamp);
-$book->Save();
+$entity->SetPropertyByName("Tstamp", $tstamp);
+$entity->Save();
 
 unset($_SESSION["NovoForms"][$_REQUEST["novo-form-identifier"]]);
 
-header("Location: /test/book_form.php?ID=". $book->GetObject()->getId() ."&SUCCESS");
+header("Location: /test/book_form.php?ID=". $entity->GetObject()->getId() ."&SUCCESS");

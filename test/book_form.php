@@ -45,7 +45,7 @@ $novoFormObject->SetFieldItems("AuthorId", [
     ["Id" => 4, "Title" => "Knut Hamsun"]
 ]);
 
-$novoFormObject->SetFieldItems("Genre", [
+$novoFormObject->SetFieldItems("GenreId", [
     ["Id" => 1, "Title" => "Fantasy"],
     ["Id" => 2, "Title" => "Classic"],
     ["Id" => 3, "Title" => "Modern Psychology"]
@@ -54,7 +54,7 @@ $novoFormObject->SetFieldItems("Genre", [
 $novoFormObject->GetFieldByName("PublishDate")
     ->SetToValueProcessor(function ($value) {
         if (empty($value))
-            return 1579046400;
+            return time();
         else
             return strtotime($value);
     });
