@@ -32,6 +32,10 @@ if (isset($_GET["ID"])) {
         $record[$rel->GetName()] = $book->$getter()->toArray();
     }
     $novoFormObject->SetRecord($record);
+
+
+    /*$novoFormObject->GetFieldByName("TotalPages")
+        ->AddVisibilityCriteria($book->getTotalPages(), 1230, \CookiesRevenge\NovoForm\Constants::COMPARE_GREATER_THAN);*/
 }
 
 if (isset($_GET["SUCCESS"])) {
@@ -39,10 +43,10 @@ if (isset($_GET["SUCCESS"])) {
 }
 
 $novoFormObject->SetFieldItems("AuthorId", [
-    ["Id" => 1, "Title" => "Leo Tolstoy"],
-    ["Id" => 2, "Title" => "Charles Bukowski"],
+    ["Id" => 1, "Title" => "Knut Hamsun"],
+    ["Id" => 2, "Title" => "Leo Tolstoy"],
     ["Id" => 3, "Title" => "Fyodor Mikhailovich Dostoevsky"],
-    ["Id" => 4, "Title" => "Knut Hamsun"]
+    ["Id" => 4, "Title" => "Charles Bukowski"]    
 ]);
 
 $novoFormObject->SetFieldItems("GenreId", [

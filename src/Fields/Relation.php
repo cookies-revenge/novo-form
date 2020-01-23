@@ -40,9 +40,6 @@ class Relation extends AbstractFormField
 
             if ($relObject->IsModified())
                 $return[] = $relObject;
-
-            var_dump($relObject->ToArray());
-
         }
 
         return $return;

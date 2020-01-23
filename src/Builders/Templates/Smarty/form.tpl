@@ -29,9 +29,10 @@
         {assign var="fieldIndex" value=0}
         {* First, list all hidden inputs on the top of the Form *}
         {foreach $formObj->GetFieldsByType("hidden") as $fieldObj}
-            {if $fieldObj->GetAvailability() === "*" || 
+            {if ($fieldObj->GetAvailability() === "*" || 
                 (!empty($record) && $fieldObj->GetAvailability() === "edit") || 
-                (empty($record) && $fieldObj->GetAvailability() === "new")}
+                (empty($record) && $fieldObj->GetAvailability() === "new")) &&
+                $fieldObj->IsVisible()}
                 {include file="file:Fields/hidden.tpl"}
                 {* Increment field index; it is important as it is used to make validation identifiers unique *}
                 {$fieldIndex = $fieldIndex + 1}
@@ -41,9 +42,10 @@
 
         {foreach $formObj->GetFieldObjects() as $fieldObj}
 
-            {if $fieldObj->GetAvailability() === "*" || 
+            {if ($fieldObj->GetAvailability() === "*" || 
                 (!empty($record) && $fieldObj->GetAvailability() === "edit") || 
-                (empty($record) && $fieldObj->GetAvailability() === "new")}
+                (empty($record) && $fieldObj->GetAvailability() === "new")) &&
+                $fieldObj->IsVisible()}
 
                 {if $fieldObj->GetType() === "hidden"}
                     {* Skip hidden here, already listed at the top *}

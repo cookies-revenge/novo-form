@@ -429,6 +429,20 @@ abstract class AbstractFormField
         return $this;
     }
 
+    public function IsVisible()
+    {
+
+        if (empty($this->visibilityCriterias_))
+            return true;
+
+        $isVisible = true;
+        foreach ($this->visibilityCriterias_ as $criteria) {
+            $test = \CookiesRevenge\NovoForm\Comparator::Compare($criteria["value"], $criteria["against"], $criteria["type"]);
+            $isVisible = $isVisible && $test;
+        }
+        return $isVisible;
+    }
+
     /**
      * Get the value of visibilityCriterias_
      */
@@ -449,9 +463,13 @@ abstract class AbstractFormField
         return $this;
     }
 
-    public function AddVisibilityCriteria($criteriaType, $criteriaValue)
+    public function AddVisibilityCriteria($criteriaValue, $criteriaAgainst, $criteriaType)
     {
-        $this->visibilityCriterias_[$criteriaType] = $criteriaValue;
+        $this->visibilityCriterias_[] = [
+            "value" => $criteriaValue,
+            "against" => $criteriaAgainst,
+            "type" => $criteriaType
+        ];
         return $this;
     }
 
